@@ -1,0 +1,1619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>People Authority Build &mdash; 2026 Delivery Plan &amp; Roadmap</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:13px;color:#1e293b;background:#f8fafc}
+.hdr{background:#1e3a5f;color:white;padding:20px 28px 0 28px}
+.hdr-inner{padding-bottom:18px}
+.hdr-sub{font-size:9px;opacity:.55;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;font-weight:600}
+.hdr-title{font-size:22px;font-weight:800;margin-bottom:5px;letter-spacing:-.2px}
+.hdr-refresh{font-size:11px;opacity:.6;margin-top:3px}
+.hdr-accent{height:3px;background:linear-gradient(90deg,#f97316 0%,#ea580c 100%)}
+.tabs{background:#0f2744;display:flex;overflow-x:auto;gap:0;flex-wrap:nowrap}
+.tab{padding:10px 16px;border:none;cursor:pointer;font-size:12px;white-space:nowrap;color:rgba(255,255,255,.7);background:transparent;border-bottom:3px solid transparent;font-weight:400}
+.tab.on{background:white;color:#1e3a5f;font-weight:700;border-bottom-color:#f97316}
+.tab:hover:not(.on){color:#fff}
+.cont{padding:16px 20px;max-width:1400px}
+.pane{display:none}.pane.on{display:block}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{background:#1e3a5f;color:rgba(255,255,255,.8);padding:8px 10px;text-align:left;font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase}
+td{padding:8px 10px;border-bottom:0.5px solid #e2e8f0;vertical-align:top;line-height:1.5;word-wrap:break-word;overflow-wrap:break-word}
+tr:last-child td{border-bottom:none}
+tr:hover td{filter:brightness(.97)}
+.id{font-weight:700;font-size:11px;text-align:center;min-width:28px}
+.eqa{background:#e0f2fe;color:#0369a1;padding:1px 7px;border-radius:3px;font-size:10px;font-weight:600;white-space:nowrap}
+.eprod{background:#fef3c7;color:#92400e;padding:1px 7px;border-radius:3px;font-size:10px;font-weight:600;white-space:nowrap}
+.s-done{color:#15803d;font-size:10px;font-weight:600}
+.s-prog{color:#1d4ed8;font-size:10px;font-weight:600}
+.s-plan{color:#94a3b8;font-size:10px}
+a.ado{color:#1d4ed8;text-decoration:none;font-size:11px;display:block}
+a.ado:hover{text-decoration:underline}
+.note{font-size:11px;color:#475569;font-style:italic}
+@keyframes golive{0%,100%{opacity:1;text-shadow:0 0 8px rgba(22,163,74,.9),0 0 16px rgba(22,163,74,.6)}50%{opacity:.6;text-shadow:none}}
+.go-live{animation:golive 1.2s ease-in-out infinite;color:#16a34a;font-weight:700;font-style:normal}
+.id-link{cursor:pointer;text-decoration:underline dotted;border-radius:3px;padding:1px 3px;transition:background .15s}
+.id-link:hover{background:rgba(0,0,0,.12)}
+.row-flash{animation:flashrow .95s ease}
+@keyframes flashrow{0%{outline:3px solid #f97316;outline-offset:1px;background:rgba(249,115,22,.15)}100%{outline:none}}
+.sec-row td{cursor:pointer;user-select:none;font-weight:600;font-size:12px;color:rgba(255,255,255,.9);padding:8px 12px}
+.sec-row.collapsed td .sec-chevron{transform:rotate(-90deg)}
+.sec-row-prod:hover td{filter:brightness(1.1)}
+.sec-chevron{float:right;font-size:12px;transition:transform .2s}
+.legend{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;padding:8px 10px;background:white;border-radius:6px;border:0.5px solid #e2e8f0}
+.leg{display:flex;align-items:center;gap:4px;font-size:11px;color:#475569}
+.sw{width:11px;height:11px;border-radius:2px;flex-shrink:0}
+.card{border:0.5px solid #e2e8f0;border-radius:8px;padding:12px 14px;margin-bottom:10px;background:white}
+.card-title{font-size:13px;font-weight:600;margin-bottom:6px}
+.card-meta{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:6px;font-size:11px;color:#64748b}
+.card-meta span{color:#1e293b;font-weight:600}
+ol.steps{padding-left:18px;font-size:12px;color:#475569;line-height:1.9}
+.badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:600}
+.b-open{background:#fee2e2;color:#991b1b}
+.b-closed{background:#dcfce7;color:#166534}
+.b-high{background:#fee2e2;color:#991b1b}
+.b-med{background:#fef3c7;color:#92400e}
+.b-low{background:#f0fdf4;color:#166534}
+.b-imm{background:#fee2e2;color:#991b1b}
+.b-risk{background:#fff7ed;color:#92400e}
+.b-plan{background:#eff6ff;color:#1e40af}
+.b-track{background:#f0fdf4;color:#166534}
+.b-prog{background:#dbeafe;color:#1e40af}
+.blocker{background:#f8fafc;border-radius:5px;padding:8px 10px;font-size:11px;color:#475569;line-height:1.7;margin-top:8px}
+/* Gantt */
+.gantt-outer{overflow-x:auto;border:0.5px solid #e2e8f0;border-radius:8px;background:#fff}
+.g-header{display:flex;background:#1e3a5f;border-radius:8px 8px 0 0;position:sticky;top:0;z-index:10}
+.g-header-lbl{width:240px;flex-shrink:0;padding:10px 12px;font-size:10px;font-weight:700;color:rgba(255,255,255,.6);letter-spacing:.8px;text-transform:uppercase;border-right:1px solid rgba(255,255,255,.1)}
+.g-header-months{flex:1;display:flex;min-width:480px}
+.g-hmon{flex:1;text-align:center;padding:10px 2px;font-size:10px;font-weight:700;color:rgba(255,255,255,.5);letter-spacing:.5px;border-right:1px solid rgba(255,255,255,.05)}
+.g-hmon.cur{color:#f97316;background:rgba(249,115,22,.1);font-weight:800}
+.g-sec-hdr{display:flex;align-items:center;cursor:pointer;user-select:none;border-top:1px solid rgba(255,255,255,.05)}
+.g-sec-hdr:hover{filter:brightness(1.1)}
+.g-sec-lbl-wrap{width:240px;flex-shrink:0;padding:9px 12px;border-right:1px solid rgba(255,255,255,.08)}
+.g-sec-title{font-size:12px;font-weight:700;color:rgba(255,255,255,.9)}
+.g-sec-sub{font-size:10px;font-style:italic;font-weight:400;color:rgba(255,255,255,.5);margin-top:1px}
+.g-chevron{font-size:12px;color:rgba(255,255,255,.5);transition:transform .2s;margin-left:auto;margin-right:8px;flex-shrink:0}
+.g-sec-hdr.collapsed .g-chevron{transform:rotate(-90deg)}
+.g-preview{display:none;border-bottom:0.5px solid rgba(255,255,255,.06)}
+.g-row{display:flex;align-items:center;border-bottom:0.5px solid #f1f5f9;transition:background .1s}
+.g-row:hover{background:#f8fafc}
+.g-lbl{width:240px;flex-shrink:0;padding:6px 12px 6px 22px;font-size:11px;line-height:1.4;color:#334155;border-right:0.5px solid #f1f5f9;display:flex;align-items:flex-start;gap:6px}
+.g-lbl.bold{font-weight:600;color:#1e293b}
+.g-chart{flex:1;position:relative;height:34px;min-width:480px}
+.g-bar{position:absolute;top:8px;bottom:8px;border-radius:4px;display:flex;align-items:center;padding:0 6px;overflow:hidden}
+.g-bar-lbl{font-size:9px;font-weight:700;color:rgba(255,255,255,.95);white-space:nowrap;letter-spacing:.3px}
+.today-line{position:absolute;top:0;bottom:0;width:2px;background:#f97316;opacity:.9;z-index:5}
+.today-pin{position:absolute;top:0;width:6px;height:6px;background:#f97316;border-radius:50%;left:-2px;z-index:6}
+/* Collapsibles */
+.coll-hdr{background:#1e3a5f;color:rgba(255,255,255,.9);padding:9px 14px;cursor:pointer;user-select:none;font-size:12px;font-weight:700;display:flex;justify-content:space-between;align-items:center;border-radius:6px;margin:10px 0 6px}
+.coll-hdr:hover{background:#0f2744}
+.coll-hdr.collapsed .coll-chev{transform:rotate(-90deg)}
+.coll-chev{font-size:12px;color:rgba(255,255,255,.5);transition:transform .2s;flex-shrink:0}
+/* Project Summary */
+.ps-filter-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:10px;align-items:flex-end}
+.ps-filter-group{display:flex;flex-direction:column;gap:3px}
+.ps-filter-label{font-size:10px;color:#64748b;font-weight:500;letter-spacing:.3px}
+.ps-filter-input{border:0.5px solid #e2e8f0;border-radius:3px;padding:4px 8px;font-size:11px;color:#1e293b;background:#fff;outline:none;min-width:120px}
+.ps-filter-input:focus{border-color:#1e3a5f}
+.ps-clear{align-self:flex-end;color:#D64000;font-size:11px;cursor:pointer;background:none;border:none;padding:4px 0;font-weight:500}
+.ps-clear:hover{text-decoration:underline}
+.ps-section-row td{background:#1e3a5f !important;font-weight:700;font-size:10px;color:rgba(255,255,255,.8);padding:6px 10px;letter-spacing:.6px;text-transform:uppercase;border-right:none !important}
+.ps-table{width:100%;border-collapse:collapse;font-size:12px;table-layout:auto;min-width:1100px}
+.ps-table th{background:#1e3a5f;color:rgba(255,255,255,.85);padding:8px 10px;text-align:left;font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;border-right:0.5px solid rgba(255,255,255,.1)}.ps-table th.th-center{text-align:center}
+.ps-table th:last-child{border-right:none}
+.ps-table td{padding:9px 10px;border-bottom:0.5px solid #e2e8f0;vertical-align:top;line-height:1.5;word-wrap:break-word}
+.ps-table tr:last-child td{border-bottom:none}
+.ps-table tr:hover td{background:#f8fafc}
+.ps-name{font-weight:600;color:#1e3a5f;font-size:12px}
+.ps-sub{font-size:10px;color:#94a3b8;margin-top:1px}
+.ps-iter{display:inline-block;background:#f1f5f9;color:#475569;padding:1px 6px;border-radius:3px;font-size:10px;margin-top:3px}
+.ps-badge{display:inline-flex;align-items:center;justify-content:center;padding:3px 9px;border-radius:3px;font-size:10px;font-weight:700;letter-spacing:.3px;text-transform:uppercase;white-space:nowrap}
+.ps-complete{background:#D64000;color:#fff}
+.ps-progress{background:#D4792A;color:#fff}
+.ps-planned{background:#e8ebe3;color:#2c4a2c}
+.ps-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;display:inline-block}
+.ps-green{background:#4DB299}
+.ps-amber{background:#E9B045}
+.ps-red{background:#D64000}
+.ps-bullets{padding-left:0;list-style:none;margin:0}
+.ps-bullets li{display:flex;gap:5px;padding:1px 0;color:#334155}
+.ps-bullets li::before{content:"\2022";color:#D64000;flex-shrink:0;font-weight:700}
+.ps-table td .empty{display:flex;justify-content:center;align-items:center;height:100%;}
+.ps-edit-btn{border:0.5px solid #e2e8f0;background:#fff;color:#475569;border-radius:3px;padding:3px 10px;font-size:11px;cursor:pointer;transition:border-color .15s}
+.ps-edit-btn:hover{border-color:#1e3a5f;color:#1e3a5f}
+.ps-row-count{font-size:11px;color:#64748b;margin-bottom:8px}
+.ps-sec-hdr{display:flex;justify-content:space-between;align-items:center;background:#1e3a5f;color:rgba(255,255,255,.9);padding:8px 12px;cursor:pointer;user-select:none;font-size:11px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;border-radius:4px;margin:6px 0 0}
+.ps-sec-hdr:hover{background:#0f2744}
+.ps-sec-hdr.collapsed .ps-sec-chev{transform:rotate(-90deg)}
+.ps-sec-chev{font-size:11px;color:rgba(255,255,255,.5);transition:transform .2s;flex-shrink:0}
+.ps-sec-add{font-size:10px;font-weight:600;color:#f97316;border:1px solid #f97316;background:transparent;border-radius:3px;padding:2px 8px;cursor:pointer;margin-left:8px}
+.ps-sec-add:hover{background:rgba(249,115,22,.1)}
+@keyframes completedGlow{0%,100%{box-shadow:0 0 6px rgba(214,64,0,.8),0 0 12px rgba(214,64,0,.5);opacity:1}50%{box-shadow:0 0 12px rgba(214,64,0,1),0 0 24px rgba(214,64,0,.7);opacity:.85}}
+.badge-completed-glow{animation:completedGlow 1.4s ease-in-out infinite;display:inline-block}
+.ps-move-btn{border:0.5px solid #e2e8f0;background:#fff;color:#94a3b8;border-radius:3px;padding:1px 6px;font-size:11px;cursor:pointer;display:block;width:100%;line-height:1.6;transition:all .15s}
+.ps-move-btn:hover{border-color:#1e3a5f;color:#1e3a5f;background:#f8fafc}
+.ps-move-btn:disabled{opacity:.25;cursor:default}
+.ps-template-row td{background:#f0fdf4 !important;border-left:3px solid #16a34a;}
+.ps-template-row:hover td{background:#dcfce7 !important;}
+.ps-tmpl-input{width:100%;border:1px solid #d0d0c8;border-radius:3px;padding:5px 8px;font-size:12px;font-family:inherit;outline:none;background:#fff;resize:vertical}
+.ps-tmpl-input:focus{border-color:#1e3a5f;}
+.ps-tmpl-select{width:100%;border:1px solid #d0d0c8;border-radius:3px;padding:4px 6px;font-size:11px;background:#fff;outline:none;}
+.ps-tmpl-badge{display:inline-block;background:#dcfce7;color:#166534;border:1px dashed #16a34a;border-radius:3px;padding:2px 10px;font-size:10px;font-weight:700;letter-spacing:.3px}
+.ps-template-row td{background:#f0fdf4 !important;border-left:3px solid #16a34a;}
+.ps-template-row:hover td{background:#dcfce7 !important;}
+.ps-tmpl-input{width:100%;border:1px solid #d0d0c8;border-radius:3px;padding:5px 8px;font-size:12px;font-family:inherit;outline:none;background:#fff;resize:vertical}
+.ps-tmpl-input:focus{border-color:#1e3a5f;}
+.ps-tmpl-select{width:100%;border:1px solid #d0d0c8;border-radius:3px;padding:4px 6px;font-size:11px;background:#fff;outline:none;}
+.ps-tmpl-badge{display:inline-block;background:#dcfce7;color:#166534;border:1px dashed #16a34a;border-radius:3px;padding:2px 10px;font-size:10px;font-weight:700;letter-spacing:.3px}
+.ps-orange-accent{height:3px;background:#D64000;margin-bottom:14px;border-radius:0 0 3px 3px}
+.ps-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;align-items:center;justify-content:center}
+.ps-modal-overlay.open{display:flex}
+.ps-modal{background:#fff;border-radius:6px;width:760px;max-width:96vw;max-height:92vh;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,.22)}
+.ps-modal-hdr{background:#1e3a5f;color:#fff;padding:13px 18px;display:flex;justify-content:space-between;align-items:flex-start;border-radius:6px 6px 0 0}
+.ps-modal-hdr-title{font-size:13px;font-weight:700}
+.ps-modal-hdr-sub{font-size:10px;color:rgba(255,255,255,.55);margin-top:2px}
+.ps-modal-close{background:none;border:none;color:rgba(255,255,255,.6);font-size:17px;cursor:pointer;line-height:1;padding:0}
+.ps-modal-close:hover{color:#fff}
+.ps-modal-body{padding:18px}
+.ps-modal-sec{font-size:10px;font-weight:700;color:#D64000;letter-spacing:.5px;text-transform:uppercase;margin:14px 0 8px}
+.ps-modal-sec:first-child{margin-top:0}
+.ps-modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ps-modal-field{display:flex;flex-direction:column;gap:3px}
+.ps-modal-field.full{grid-column:1/-1}
+.ps-modal-field label{font-size:10px;color:#64748b;font-weight:500}
+.ps-field-input{width:100%;border:1px solid #d0d0c8;border-radius:3px;padding:7px 10px;font-size:13px;color:#1a1a1a;font-family:inherit;outline:none;transition:border-color .15s}
+.ps-field-input:focus{border-color:#1e3a5f}
+.ps-field-select{width:100%;border:1px solid #d0d0c8;border-radius:3px;padding:7px 10px;font-size:13px;color:#1a1a1a;background:#fff;outline:none}
+.ps-textarea{width:100%;border:1px solid #d0d0c8;border-radius:3px;padding:7px 10px;font-size:13px;color:#1a1a1a;font-family:inherit;outline:none;resize:vertical;min-height:90px}
+.ps-textarea:focus{border-color:#1e3a5f}
+.ps-rewrite-btn{display:inline-flex;align-items:center;gap:5px;border:1.5px solid #D64000;color:#D64000;background:#fff;border-radius:4px;padding:5px 12px;font-size:12px;font-weight:600;cursor:pointer;margin-top:6px}
+.ps-rewrite-btn:hover{background:#fff7f5}
+.ps-char-count{font-size:11px;color:#94a3b8;text-align:right;margin-top:3px}
+.ps-admin-notice{background:#fff7ed;border:1px solid #fbbf24;border-radius:4px;padding:10px 12px;font-size:12px;color:#92400e;margin:14px 0}
+.ps-admin-notice strong{color:#92400e}
+.ps-modal-actions{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-top:1px solid #e2e8f0;background:#fff;gap:12px;flex-wrap:wrap}
+.ps-del-btn{border:1.5px solid #D64000;color:#D64000;background:#fff;border-radius:4px;padding:7px 16px;font-size:13px;font-weight:600;cursor:pointer}
+.ps-del-btn:hover{background:#fff5f5}
+.ps-cancel-btn{border:1px solid #d0d0c8;color:#475569;background:#fff;border-radius:4px;padding:7px 16px;font-size:13px;cursor:pointer}
+.ps-cancel-btn:hover{background:#f8fafc}
+.ps-save-btn{background:#1e3a5f;color:#fff;border:none;border-radius:4px;padding:7px 20px;font-size:13px;font-weight:700;cursor:pointer}
+.ps-save-btn:hover{background:#0f2744}
+.ps-section-title{font-size:13px;font-weight:700;color:#D64000;margin:16px 0 12px}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <div class="hdr-inner">
+    <div class="hdr-sub">Public Records and Derived Authorities &nbsp;&middot;&nbsp; NuCLEAR</div>
+    <div class="hdr-title">People Authority Build &mdash; 2026 Delivery Plan &amp; Roadmap</div>
+    <div class="hdr-refresh">Refreshed Jun 1, 2026 &nbsp;&middot;&nbsp; <span id="ts"></span> &nbsp;&middot;&nbsp; &#128260; To refresh this dashboard, reach out to the admin</div>
+  </div>
+  <div class="hdr-accent"></div>
+</div>
+<div class="tabs" id="tabs">
+  <button class="tab on" data-tab="overview">Overview</button>
+  <button class="tab" data-tab="roadmap">Roadmap</button>
+  <button class="tab" data-tab="gantt">Gantt Chart</button>
+  <button class="tab" data-tab="risks">Risks &amp; Issues</button>
+  <button class="tab" data-tab="model">Model Release</button>
+  <button class="tab" data-tab="actions">Actions &amp; Next Steps</button>
+  <button class="tab" data-tab="summary">Project Summary</button>
+  <button class="tab" data-tab="npd">NPD Summary</button>
+</div>
+<div class="cont">
+
+<!-- OVERVIEW -->
+<div id="tab-overview" class="pane on">
+  <div style="margin-bottom:12px">
+    <div style="font-size:9px;font-weight:700;color:#fff;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;background-color:#1e3a5f;display:inline-block;padding:4px 12px;border-radius:4px;line-height:1.6">PROGRAM DELIVERY &middot; 2026</div>
+    <div style="font-size:17px;font-weight:800;color:#1e3a5f;margin-bottom:3px">Person Build Out</div>
+    <div style="font-size:12px;color:#64748b">Production key dependency delivery for Person Authority build</div>
+  </div>
+  <div class="legend">
+    <b style="font-size:11px;color:#64748b;margin-right:4px">Legend:</b>
+    <span class="leg"><span class="sw" style="background:#fecdd3"></span>Pink &mdash; NPD Validation</span>
+    <span class="leg"><span class="sw" style="background:#fed7aa"></span>Orange &mdash; V6.0 Non-Basis</span>
+    <span class="leg"><span class="sw" style="background:#e9d5ff"></span>Purple &mdash; V6.1 Basis</span>
+    <span class="leg"><span class="sw" style="background:#bbf7d0"></span>Green &mdash; V6.2</span>
+    <span class="leg"><span class="sw" style="background:#bfdbfe"></span>Blue &mdash; App</span>
+    <span class="leg"><span class="sw" style="background:#99f6e4"></span>Teal &mdash; TNI</span>
+    <span class="leg"><span class="sw" style="background:#fef08a"></span>Yellow &mdash; Cutover</span>
+    <span class="leg"><span class="sw" style="background:#93c5fd"></span>Dark Blue &mdash; Warehouse</span>
+  </div>
+  <table>
+    <colgroup><col style="width:36px"><col><col style="width:110px"><col style="width:48px"><col style="width:100px"><col style="width:35%"></colgroup>
+    <thead><tr><th>ID</th><th>Key Dependency Deliverable</th><th>Target Date</th><th>Env</th><th>Owner</th><th>Notes</th></tr></thead>
+    <tbody id="ov-body"></tbody>
+  </table>
+</div>
+
+<!-- ROADMAP -->
+<div id="tab-roadmap" class="pane">
+  <div class="legend">
+    <b style="font-size:11px;color:#64748b;margin-right:4px">Legend:</b>
+    <span class="leg"><span class="sw" style="background:#fecdd3"></span>Pink &mdash; NPD Validation</span>
+    <span class="leg"><span class="sw" style="background:#fed7aa"></span>Orange &mdash; V6.0 Non-Basis</span>
+    <span class="leg"><span class="sw" style="background:#e9d5ff"></span>Purple &mdash; V6.1 Basis</span>
+    <span class="leg"><span class="sw" style="background:#bbf7d0"></span>Green &mdash; V6.2</span>
+    <span class="leg"><span class="sw" style="background:#bfdbfe"></span>Blue &mdash; App</span>
+    <span class="leg"><span class="sw" style="background:#99f6e4"></span>Teal &mdash; TNI</span>
+    <span class="leg"><span class="sw" style="background:#fef08a"></span>Yellow &mdash; Cutover</span>
+    <span class="leg"><span class="sw" style="background:#93c5fd"></span>Dark Blue &mdash; Warehouse</span>
+  </div>
+  <table>
+    <colgroup><col style="width:36px"><col style="width:48px"><col><col style="width:105px"><col style="width:80px"><col style="width:65px"><col style="width:105px"><col style="width:28%"></colgroup>
+    <thead><tr><th>ID</th><th>Env</th><th>Title</th><th>Target Date</th><th>Owner</th><th>Status</th><th>ADO</th><th>Notes</th></tr></thead>
+    <tbody id="rm-body"></tbody>
+  </table>
+</div>
+
+<!-- GANTT -->
+<div id="tab-gantt" class="pane">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px">
+    <div class="legend" style="margin:0;flex:1">
+      <b style="font-size:11px;color:#64748b;margin-right:4px">Color codes:</b>
+      <span class="leg"><span class="sw" style="background:#fecdd3"></span>Pink&mdash;NPD</span>
+      <span class="leg"><span class="sw" style="background:#fed7aa"></span>Orange&mdash;V6.0</span>
+      <span class="leg"><span class="sw" style="background:#e9d5ff"></span>Purple&mdash;V6.1</span>
+      <span class="leg"><span class="sw" style="background:#bbf7d0"></span>Green&mdash;V6.2</span>
+      <span class="leg"><span class="sw" style="background:#bfdbfe"></span>Blue&mdash;App</span>
+      <span class="leg"><span class="sw" style="background:#99f6e4"></span>Teal&mdash;TNI</span>
+      <span class="leg"><span class="sw" style="background:#fef08a"></span>Yellow&mdash;Cutover</span>
+      <span class="leg"><span class="sw" style="background:#93c5fd"></span>Dark Blue&mdash;Warehouse</span>
+    </div>
+    <div class="legend" style="margin:0">
+      <span class="leg"><span class="sw" style="background:#4ade80;border-radius:3px"></span>Done</span>
+      <span class="leg"><span class="sw" style="background:#3b82f6;border-radius:3px"></span>Active</span>
+      <span class="leg"><span class="sw" style="background:#cbd5e1;border-radius:3px"></span>Planned</span>
+      <span class="leg"><span style="width:2px;height:11px;background:#f97316;display:inline-block;border-radius:1px;margin:0 3px;vertical-align:middle"></span>Today</span>
+    </div>
+  </div>
+  <div class="gantt-outer">
+    <div class="g-header">
+      <div class="g-header-lbl">Task</div>
+      <div class="g-header-months" id="g-hdr-months"></div>
+    </div>
+    <div style="display:flex;margin-left:240px;border-bottom:0.5px solid #e2e8f0;padding-bottom:3px;margin-bottom:1px">
+      <div style="flex:3;text-align:center;padding:3px 0;font-size:10px;font-weight:700;color:#16a34a;background:#f0fdf4;border-right:0.5px solid #e2e8f0">Q1&ndash;Q2</div>
+      <div style="flex:3;text-align:center;padding:3px 0;font-size:10px;font-weight:700;color:#2563eb;background:#eff6ff;border-right:0.5px solid #e2e8f0">Q2&ndash;Q3</div>
+      <div style="flex:6;text-align:center;padding:3px 0;font-size:10px;font-weight:700;color:#f97316;background:#fff7ed">Q3&ndash;Q4</div>
+    </div>
+    <div id="gantt-rows"></div>
+  </div>
+</div>
+
+<!-- RISKS -->
+<div id="tab-risks" class="pane">
+
+  <div class="coll-hdr" onclick="toggleColl('risks-4',this)" style="background:#123121">Resource &amp; Dependency Constraints <span class="coll-chev">&#9660;</span></div>
+  <div id="risks-4" class="coll-body" style="padding:4px 0 8px">
+    <div class="card" style="margin-top:8px">
+      <div class="card-title">Team / SME Availability</div>
+      <div class="card-meta"><span>Type: <span><span class="badge b-high">High</span></span></span><span>Status: <span>Open</span></span></div>
+      <div class="blocker">
+        Due to other priorities, team and SME availability is constrained across the following workstreams:
+        <ul style="padding-left:16px;margin-top:6px;line-height:2">
+          <li>HVCIDC</li><li>Postgres</li><li>Warehouse to SF</li><li>Retiring</li><li>Lack of historical knowledge by team</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Functionality Discovery</div>
+      <div class="card-meta"><span>Type: <span><span class="badge b-high">High</span></span></span><span>Status: <span>Open</span></span></div>
+      <div class="blocker">
+        <b>1. Change Detection</b> &mdash; Recently raised.<br>
+        <ul style="padding-left:16px;margin:4px 0 8px;line-height:1.9"><li>Thought to not be needed per prior Architectural discussions</li><li>Now needed due to legacy tool throughput</li></ul>
+        <b>2. DROP</b> &mdash; August/September timeline<br>
+        <ul style="padding-left:16px;margin:4px 0 8px;line-height:1.9"><li>Legally Obligated with Financial impact if not compliant</li><li>Building Strategic causes impact to NuCLEAR teams</li><li>Lack of OnPrem resources may be a constraint, or will have resources but no domain knowledge</li></ul>
+        <b>3. Postgres Migration Dates</b><br>
+        <ul style="padding-left:16px;margin:4px 0 8px;line-height:1.9"><li>Exactly same timeline as NuCLEAR ERD cutover</li></ul>
+        <b>4. App Testing &mdash; Environments</b><br>
+        <ul style="padding-left:16px;margin:4px 0 8px;line-height:1.9"><li>How do we test? What can they point to?</li><li>Historically have not been able to point to lower environments due to lack of data</li></ul>
+        <b>5. Other Company Mandated Migrations</b> &mdash; Especially in ERD space as NuCLEAR resources are now administering<br>
+        <ul style="padding-left:16px;margin:4px 0 0;line-height:1.9"><li>IBMQ to ActiveMQ</li><li>VMWare to HyperV</li></ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="coll-hdr" onclick="toggleColl('risks-2',this)">ADO Issues <span class="coll-chev">&#9660;</span></div>
+  <div id="risks-2" class="coll-body">
+    <table style="font-size:12px">
+      <colgroup><col style="width:220px"><col style="width:80px"><col style="width:100px"><col><col style="width:90px"><col style="width:90px"><col style="width:80px"></colgroup>
+      <thead><tr><th>Parent</th><th>ID</th><th>Work Item Type</th><th>Title</th><th>Start Date</th><th>Target Date</th><th>State</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span style="color:#f97316;font-weight:700;font-size:11px">&#128081; Multi-Match &amp; Snapping - People</span></td>
+          <td><a class="ado" href="https://dev.azure.com/tr-content-and-research-systems/Public-records-content-development/_workitems/edit/1468296" target="_blank" style="color:#5b21b6;font-weight:600">1468296</a></td>
+          <td><span style="font-size:11px;color:#475569">Issue</span></td>
+          <td><span style="color:#5b21b6;font-size:11px">&#9650; Entity Merge Quality of Full Authority Load Filter Logic- SSN/DOB</span></td>
+          <td style="color:#94a3b8;font-size:11px">&mdash;</td>
+          <td style="color:#94a3b8;font-size:11px">&mdash;</td>
+          <td><span style="display:inline-flex;align-items:center;gap:4px;font-size:11px"><span style="width:8px;height:8px;border-radius:50%;background:#3b82f6;display:inline-block"></span>Active</span></td>
+        </tr>
+        <tr>
+          <td><span style="color:#f97316;font-weight:700;font-size:11px">&#128081; Opt-Out (Retro &amp; Prospective) - People</span></td>
+          <td><a class="ado" href="https://dev.azure.com/tr-content-and-research-systems/Public-records-content-development/_workitems/edit/1470200" target="_blank" style="color:#5b21b6;font-weight:600">1470200</a></td>
+          <td><span style="font-size:11px;color:#475569">Issue</span></td>
+          <td><span style="color:#5b21b6;font-size:11px">&#9650; Legacy Opt-Out profile migration</span></td>
+          <td style="color:#94a3b8;font-size:11px">&mdash;</td>
+          <td style="color:#94a3b8;font-size:11px">&mdash;</td>
+          <td><span style="display:inline-flex;align-items:center;gap:4px;font-size:11px"><span style="width:8px;height:8px;border-radius:50%;background:#16a34a;display:inline-block"></span>Closed</span></td>
+        </tr>
+        <tr>
+          <td><span style="color:#f97316;font-weight:700;font-size:11px">&#128081; Operationalizing System</span></td>
+          <td><a class="ado" href="https://dev.azure.com/tr-content-and-research-systems/Public-records-content-development/_workitems/edit/1468274" target="_blank" style="color:#5b21b6;font-weight:600">1468274</a></td>
+          <td><span style="font-size:11px;color:#475569">Issue</span></td>
+          <td><span style="color:#5b21b6;font-size:11px">&#9650; Load CCH Retro TNI Loads</span></td>
+          <td style="color:#94a3b8;font-size:11px">&mdash;</td>
+          <td style="color:#94a3b8;font-size:11px">&mdash;</td>
+          <td><span style="display:inline-flex;align-items:center;gap:4px;font-size:11px"><span style="width:8px;height:8px;border-radius:50%;background:#16a34a;display:inline-block"></span>Closed</span></td>
+        </tr>
+        <tr>
+          <td><span style="color:#f97316;font-weight:700;font-size:11px">&#128081; Opt-Out (Retro &amp; Prospective) - People</span></td>
+          <td><a class="ado" href="https://dev.azure.com/tr-content-and-research-systems/Public-records-content-development/_workitems/edit/1467964" target="_blank" style="color:#5b21b6;font-weight:600">1467964</a></td>
+          <td><span style="font-size:11px;color:#475569">Issue</span></td>
+          <td><span style="color:#5b21b6;font-size:11px">&#9650; Opt-Out Test Output Review/Validation by Product</span></td>
+          <td style="color:#94a3b8;font-size:11px">&mdash;</td>
+          <td style="color:#94a3b8;font-size:11px">&mdash;</td>
+          <td><span style="display:inline-flex;align-items:center;gap:4px;font-size:11px"><span style="width:8px;height:8px;border-radius:50%;background:#16a34a;display:inline-block"></span>Closed</span></td>
+        </tr>
+        <tr>
+          <td><span style="color:#f97316;font-weight:700;font-size:11px">&#128081; Operationalizing System</span></td>
+          <td><a class="ado" href="https://dev.azure.com/tr-content-and-research-systems/Public-records-content-development/_workitems/edit/1468293" target="_blank" style="color:#5b21b6;font-weight:600">1468293</a></td>
+          <td><span style="font-size:11px;color:#475569">Issue</span></td>
+          <td><span style="color:#5b21b6;font-size:11px">&#9650; TNI Feed for CCH - S3 bucket population</span></td>
+          <td style="color:#94a3b8;font-size:11px">&mdash;</td>
+          <td style="color:#94a3b8;font-size:11px">&mdash;</td>
+          <td><span style="display:inline-flex;align-items:center;gap:4px;font-size:11px"><span style="width:8px;height:8px;border-radius:50%;background:#16a34a;display:inline-block"></span>Closed</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="coll-hdr" onclick="toggleColl('risks-1',this)">RAID Log &mdash; Open Risks (Labs) <span class="coll-chev">&#9660;</span></div>
+  <div id="risks-1" class="coll-body">
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">
+        <div class="card-title">R004 &middot; Entity Merge Quality of Full Authority Load &mdash; Filter Logic SSN/DOB</div>
+        <span class="badge b-open">Open</span>
+      </div>
+      <div class="card-meta">
+        <span>Created: <span>Feb 10, 2026</span></span><span>Owner: <span>Labs</span></span>
+        <span>Severity: <span><span class="badge b-low">Low</span></span></span>
+        <span>ADO: <a class="ado" style="display:inline" href="https://dev.azure.com/tr-content-and-research-systems/Public-records-content-development/_workitems/edit/1457192" target="_blank">Epic 1457192</a> &middot; <a class="ado" style="display:inline" href="https://dev.azure.com/tr-content-and-research-systems/Public-records-content-development/_workitems/edit/57423" target="_blank">Epic 57423</a></span>
+      </div>
+      <div class="blocker"><b>Blockers:</b><br>1. Irreversible outcomes at scale.<br>2. Late detection.<br>3. Weak pre-load guardrails.<br><br><b>Comments:</b> Possible delay to meet year-end release.</div>
+    </div>
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">
+        <div class="card-title">R005 &middot; Delayed Full Authority Build</div>
+        <span class="badge b-open">Open</span>
+      </div>
+      <div class="card-meta">
+        <span>Created: <span>Feb 11, 2026</span></span><span>Owner: <span>Labs</span></span>
+        <span>Severity: <span><span class="badge b-high">High</span></span></span>
+        <span>ADO: <a class="ado" style="display:inline" href="https://dev.azure.com/tr-content-and-research-systems/Public-records-content-development/_workitems/edit/56896" target="_blank">Epic 56896</a></span>
+      </div>
+      <div class="blocker">Full authority build originally scheduled end of January 2026. Additional merge checks required, delaying to end of February.<br><br><b>Comments:</b> Possible delay to meet year-end release.</div>
+    </div>
+  </div>
+
+  <div class="coll-hdr" onclick="toggleColl('risks-3',this)">Open Questions Requiring Action <span class="coll-chev">&#9660;</span></div>
+  <div id="risks-3" class="coll-body">
+    <ul style="padding-left:18px;font-size:12px;color:#475569;line-height:2.1;margin:8px 0">
+      <li>Disaster recovery &mdash; Testing?</li>
+      <li>ERD Cutover &mdash; Is it needed? Likely not, but what does that look like, Cost, Timeline, etc&hellip;</li>
+      <li>How do Manual Snaps get applied? 35k references.</li>
+      <li>Add QA item for Privacy Delete Testing for Non-Basis content.</li>
+      <li>Scalability testing? Multiple Non-Basis loading at same times.</li>
+    </ul>
+  </div>
+
+</div>
+
+<!-- MODEL RELEASE -->
+<div id="tab-model" class="pane">
+  <div style="font-size:16px;font-weight:700;color:#1e3a5f;margin-bottom:6px">Model Release Type Reference</div>
+  <div style="height:3px;background:linear-gradient(90deg,#f97316,#ea580c);border-radius:2px;margin-bottom:18px"></div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:28px">
+    <div style="border:0.5px solid #e2e8f0;border-radius:8px;padding:16px;background:#fff">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="background:#1e3a5f;color:#fff;font-size:12px;font-weight:700;width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0">1</div>
+          <span style="font-size:14px;font-weight:700;color:#1e3a5f">Drop-In</span>
+        </div>
+        <span style="font-size:12px;color:#94a3b8">~5 days</span>
+      </div>
+      <p style="font-size:12px;color:#64748b;margin-bottom:10px">No contract or data model changes</p>
+      <ul style="padding-left:14px;font-size:12px;color:#475569;line-height:1.9;margin-bottom:12px">
+        <li>Integrate, run and update tests</li><li>Deploy and promote</li><li>Update display code if feature changes</li>
+      </ul>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <span style="background:#f1f5f9;color:#475569;padding:2px 10px;border-radius:4px;font-size:11px;font-weight:600">NER</span>
+        <span style="background:#fff7ed;color:#c2410c;padding:2px 10px;border-radius:4px;font-size:11px;font-weight:600">Minor &mdash; More Frequent</span>
+      </div>
+    </div>
+    <div style="border:0.5px solid #e2e8f0;border-radius:8px;padding:16px;background:#fff">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="background:#1e3a5f;color:#fff;font-size:12px;font-weight:700;width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0">2</div>
+          <span style="font-size:14px;font-weight:700;color:#1e3a5f">Drop-In Model+Data</span>
+        </div>
+        <span style="font-size:12px;color:#94a3b8">~7 days</span>
+      </div>
+      <p style="font-size:12px;color:#64748b;margin-bottom:10px">Common data / name rarity changes</p>
+      <ul style="padding-left:14px;font-size:12px;color:#475569;line-height:1.9;margin-bottom:12px">
+        <li>Integrate, run and update tests</li><li>Deploy and promote</li><li>Update display code if feature changes</li>
+      </ul>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <span style="background:#f1f5f9;color:#475569;padding:2px 10px;border-radius:4px;font-size:11px;font-weight:600">NER</span>
+        <span style="background:#fff7ed;color:#c2410c;padding:2px 10px;border-radius:4px;font-size:11px;font-weight:600">Major &mdash; Frequent</span>
+      </div>
+    </div>
+    <div style="border:0.5px solid #e2e8f0;border-radius:8px;padding:16px;background:#fff">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="background:#1e3a5f;color:#fff;font-size:12px;font-weight:700;width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0">3</div>
+          <span style="font-size:14px;font-weight:700;color:#1e3a5f">Data / Code</span>
+        </div>
+        <span style="font-size:12px;color:#94a3b8">~30 days</span>
+      </div>
+      <p style="font-size:12px;color:#64748b;margin-bottom:10px">Contract, data model or library changes</p>
+      <ul style="padding-left:14px;font-size:12px;color:#475569;line-height:1.9;margin-bottom:12px">
+        <li>Code and search table changes</li><li>Integrate, run and update tests</li><li>Deploy and promote</li><li>Update display code if feature vector changes</li>
+      </ul>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <span style="background:#f1f5f9;color:#475569;padding:2px 10px;border-radius:4px;font-size:11px;font-weight:600">NER</span>
+        <span style="background:#fff7ed;color:#c2410c;padding:2px 10px;border-radius:4px;font-size:11px;font-weight:600">Major &mdash; YTC</span>
+      </div>
+    </div>
+  </div>
+  <div style="font-size:16px;font-weight:700;color:#1e3a5f;margin-bottom:6px">V4.8 &rarr; V6.2 Model Delivery Plan</div>
+  <div style="height:3px;background:linear-gradient(90deg,#f97316,#ea580c);border-radius:2px;margin-bottom:18px"></div>
+  <div style="display:flex;flex-direction:column;gap:14px">
+    <div style="border:0.5px solid #e2e8f0;border-radius:8px;background:#fff;border-left:4px solid #16a34a;padding:16px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div style="display:flex;align-items:center;gap:8px"><span style="font-size:20px;font-weight:800;color:#16a34a">V4.8</span><span style="font-size:11px;font-weight:700;color:#64748b;letter-spacing:.5px">IN PROGRESS</span></div>
+        <span style="background:#f0fdf4;color:#16a34a;padding:3px 12px;border-radius:4px;font-size:11px;font-weight:600">Jan&ndash;Jun 2026</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 24px">
+        <div style="font-size:12px;color:#475569"><span style="color:#16a34a;font-weight:700">1.</span> Cleanup from prior loads</div>
+        <div style="font-size:12px;color:#475569"><span style="color:#16a34a;font-weight:700">2.</span> Load/Rematch 10M basis content</div>
+        <div style="font-size:12px;color:#475569"><span style="color:#16a34a;font-weight:700">3.</span> Dev team verification</div>
+        <div style="font-size:12px;color:#475569"><span style="color:#16a34a;font-weight:700">4.</span> NER &mdash; create tasks for Business to review annotations</div>
+        <div style="font-size:12px;color:#475569"><span style="color:#16a34a;font-weight:700">5.</span> Verification &amp; Sign-off by Product (sampling of 10M)</div>
+        <div style="font-size:12px;color:#475569"><span style="color:#16a34a;font-weight:700">6.</span> If signed-off: Full Authority Load/Reload</div>
+        <div style="font-size:12px;color:#475569"><span style="color:#16a34a;font-weight:700">7.</span> Sign-off after full load (500 samples per content, review threshold values)</div>
+      </div>
+    </div>
+    <div style="border:0.5px solid #e2e8f0;border-radius:8px;background:#fff;border-left:4px solid #2563eb;padding:16px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div style="display:flex;align-items:center;gap:8px"><span style="font-size:20px;font-weight:800;color:#2563eb">V6.0</span><span style="font-size:11px;font-weight:700;color:#64748b;letter-spacing:.5px">PLANNED &mdash; Jul 1, 2026</span></div>
+        <span style="background:#eff6ff;color:#2563eb;padding:3px 12px;border-radius:4px;font-size:11px;font-weight:600">Jul 2026</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 24px">
+        <div style="font-size:12px;color:#475569"><span style="color:#2563eb;font-weight:700">1.</span> Cleanup from prior loads</div>
+        <div style="font-size:12px;color:#475569"><span style="color:#2563eb;font-weight:700">2.</span> Process/Rematch basis and non-basis content records via NER</div>
+        <div style="font-size:12px;color:#475569"><span style="color:#2563eb;font-weight:700">3.</span> NER &mdash; create tasks for Business to review annotations</div>
+        <div style="font-size:12px;color:#475569"><span style="color:#2563eb;font-weight:700">4.</span> Business review samples per content</div>
+        <div style="font-size:12px;color:#475569"><span style="color:#2563eb;font-weight:700">5.</span> Provide feedback to Labs</div>
+        <div style="font-size:12px;color:#475569"><span style="color:#2563eb;font-weight:700">6.</span> Clean up Person Authority</div>
+        <div style="font-size:12px;color:#475569"><span style="color:#2563eb;font-weight:700">7.</span> Verification by Product &mdash; 500 samples per content</div>
+      </div>
+    </div>
+    <div style="border:0.5px solid #e2e8f0;border-radius:8px;background:#fff;border-left:4px solid #9333ea;padding:16px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div style="display:flex;align-items:center;gap:8px"><span style="font-size:20px;font-weight:800;color:#9333ea">V6.1</span><span style="font-size:11px;font-weight:700;color:#64748b;letter-spacing:.5px">PLANNED &mdash; Jul 20, 2026</span></div>
+        <span style="background:#faf5ff;color:#9333ea;padding:3px 12px;border-radius:4px;font-size:11px;font-weight:600">Jul&ndash;Aug 2026</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 24px">
+        <div style="font-size:12px;color:#475569"><span style="color:#9333ea;font-weight:700">1.</span> New V6.1 model from Labs based on V6.0 feedback (Basis, if needed)</div>
+        <div style="font-size:12px;color:#475569"><span style="color:#9333ea;font-weight:700">2.</span> Cleanup from prior loads</div>
+        <div style="font-size:12px;color:#475569"><span style="color:#9333ea;font-weight:700">3.</span> Load / Rematch 10M basis content</div>
+        <div style="font-size:12px;color:#475569"><span style="color:#9333ea;font-weight:700">4.</span> Development team verification</div>
+        <div style="font-size:12px;color:#475569"><span style="color:#9333ea;font-weight:700">5.</span> NER &mdash; create tasks for Business to review annotations</div>
+        <div style="font-size:12px;color:#475569"><span style="color:#9333ea;font-weight:700">6.</span> NPD Validation &amp; Sign-Off by Aug 20</div>
+      </div>
+    </div>
+    <div style="border:0.5px solid #e2e8f0;border-radius:8px;background:#fff;border-left:4px solid #0891b2;padding:16px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div style="display:flex;align-items:center;gap:8px"><span style="font-size:20px;font-weight:800;color:#0891b2">V6.2</span><span style="font-size:11px;font-weight:700;color:#64748b;letter-spacing:.5px">PLANNED &mdash; Aug 20, 2026</span></div>
+        <span style="background:#ecfeff;color:#0891b2;padding:3px 12px;border-radius:4px;font-size:11px;font-weight:600">Aug&ndash;Sep 2026</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 24px">
+        <div style="font-size:12px;color:#475569"><span style="color:#0891b2;font-weight:700">1.</span> New V6.2 model from Labs based on V6.1 feedback (Non-Basis)</div>
+        <div style="font-size:12px;color:#475569"><span style="color:#0891b2;font-weight:700">2.</span> Process non-Basis content (200/500 records per ContentSet) against V6.2 by Aug 25</div>
+        <div style="font-size:12px;color:#475569"><span style="color:#0891b2;font-weight:700">3.</span> Feature: Transit Files &mdash; Automated comparison with Legacy by Aug 10</div>
+        <div style="font-size:12px;color:#475569"><span style="color:#0891b2;font-weight:700">4.</span> Warehouse cutover finalized and tested by Aug 28</div>
+        <div style="font-size:12px;color:#475569"><span style="color:#0891b2;font-weight:700">5.</span> NPD Validation &amp; Sign-Off V6.2 by Sep 15 &mdash; 20 days to validate</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ACTIONS -->
+<div id="tab-actions" class="pane">
+  <div class="coll-hdr" onclick="toggleColl('act-1',this)">Immediate <span class="coll-chev">&#9660;</span></div>
+  <div id="act-1" class="coll-body">
+    <div class="card"><div style="display:flex;justify-content:space-between;gap:8px;margin-bottom:5px"><div style="font-weight:600;font-size:12px">Complete BAHR Authority Build &amp; Merge</div><span class="badge b-imm">Immediate</span></div><div class="note" style="margin-bottom:6px">BAHR workflow is under investigation due to a performance issue. NER working with Labs to fix and complete merge. CCH and EQCH already done.</div><div style="font-size:11px;color:#64748b">Owner: <b>NER / Labs</b> &nbsp;&middot;&nbsp; When: <b>This week (Jun 24)</b></div></div>
+    <div class="card"><div style="display:flex;justify-content:space-between;gap:8px;margin-bottom:5px"><div style="font-weight:600;font-size:12px">NPD V4.8 Authority Quality Validation (ID 7)</div><span class="badge b-imm">Immediate</span></div><div class="note" style="margin-bottom:6px">Target Jun 30. Confirm NPD availability and block calendar. Gates V6.0 track. Question outstanding: do we need 20 days to verify Basis content again?</div><div style="font-size:11px;color:#64748b">Owner: <b>Sarah / NPD</b> &nbsp;&middot;&nbsp; When: <b>Jun 30, 2026</b></div></div>
+    <div class="card"><div style="display:flex;justify-content:space-between;gap:8px;margin-bottom:5px"><div style="font-weight:600;font-size:12px">Resolve People Warehouse Exadata availability</div><span class="badge b-imm">Immediate</span></div><div class="note" style="margin-bottom:6px">19c complications and timeline disruptions may delay testing. Confirm availability and contingency plan with Warehouse team.</div><div style="font-size:11px;color:#64748b">Owner: <b>Assembly / Warehouse</b> &nbsp;&middot;&nbsp; When: <b>This sprint</b></div></div>
+    <div class="card"><div style="display:flex;justify-content:space-between;gap:8px;margin-bottom:5px"><div style="font-weight:600;font-size:12px">Schedule TBD items before Q3 sprint planning</div><span class="badge b-imm">Immediate</span></div><div class="note" style="margin-bottom:6px">IDs 42, 43, 44 (Update Person Authority, Pause Content Processing, Update Warehouse / NEDS / Marts) all show TBD. Must be dated before October planning begins.</div><div style="font-size:11px;color:#64748b">Owner: <b>Sarah</b> &nbsp;&middot;&nbsp; When: <b>Jun 2026</b></div></div>
+    <div class="card"><div style="display:flex;justify-content:space-between;gap:8px;margin-bottom:5px"><div style="font-weight:600;font-size:12px">Add Privacy Delete QA item to backlog</div><span class="badge b-imm">Immediate</span></div><div class="note" style="margin-bottom:6px">Add QA item for Privacy Delete Testing for Non-Basis content. Must be in backlog before ID 39 target date (Nov 13).</div><div style="font-size:11px;color:#64748b">Owner: <b>NER / Assembly</b> &nbsp;&middot;&nbsp; When: <b>Before Nov 13, 2026</b></div></div>
+  </div>
+
+  <div class="coll-hdr" onclick="toggleColl('act-2',this)">Risk Management <span class="coll-chev">&#9660;</span></div>
+  <div id="act-2" class="coll-body">
+    <div class="card"><div style="display:flex;justify-content:space-between;gap:8px;margin-bottom:5px"><div style="font-weight:600;font-size:12px">Balance authority quality vs. delivery urgency</div><span class="badge b-risk">Risk Mgmt</span></div><div class="note" style="margin-bottom:6px">We need to balance urgency to build authority with best quality practices. Ensuring merge is correct is worth the time spent — a good authority now prevents rework downstream.</div><div style="font-size:11px;color:#64748b">Owner: <b>NER / Labs / Sarah</b> &nbsp;&middot;&nbsp; When: <b>Ongoing</b></div></div>
+    <div class="card"><div style="display:flex;justify-content:space-between;gap:8px;margin-bottom:5px"><div style="font-weight:600;font-size:12px">Pre-load gate check before every authority load</div><span class="badge b-risk">Risk Mgmt</span></div><div class="note" style="margin-bottom:6px">R004 and R005 are open — batch entity merge logic can cause irreversible corruption. Validate pre-load guardrails before each full authority build (IDs 3, 5, 30).</div><div style="font-size:11px;color:#64748b">Owner: <b>Labs / NER</b> &nbsp;&middot;&nbsp; When: <b>Ongoing</b></div></div>
+    <div class="card"><div style="display:flex;justify-content:space-between;gap:8px;margin-bottom:5px"><div style="font-weight:600;font-size:12px">Monitor Non-Basis Recall tokenization issues</div><span class="badge b-risk">Risk Mgmt</span></div><div class="note" style="margin-bottom:6px">Name tokenization issues identified in Real Property, DMV, Dockets and other content sets. FN/CN grade missed matches to be reviewed with Labs and NER before 6.0 model testing.</div><div style="font-size:11px;color:#64748b">Owner: <b>NPD / NER / Labs</b> &nbsp;&middot;&nbsp; When: <b>V6.0 cycle</b></div></div>
+    <div class="card"><div style="display:flex;justify-content:space-between;gap:8px;margin-bottom:5px"><div style="font-weight:600;font-size:12px">Resolve Manual Snaps plan &mdash; 35k references</div><span class="badge b-risk">Risk Mgmt</span></div><div class="note" style="margin-bottom:6px">Must be planned and scheduled before Production Authority build-out in October (ID 30).</div><div style="font-size:11px;color:#64748b">Owner: <b>Brian / Dev</b> &nbsp;&middot;&nbsp; When: <b>Before Oct 2026</b></div></div>
+    <div class="card"><div style="display:flex;justify-content:space-between;gap:8px;margin-bottom:5px"><div style="font-weight:600;font-size:12px">V6.1/6.2 timeline sensitivity</div><span class="badge b-risk">Risk Mgmt</span></div><div class="note" style="margin-bottom:6px">V6.1/6.2 delivery remains sensitive due to dependencies on authority build-up and annotation readiness. Emerging model refinement needs indicate timelines may be insufficient to achieve target quality.</div><div style="font-size:11px;color:#64748b">Owner: <b>Labs / Sarah</b> &nbsp;&middot;&nbsp; When: <b>Monitor weekly</b></div></div>
+  </div>
+
+  <div class="coll-hdr" onclick="toggleColl('act-3',this)">Planning <span class="coll-chev">&#9660;</span></div>
+  <div id="act-3" class="coll-body">
+    <div class="card"><div style="display:flex;justify-content:space-between;gap:8px;margin-bottom:5px"><div style="font-weight:600;font-size:12px">Define go / no-go criteria for Cutover Start (ID 41)</div><span class="badge b-plan">Planning</span></div><div class="note" style="margin-bottom:6px">Document conditions before Oct 30: QA sign-offs complete, warehouse readiness confirmed, privacy compliance reviewed, rollback plan approved. Disaster recovery testing must also be confirmed.</div><div style="font-size:11px;color:#64748b">Owner: <b>Sarah / All leads</b> &nbsp;&middot;&nbsp; When: <b>Sep 2026</b></div></div>
+    <div class="card"><div style="display:flex;justify-content:space-between;gap:8px;margin-bottom:5px"><div style="font-weight:600;font-size:12px">Define measurable exit criteria per NPD gate</div><span class="badge b-plan">Planning</span></div><div class="note" style="margin-bottom:6px">Each NPD validation (IDs 4, 7, 12, 20, 27) needs agreed pass/fail thresholds — precision and recall testing across 100&ndash;200 records per ContentSet — before work starts, not after.</div><div style="font-size:11px;color:#64748b">Owner: <b>NPD / Sarah</b> &nbsp;&middot;&nbsp; When: <b>Before each gate</b></div></div>
+    <div class="card"><div style="display:flex;justify-content:space-between;gap:8px;margin-bottom:5px"><div style="font-weight:600;font-size:12px">Finalize Transit Files data attributes &amp; distribution design</div><span class="badge b-plan">Planning</span></div><div class="note" style="margin-bottom:6px">Identification of certain fields usage still being determined. Design for distribution of files to downstream consumers (on-Prem warehouse) still in progress.</div><div style="font-size:11px;color:#64748b">Owner: <b>Assembly / Warehouse</b> &nbsp;&middot;&nbsp; When: <b>Jul 2026</b></div></div>
+    <div class="card"><div style="display:flex;justify-content:space-between;gap:8px;margin-bottom:5px"><div style="font-weight:600;font-size:12px">Establish weekly cross-team sync for Prod phase</div><span class="badge b-plan">Planning</span></div><div class="note" style="margin-bottom:6px">IDs 28&ndash;46 involve GCO, NER, Assembly, RA, PA, Labs, TNI. Weekly check-ins from September prevent coordination gaps.</div><div style="font-size:11px;color:#64748b">Owner: <b>Sarah</b> &nbsp;&middot;&nbsp; When: <b>From Sep 2026</b></div></div>
+  </div>
+
+  <div class="coll-hdr" onclick="toggleColl('act-4',this)">Tracking <span class="coll-chev">&#9660;</span></div>
+  <div id="act-4" class="coll-body">
+    <div class="card"><div style="display:flex;justify-content:space-between;gap:8px;margin-bottom:5px"><div style="font-weight:600;font-size:12px">Connect ADO Features to Power BI burn-up</div><span class="badge b-track">Tracking</span></div><div class="note" style="margin-bottom:6px">Link Features 1290619, 1436007, 1478100, 1290494, 1473075 to Risk_Fraud_2026_Program.pbix for real-time milestone tracking.</div><div style="font-size:11px;color:#64748b">Owner: <b>Sarah</b> &nbsp;&middot;&nbsp; When: <b>Ongoing</b></div></div>
+    <div class="card"><div style="display:flex;justify-content:space-between;gap:8px;margin-bottom:5px"><div style="font-weight:600;font-size:12px">Set up bi-weekly SteerCo cadence</div><span class="badge b-track">Tracking</span></div><div class="note" style="margin-bottom:6px">Bi-weekly SteerCo: RAG status, model delivery dates (V6.0&ndash;V6.2), open issues 1468296 / 57804 / 57803, Q4 cutover readiness. First session to review open risks R004 and R005.</div><div style="font-size:11px;color:#64748b">Owner: <b>Sarah / Karen</b> &nbsp;&middot;&nbsp; When: <b>Ongoing</b></div></div>
+    <div class="card"><div style="display:flex;justify-content:space-between;gap:8px;margin-bottom:5px"><div style="font-weight:600;font-size:12px">Complete Delta Comparison (ERD vs. Current Model)</div><span class="badge b-track">Tracking</span></div><div class="note" style="margin-bottom:6px">In progress — ERD vs. Current Model, False Positives and new Matches. Review of Checklist for conversion to new pathway ongoing with NPD.</div><div style="font-size:11px;color:#64748b">Owner: <b>NPD / NER</b> &nbsp;&middot;&nbsp; When: <b>Jun&ndash;Jul 2026</b></div></div>
+  </div>
+</div>
+<!-- PROJECT SUMMARY -->
+<div id="tab-summary" class="pane">
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:10px">
+    <div>
+      <div style="font-size:9px;font-weight:700;color:#fff;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;background:#1e3a5f;display:inline-block;padding:3px 10px;border-radius:3px">BI-WEEKLY LEADERSHIP UPDATE</div>
+      <div style="font-size:16px;font-weight:700;color:#1e3a5f;margin-bottom:2px">Project Summary</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <label style="font-size:10px;font-weight:600;color:#64748b;white-space:nowrap">Iteration</label>
+      <select id="ps-iteration" onchange="psChangeIteration(this.value)" style="border:0.5px solid #1e3a5f;border-radius:3px;padding:5px 10px;font-size:12px;color:#1e293b;background:#fff;outline:none;min-width:170px;font-weight:500">
+        <optgroup label="-- Upcoming --" style="color:#94a3b8;font-style:italic">
+          <option value="jun23" selected>Jun 23, 2026 (current)</option>
+          <option value="jul07">Jul 7, 2026 (upcoming)</option>
+          <option value="jul21">Jul 21, 2026 (upcoming)</option>
+        </optgroup>
+        <optgroup label="-- Past iterations --" style="color:#64748b">
+          <option value="may12">May 12&ndash;26, 2026 (current)</option>
+          <option value="apr27">Apr 27&ndash;May 12, 2026</option>
+          <option value="apr14">Apr 14&ndash;27, 2026</option>
+          <option value="mar31">Mar 31&ndash;Apr 14, 2026</option>
+          <option value="mar17">Mar 17&ndash;31, 2026</option>
+          <option value="mar03">Mar 03&ndash;17, 2026</option>
+          <option value="feb17">Feb 17&ndash;Mar 03, 2026</option>
+        </optgroup>
+      </select>
+    </div>
+  </div>
+  <div class="ps-orange-accent"></div>
+  <div style="background:#eff6ff;border:0.5px solid #bfdbfe;border-radius:6px;padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+    <div style="font-size:12px;color:#1e3a5f;line-height:1.6">
+      <strong>&#8505;&#65039; Data source: SharePoint List.</strong> To add, edit or delete milestones open the List directly.
+      &nbsp;<span id="ps-last-sync" style="font-size:11px;color:#64748b"></span>
+    </div>
+    <a href="https://trten.sharepoint.com/:l:/r/sites/PublicRecordsandDerivedAuthorities-PlanningandEstimating/Lists/People%20Authority%20BuildProject%20Summary?e=GwWirb" target="_blank" style="background:#1e3a5f;color:#fff;padding:5px 14px;border-radius:3px;font-size:11px;font-weight:700;text-decoration:none;white-space:nowrap">&#128203; Open SharePoint List</a>
+  </div>
+  <div style="display:flex;align-items:flex-end;flex-wrap:wrap;gap:8px;margin-bottom:12px">
+    <div class="ps-filter-group"><span class="ps-filter-label">Status</span>
+      <select class="ps-filter-input" id="ps-f-status" onchange="psApplyFilters()"><option value="">All</option><option>Completed</option><option>In Progress</option><option>Planned</option><option>On Hold</option><option>Blocked</option></select>
+    </div>
+    <div class="ps-filter-group"><span class="ps-filter-label">Team</span>
+      <select class="ps-filter-input" id="ps-f-team" onchange="psApplyFilters()"><option value="">All</option><option>Labs</option><option>NPD</option><option>GCO</option><option>NER</option><option>Assembly</option><option>RA</option><option>PA</option><option>App</option></select>
+    </div>
+    <div class="ps-filter-group"><span class="ps-filter-label">Health</span>
+      <select class="ps-filter-input" id="ps-f-health" onchange="psApplyFilters()"><option value="">All</option><option>Green</option><option>Amber</option><option>Red</option></select>
+    </div>
+    <div class="ps-filter-group"><span class="ps-filter-label">Search</span>
+      <input class="ps-filter-input" id="ps-f-search" type="text" placeholder="milestone / commentary..." oninput="psApplyFilters()" style="min-width:180px">
+    </div>
+    <button class="ps-clear" onclick="psClearFilters()">Clear filters</button>
+    <div style="margin-left:auto;display:flex;gap:8px;flex-shrink:0">
+      <button onclick="psExportIteration()" style="border:1.5px solid #1e3a5f;color:#1e3a5f;background:#fff;border-radius:4px;padding:6px 14px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap">&#11015; Download</button>
+      <a href="https://trten.sharepoint.com/:f:/r/sites/PublicRecordsandDerivedAuthorities-PlanningandEstimating/Shared%20Documents/Planning%20and%20Estimating/2026/NuClear/Bi-Weekly%20Leadership%20Updates?csf=1&web=1&e=cKnf9S" target="_blank" style="border:1.5px solid #123121;color:#123121;background:#fff;border-radius:4px;padding:6px 14px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;text-decoration:none">&#128279; Bi-Weekly Updates</a>
+    </div>
+  </div>
+  <div class="ps-row-count" id="ps-row-count"></div>
+  <div style="overflow-x:auto">
+  <table class="ps-table">
+    <colgroup><col style="width:180px"><col style="width:32px"><col style="width:100px"><col style="min-width:200px"><col style="min-width:180px"><col style="min-width:180px"><col style="min-width:150px"></colgroup>
+    <thead><tr><th>Milestone</th><th class="th-center">Health</th><th class="th-center">Status</th><th class="th-center">Current State</th><th class="th-center">Risks / Issues</th><th class="th-center">Next Steps</th><th class="th-center">Business Impact</th></tr></thead>
+    <tbody id="ps-tbody"></tbody>
+  </table>
+  </div>
+</div>
+
+<!-- NPD SUMMARY -->
+<div id="tab-npd" class="pane">
+  <div style="margin-bottom:10px">
+    <div style="font-size:9px;font-weight:700;color:#fff;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;background:#1e3a5f;display:inline-block;padding:3px 10px;border-radius:3px">NPD SUMMARY</div>
+    <div style="font-size:16px;font-weight:700;color:#1e3a5f;margin-bottom:2px">NPD Validation &amp; Testing</div>
+    <div style="font-size:11px;color:#64748b">NuCLEAR Content Modernization &middot; People Authority Build-Out</div>
+  </div>
+  <div style="height:3px;background:linear-gradient(90deg,#D64000,#ea580c);border-radius:2px;margin-bottom:16px"></div>
+
+  <!-- Collapsible 1: NPD Validation & Feedback V4.8 -->
+  <div class="coll-hdr" onclick="toggleColl('npd-1',this)">NPD Validation &amp; Feedback V4.8 <span class="coll-chev">&#9660;</span></div>
+  <div id="npd-1" class="coll-body">
+    <div style="font-size:13px;font-weight:700;color:#1e3a5f;margin:14px 0 10px;padding-bottom:5px;border-bottom:2px solid #D64000">4.8 Basis / Authority Build-Up Testing</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+
+      <div class="card">
+        <div class="card-title">Precision Task 1</div>
+        <div class="blocker" style="margin-top:6px">
+          <b>NER:</b> Pull 200 random entities for each confidence score level.<br><br>
+          <b>NPD and Product Testing:</b> Precision testing of the matched basis records for each entity.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Precision Task 2</div>
+        <div class="blocker" style="margin-top:6px">
+          <b>NER:</b> Pull 200 entities with either Gender, SSN or DOB conflicts.<br><br>
+          <b>NPD and Product Testing:</b> Precision testing confirming the validity of the merge with the conflicting data elements.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Precision Task 3</div>
+        <div class="blocker" style="margin-top:6px">
+          <b>NER:</b> Locate anomalous/synthetic super entities.<br><br>
+          <b>NPD and Product Testing:</b> Review for confirmation of data or merging issues.<br><br>
+          <b>Example:</b> Amy America entity (test data) &mdash; NER approximately 700 entities in this category for 4.8. NER to provide spreadsheet format with TRPA IDs.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Recall</div>
+        <div class="blocker" style="margin-top:6px">
+          <b>NER:</b> Pull 200 random stand-alone entities pulled by NER, 50 from each Basis content type (Experian, Equifax, BAHR, TUCS). If possible, NER to provide these with candidate entity.<br><br>
+          <b>NPD:</b> Confirm these are valid stand-alone entities and should not have been merged with other entities.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Collapsible 2: Non-Basis Precision and Recall -->
+  <div class="coll-hdr" onclick="toggleColl('npd-2',this)">Non-Basis Precision and Recall (4.8 / 6.0) <span class="coll-chev">&#9660;</span></div>
+  <div id="npd-2" class="coll-body">
+    <div style="background:#fef3c7;border:0.5px solid #fbbf24;border-radius:6px;padding:12px 16px;margin:10px 0">
+      <div style="font-size:11px;font-weight:700;color:#92400e;letter-spacing:.4px;text-transform:uppercase;margin-bottom:8px">&#9432; In Progress</div>
+      <ul style="padding-left:18px;font-size:12px;color:#1e293b;line-height:2">
+        <li><b>Precision</b> &ndash; Annotate 100&ndash;200 records per content set (focus for 6.0 will be lower confidence range matches)</li>
+        <li><b>Both</b> &ndash; Identification of mapping/configuration issues in each content set, including review of Associated Addresses for 6.0</li>
+        <li><b>Recall</b> &ndash; Annotate 100&ndash;200 records per content set</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Collapsible 3: Delta -->
+  <div class="coll-hdr" onclick="toggleColl('npd-3',this)">Delta &mdash; 4.8 (In Progress) <span class="coll-chev">&#9660;</span></div>
+  <div id="npd-3" class="coll-body">
+    <div style="font-size:12px;color:#1e293b;line-height:1.6;padding:12px 4px">
+      <ul style="padding-left:18px;line-height:2.2;color:#334155">
+        <li>
+          <a href="https://contentconsole.thomsonreuters.com/ai-platform/annotation/projects/aa388a03-9cca-4629-8a5c-da8831b6801a/activities/818c0c8e-d380-41f0-b588-933478396587" target="_blank" style="color:#1d4ed8;font-weight:600;text-decoration:none">Labs CLEAR Mod custom-legacy-match-v48-nomatch-precision</a>
+          <span style="color:#64748b;margin-left:6px">&mdash; Legacy predicted a match; v4.8 predicted no match.</span>
+        </li>
+        <li>
+          <a href="https://contentconsole.thomsonreuters.com/ai-platform/annotation/projects/aa388a03-9cca-4629-8a5c-da8831b6801a/activities/b060cc55-b1ab-4a9e-8182-3b497e77f763" target="_blank" style="color:#1d4ed8;font-weight:600;text-decoration:none">Labs CLEAR Mod custom-legacy-nomatch-v48-match-precision</a>
+          <span style="color:#64748b;margin-left:6px">&mdash; Legacy predicted no match; v4.8 predicted a match.</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div><!-- /cont -->
+<script>
+var BASE='https://dev.azure.com/tr-content-and-research-systems/Public-records-content-development/_workitems/edit/';
+var CM={4:'#fecdd3',7:'#fecdd3',9:'#fed7aa',12:'#fed7aa',18:'#e9d5ff',20:'#e9d5ff',22:'#bbf7d0',26:'#bfdbfe',27:'#bbf7d0',31:'#fecdd3',32:'#99f6e4',41:'#fef08a',45:'#93c5fd',46:'#fef08a'};
+var TC={4:'#9f1239',7:'#9f1239',9:'#9a3412',12:'#9a3412',18:'#6b21a8',20:'#6b21a8',22:'#14532d',26:'#1e3a8a',27:'#14532d',31:'#9f1239',32:'#134e4a',41:'#78350f',45:'#1e3a8a',46:'#78350f'};
+var ROWS=[
+  {id:1, e:'QA',  t:'Threshold Merge for Basis Content',s:'done',d:'Jan 27, 2026',o:'NPD/NER',a:'User Story 1448457',n:''},
+  {id:2, e:'QA',  t:'Load full content set using v4.7 - qa',s:'done',d:'Feb 26, 2026',o:'Dev',a:'',n:''},
+  {id:3, e:'QA',  t:'Run all non-basis content (200 records for each) against V4.8',s:'done',d:'May 22, 2026',o:'NER',a:'',n:'10 days.'},
+  {id:4, e:'QA',  t:'NPD Validation & Feedback V4.8 (Non-Basis verification)',s:'done',d:'Jun 15, 2026',o:'NPD',a:'',n:'5/27 - NPD indicates 6/15 date to complete. Conversation with NPD is in progress. NPD to document what is being validated. What is Delta?\n6/11 - Precision looks good. Recall - Orphan testing on-going. Few issues noted. Issues to be discussed with prod. Labs. Not a blocker.\n6/18 - Non-basis testing completed. Recall/Orphan - name tokenization, still issue. Content Sets that need more attention at the moment - Real property, DMV, Dockets, & others'},
+  {id:5, e:'QA',  t:'Complete Build out of Authority again. (v4.8) - New Snapping or Merging logic to handle Multi-Matches efficiently',s:'plan',d:'Jun 24, 2026',o:'NER',a:'Feature 1290619',n:'6/11 - Currently on track to meet timeline. Challenges noted, flag in case timelines can\'t be met\n6/18 - Currently in-progress. Should be completed by mid-next week. Testing mergining & super entities. BAHR will be kicked off today'},
+  {id:6, e:'QA',  t:'Review NPD testing plan for v4.8',s:'done',d:'Jun 19, 2026',o:'NPD',a:'',n:'See Note: Precision testing pulls 200 random entities at each confidence level to verify match accuracy, validate merges with conflicting SSN/DOB data, and flag anomalous super entities. Recall testing confirms that 200 standalone entities were correctly left unmerged.\n6/18 - Test plan already in place'},
+  {id:7, e:'QA',  t:'NPD Validation & Feedback (Authority quality / Basis content) on V4.8',s:'plan',d:'Jun 30, 2026',o:'NPD',a:'',n:'Question for NPD: Do we need 20 days to verify Basis content again?'},
+  {id:8, e:'QA',  t:'Review NPD testing plan for v6.0',s:'done',d:'Jul 3, 2026',o:'NPD',a:'',n:'See Note: Precision and Recall testing pulls 100-200 records per Content Set for review and confirmation of mapping setup. Also will review Delta files against old ERD Matches.\n6/18 - test plan in place'},
+  {id:9, e:'QA',  t:'Initial V6.0 Model Delivery (Non-Basis)',s:'plan',d:'Jul 1, 2026',o:'Labs',a:'',n:'Summary by NPD by Jul 1'},
+  {id:10,e:'QA',  t:'Workflow - Support Non Basis Prospective loading through Content Console (1 Content Set) (Listening to LTC) (Aircraft?)',s:'plan',d:'Jul 2, 2026',o:'GCO/NER',a:'Feature 1315869',n:''},
+  {id:11,e:'QA',  t:'Process non-Basis content (200/500 records for each ContentSet) using V6.0 against authority built with V4.8 model',s:'plan',d:'Jul 10, 2026',o:'NER',a:'Feature 1478100',n:'10 days.'},
+  {id:12,e:'QA',  t:'NPD Validation & Feedback (Non-Basis) on V6.0',s:'plan',d:'Jul 30, 2026',o:'NPD/Product Testing',a:'',n:'6/18 - Recall/Orphan - name tokenization, still issue. Content Sets that need more attention at the moment - Real property, DMV, Dockets, & others'},
+  {id:13,e:'QA',  t:'Workflow - Rematch testing (functional validation with a small batch, ensuring Re)',s:'plan',d:'Jul 15, 2026',o:'NER',a:'Feature 1291076',n:''},
+  {id:14,e:'QA',  t:'Feature: Support capability for Full Content Set Reprocessing.',s:'plan',d:'Jul 30, 2026',o:'RA',a:'Feature 1511415',n:''},
+  {id:15,e:'QA',  t:'Feature: Transit Files - Ability to generate Transit files for warehouse consumption for all content sets',s:'plan',d:'Jul 31, 2026',o:'Assembly',a:'Epic 1457215',n:''},
+  {id:16,e:'QA',  t:'Workflow - Load Non Basis from TNI through Content Console (2 Content Sets) (Dependency on TNI loads to S3)',s:'plan',d:'Jul 31, 2026',o:'GCO/NER',a:'Feature 1436007',n:''},
+  {id:17,e:'QA',  t:'Workflow - Support Non Basis Prospective through Content Console (All Content Sets) (Listening to LTC)',s:'plan',d:'Jul 31, 2026',o:'GCO/NER',a:'Feature 1315869',n:''},
+  {id:18,e:'QA',  t:'New V6.1 model from Lab based on feed back from line no 9 (if needed) (Basis)',s:'plan',d:'Jul 20, 2026',o:'Labs',a:'',n:''},
+  {id:19,e:'QA',  t:'Complete Build out of Authority again if needed. (V6.1) - Based upon feedback from model v4.8 including Merge and Snap rules.',s:'plan',d:'Jul 31, 2026',o:'NER',a:'Feature 1478100',n:''},
+  {id:20,e:'QA',  t:'NPD Validation & Sign Off (Basis Content And Person Authority) V 6.1',s:'plan',d:'Aug 20, 2026',o:'NPD',a:'',n:'Question for NPD: Do we need 20 days to verify Basis content again? NPD will provide a report that will be signed off by all. (What is the Delta? TBC)'},
+  {id:21,e:'QA',  t:'Review NPD testing plan for v6.2',s:'plan',d:'Aug 20, 2026',o:'NPD',a:'',n:'NPD will provide a report that will be signed off by all. (What is the Delta? TBC)'},
+  {id:22,e:'QA',  t:'New V6.2 model from Lab based on feedback from line no 13 (Non-Basis)',s:'plan',d:'Aug 20, 2026',o:'Labs',a:'',n:''},
+  {id:23,e:'QA',  t:'Process non-Basis content (200/500 records for each) against V6.2 deliverable',s:'plan',d:'Aug 25, 2026',o:'NER',a:'Feature 1478100',n:'10 days.'},
+  {id:24,e:'QA',  t:'Feature: Transit Files - Automated comparison with Legacy.',s:'plan',d:'Aug 10, 2026',o:'Assembly',a:'Epic 1457215',n:''},
+  {id:25,e:'QA',  t:'Warehouse cutover to new Person Authority process finalized and tested.',s:'prog',d:'Aug 28, 2026',o:'Assembly/PA/Warehouse',a:'Feature 1473075',n:'Use Person Warehouse standby to test againt, and then restore to get back in sync. NOTE: These artifacts will drive the final cutover timelines and playbook.'},
+  {id:26,e:'QA',  t:'Application testing in Pre-Prod through Clear, Batch, S2S, Investigate, PR on Westlaw.',s:'plan',d:'Sep 1, 2026',o:'NPD',a:'',n:'Are there items that need to be removed from the application side. Confidence level threasholds need to be adjusted?'},
+  {id:27,e:'QA',  t:'NPD Validation & Sign Off (Everything) V 6.2',s:'plan',d:'Sep 15, 2026',o:'NPD',a:'',n:'20 days to validate'},
+  {id:28,e:'Prod',t:'Feature: Reprocessing of Basis Content from RA',s:'plan',d:'Sep 11, 2026',o:'RA',a:'Feature 1290494',n:'Find A feature for this\u2026'},
+  {id:29,e:'Prod',t:'V6.2 and all related code moved to Production',s:'plan',d:'Sep 17, 2026',o:'Dev',a:'Feature 1478100',n:''},
+  {id:30,e:'Prod',t:'Build out Production Person Authority Targeting reprocessing of all 4 basis contents. (RA, NER & PA activities only) V6.2',s:'plan',d:'Sep 29, 2026',o:'Dev Team',a:'Feature 1512011',n:''},
+  {id:31,e:'Prod',t:'NPD Validation?',s:'plan',d:'Oct 9, 2026',o:'NPD',a:'',n:'Question for NPD: Should have been all validated in QA, do we need to in Prod? Allocating 1 week.'},
+  {id:32,e:'Prod',t:'Loading Novus Collections to TNI - Non-Basis (S3)',s:'plan',d:'Oct 30, 2026',o:'Todd/TNI Team',a:'',n:'Need a story/Feature created.'},
+  {id:33,e:'Prod',t:'Setup Workflow - Non Basis Prospective (All Content Sets) (THIS IS NOT PROCESSING CONTENT)',s:'plan',d:'Oct 15, 2026',o:'GCO',a:'Feature 1490405',n:''},
+  {id:34,e:'Prod',t:'Setup Workflow - Dockets Prospective (THIS IS NOT PROCESSING CONTENT)',s:'plan',d:'Oct 15, 2026',o:'GCO',a:'Feature 1490405',n:''},
+  {id:35,e:'Prod',t:'Setup Workflow - Rematch (THIS IS NOT PROCESSING CONTENT)',s:'plan',d:'Oct 15, 2026',o:'GCO',a:'Feature 1436006',n:''},
+  {id:36,e:'Prod',t:'Setup Workflow - Update CCH, EQCH, BAHR and TUCS Prospective workflows (Match QA workflow add PA, etc..) (THIS IS NOT PROCESSING CONTENT)',s:'plan',d:'Oct 30, 2026',o:'GCO',a:'Feature 1512011',n:''},
+  {id:37,e:'Prod',t:'Workflow setup to support Non-Basis Retro loading',s:'plan',d:'Nov 13, 2026',o:'NER',a:'',n:''},
+  {id:38,e:'Prod',t:'Loading Novus Collections through TNI - Non-Basis - Loading to NER Tables',s:'plan',d:'Nov 13, 2026',o:'Todd/ NER',a:'Feature 1436007',n:''},
+  {id:39,e:'Prod',t:'Feature: Privacy Deletes for Non-Basis contents (Legally Obligated. Ensure we are deleting NER, PA & Assembly data)',s:'plan',d:'Nov 13, 2026',o:'NER/Assembly',a:'',n:'Need to add feature to support this to NER backlog.'},
+  {id:40,e:'Prod',t:'Feature: TRSS needed features',s:'plan',d:'Nov 13, 2026',o:'RA/Console',a:'',n:'Pending ongoing discussions led by Kurt'},
+  {id:41,e:'Prod',t:'Cutover - Start',s:'plan',d:'Oct 30, 2026',o:'\u2014',a:'',n:'Full Authority is ready'},
+  {id:42,e:'Prod',t:'Update Person Authority',s:'plan',d:'TBD',o:'\u2014',a:'',n:'(Are we updating Authority from September? We need to ensure it is current to match ERD)'},
+  {id:43,e:'Prod',t:'Pause Content Processing',s:'plan',d:'TBD',o:'\u2014',a:'',n:''},
+  {id:44,e:'Prod',t:'Update Warehouse, NEDS, Marts',s:'plan',d:'TBD',o:'\u2014',a:'',n:'Timeline is also dependent on POC. Sunitha/Andy'},
+  {id:45,e:'Prod',t:'Warehouse ERD to NER cut-over',s:'plan',d:'Dec 10, 2026',o:'Dev Team',a:'Feature 1290494',n:'This is the process of mapping all existing ERD based relationships into new Person Authority relationships. This is not rematching of content.\n<span class=\"go-live\">&#x1F7E2; Go Live!</span>'},
+  {id:46,e:'Prod',t:'Cutover - Done',s:'plan',d:'Dec 31, 2026 11:59pm',o:'\u2014',a:'',n:''}
+];
+var GANTT=[
+  {id:1,l:'Threshold Merge for Basis Content',s:0,e:0.9,st:'done'},
+  {id:2,l:'Load full content set v4.7',s:1,e:2,st:'done'},
+  {id:3,l:'Run non-basis content vs V4.8',s:2,e:4.7,st:'done'},
+  {id:4,l:'NPD Validation V4.8 (Non-Basis)',s:4.5,e:5.5,st:'done'},
+  {id:5,l:'Build out Authority (v4.8)',s:5,e:5.75,st:'plan'},
+  {id:6,l:'Review NPD test plan v4.8',s:5,e:5.65,st:'done'},
+  {id:7,l:'NPD Validation Authority quality V4.8',s:5,e:6,st:'plan'},
+  {id:8,l:'Review NPD test plan v6.0',s:5.5,e:6.1,st:'done'},
+  {id:9,l:'Initial V6.0 Model Delivery',s:6,e:6.1,st:'plan'},
+  {id:10,l:'Workflow Non Basis Prospective (1 Set)',s:6,e:6.2,st:'plan'},
+  {id:11,l:'Process non-Basis content vs V6.0',s:6,e:6.4,st:'plan'},
+  {id:12,l:'NPD Validation (Non-Basis) V6.0',s:6,e:7,st:'plan'},
+  {id:13,l:'Workflow Rematch testing',s:6,e:6.5,st:'plan'},
+  {id:14,l:'Feature: Full Content Set Reprocessing',s:6,e:7,st:'plan'},
+  {id:15,l:'Feature: Transit Files (warehouse)',s:6,e:7.1,st:'plan'},
+  {id:16,l:'Workflow Load Non Basis from TNI (2 Sets)',s:5,e:7.1,st:'plan'},
+  {id:17,l:'Workflow Non Basis Prospective (All Sets)',s:5,e:7.1,st:'plan'},
+  {id:18,l:'New V6.1 model from Lab',s:6,e:6.7,st:'plan'},
+  {id:19,l:'Build out Authority (V6.1)',s:6,e:7.1,st:'plan'},
+  {id:20,l:'NPD Validation & Sign Off V6.1',s:7,e:7.7,st:'plan'},
+  {id:21,l:'Review NPD test plan v6.2',s:7,e:7.7,st:'plan'},
+  {id:22,l:'New V6.2 model from Lab',s:7,e:7.7,st:'plan'},
+  {id:23,l:'Process non-Basis content vs V6.2',s:7.5,e:8,st:'plan'},
+  {id:24,l:'Feature: Transit Files (Legacy comparison)',s:7,e:7.4,st:'plan'},
+  {id:25,l:'Warehouse cutover testing',s:4,e:7.9,st:'prog'},
+  {id:26,l:'Application testing Pre-Prod',s:8,e:9,st:'plan'},
+  {id:27,l:'NPD Sign Off (Everything) V6.2',s:8,e:8.5,st:'plan'},
+  {id:28,l:'Reprocessing Basis Content from RA',s:8.4,e:8.5,st:'plan'},
+  {id:29,l:'V6.2 code to Production',s:8.5,e:8.6,st:'plan'},
+  {id:30,l:'Build out Prod Person Authority',s:8.5,e:9,st:'plan'},
+  {id:31,l:'NPD Validation? (Prod)',s:9,e:9.3,st:'plan'},
+  {id:32,l:'Load Novus Collections to TNI (S3)',s:9.5,e:10,st:'plan'},
+  {id:33,l:'Setup Workflow Non Basis Prospective',s:9.5,e:9.6,st:'plan'},
+  {id:34,l:'Setup Workflow Dockets Prospective',s:9.5,e:9.6,st:'plan'},
+  {id:35,l:'Setup Workflow Rematch',s:9.5,e:9.6,st:'plan'},
+  {id:36,l:'Setup Workflow CCH/EQCH/BAHR/TUCS',s:9.5,e:10,st:'plan'},
+  {id:37,l:'Workflow Non-Basis Retro loading',s:10,e:10.5,st:'plan'},
+  {id:38,l:'Load Novus through TNI to NER Tables',s:10,e:10.5,st:'plan'},
+  {id:39,l:'Feature: Privacy Deletes (Non-Basis)',s:10,e:10.5,st:'plan'},
+  {id:40,l:'Feature: TRSS needed features',s:10,e:10.5,st:'plan'},
+  {id:41,l:'Cutover - Start',s:9.5,e:9.6,st:'plan'},
+  {id:42,l:'Update Person Authority',s:10,e:11,st:'plan'},
+  {id:43,l:'Pause Content Processing',s:10,e:11,st:'plan'},
+  {id:44,l:'Update Warehouse, NEDS, Marts',s:10,e:11,st:'plan'},
+  {id:45,l:'Warehouse ERD to NER cut-over',s:10,e:11.4,st:'plan'},
+  {id:46,l:'Cutover - Done',s:11.9,e:12,st:'plan'}
+];
+
+function adoHtml(a){
+  if(!a)return '<span style="color:#94a3b8">&#8212;</span>';
+  var re=/(User Story|Feature|Epic)\s+(\d+)/gi,out2=[],m;
+  while((m=re.exec(a))!==null)out2.push('<a class="ado" href="'+BASE+m[2]+'" target="_blank">'+m[1]+' '+m[2]+'</a>');
+  return out2.length?out2.join(''):'<span style="color:#64748b">'+a+'</span>';
+}
+function stHtml(s){
+  if(s==='done')return '<span class="s-done">Completed</span>';
+  if(s==='prog')return '<span class="s-prog">In Progress</span>';
+  return '<span class="s-plan">Planned</span>';
+}
+function envHtml(e){return e==='QA'?'<span class="eqa">QA</span>':'<span class="eprod">Prod</span>';}
+function rowBg(id){return CM[id]||'transparent';}
+function rowTc(id){return TC[id]||'inherit';}
+function noteHtml(n){return n?n.replace(/\n/g,'<br>'):'&#8212;';}
+
+function goToRoadmap(id){
+  document.querySelectorAll('.tab').forEach(function(b){b.classList.remove('on');});
+  document.querySelectorAll('.pane').forEach(function(p){p.classList.remove('on');});
+  document.querySelector('[data-tab="roadmap"]').classList.add('on');
+  document.getElementById('tab-roadmap').classList.add('on');
+  setTimeout(function(){
+    var row=document.getElementById('rm-row-'+id);
+    if(row){
+      var m=row.className.match(/grp-(\d+)/);
+      if(m){var h=document.getElementById('hdr-'+m[1]);if(h&&h.classList.contains('collapsed'))toggleGrp(parseInt(m[1]));}
+      setTimeout(function(){row.scrollIntoView({behavior:'smooth',block:'center'});row.classList.add('row-flash');setTimeout(function(){row.classList.remove('row-flash');},960);},60);
+    }
+  },40);
+}
+function goToOverview(id){
+  document.querySelectorAll('.tab').forEach(function(b){b.classList.remove('on');});
+  document.querySelectorAll('.pane').forEach(function(p){p.classList.remove('on');});
+  document.querySelector('[data-tab="overview"]').classList.add('on');
+  document.getElementById('tab-overview').classList.add('on');
+  setTimeout(function(){
+    var row=document.getElementById('ov-row-'+id);
+    if(row){row.scrollIntoView({behavior:'smooth',block:'center'});row.classList.add('row-flash');setTimeout(function(){row.classList.remove('row-flash');},960);}
+  },40);
+}
+
+function buildOv(){
+  var h='';
+  ROWS.filter(function(r){return CM[r.id];}).forEach(function(r){
+    var bg=rowBg(r.id),tc=rowTc(r.id),st='background:'+bg+';color:'+tc;
+    h+='<tr id="ov-row-'+r.id+'">'
+      +'<td class="id" style="'+st+'"><span class="id-link" title="View in Roadmap" onclick="goToRoadmap('+r.id+')">'+r.id+'</span></td>'
+      +'<td style="'+st+';font-weight:600;cursor:pointer" title="View in Roadmap" onclick="goToRoadmap('+r.id+')">'+r.t+' <span style="font-size:9px;opacity:.5">&#8599;</span></td>'
+      +'<td style="'+st+'">'+r.d+'</td>'
+      +'<td style="'+st+'">'+envHtml(r.e)+'</td>'
+      +'<td style="'+st+'">'+r.o+'</td>'
+      +'<td style="'+st+'"><span class="note">'+noteHtml(r.n)+'</span></td>'
+      +'</tr>';
+  });
+  document.getElementById('ov-body').innerHTML=h;
+}
+
+function buildRm(){
+  var h='',curE=null,grpId=0,counts={QA:0,Prod:0};
+  ROWS.forEach(function(r){counts[r.e]=(counts[r.e]||0)+1;});
+  ROWS.forEach(function(r){
+    if(r.e!==curE){
+      curE=r.e;grpId++;
+      var title=r.e==='QA'?'QA Environment':'Production Environment & Cutover';
+      var sub=r.e==='QA'?'IDs 1\u201327 \u00b7 '+counts.QA+' rows':'IDs 28\u201346 \u00b7 '+counts.Prod+' rows';
+      var secBg=r.e==='QA'?'#1e3a5f':'#123121';
+      var secCls=r.e==='QA'?'sec-row':'sec-row sec-row-prod';
+      h+='<tr class="'+secCls+'" id="hdr-'+grpId+'" onclick="toggleGrp('+grpId+')" style="background:'+secBg+'">'
+        +'<td colspan="8" style="background:inherit">'+title+'<br><span style="font-size:10px;font-style:italic;font-weight:400;opacity:.75">'+sub+'</span><span class="sec-chevron">&#9660;</span></td>'
+        +'</tr>';
+    }
+    var bg=rowBg(r.id),tc=rowTc(r.id),st='background:'+bg+';color:'+tc,bold=!!CM[r.id];
+    h+='<tr class="grp-'+grpId+'" id="rm-row-'+r.id+'">'
+      +'<td class="id" style="'+st+(bold?';font-weight:700':'')+'">'+( bold?'<span class="id-link" title="Back to Overview" onclick="goToOverview('+r.id+')">'+r.id+'</span>':r.id)+'</td>'
+      +'<td style="'+st+'">'+envHtml(r.e)+'</td>'
+      +'<td style="'+st+(bold?';font-weight:600;cursor:pointer':'')+'"'+(bold?' title="Back to Overview" onclick="goToOverview('+r.id+')"':'')+'>'+( bold?r.t+' <span style="font-size:9px;opacity:.5">&#8598;</span>':r.t)+'</td>'
+      +'<td style="'+st+'">'+r.d+'</td>'
+      +'<td style="'+st+'">'+r.o+'</td>'
+      +'<td style="'+st+'">'+stHtml(r.s)+'</td>'
+      +'<td style="'+st+'">'+adoHtml(r.a)+'</td>'
+      +'<td style="'+st+'"><span class="note">'+noteHtml(r.n)+'</span></td>'
+      +'</tr>';
+  });
+  document.getElementById('rm-body').innerHTML=h;
+}
+
+function toggleGrp(id){
+  var hdr=document.getElementById('hdr-'+id);
+  var rows=document.querySelectorAll('.grp-'+id);
+  var collapsed=hdr.classList.toggle('collapsed');
+  rows.forEach(function(r){r.style.display=collapsed?'none':'';});
+}
+
+function buildGantt(){
+  var MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var TODAY_MONTH=5,todayPct=(5/12)*100;
+  var mh='';
+  MONTHS.forEach(function(m,i){mh+='<div class="g-hmon'+(i===TODAY_MONTH?' cur':'')+'" style="'+(i===TODAY_MONTH?'font-weight:800':'')+'">'+m+'</div>';});
+  document.getElementById('g-hdr-months').innerHTML=mh;
+
+  var CM_DARK={'#fecdd3':'#f87171','#fed7aa':'#c2622a','#e9d5ff':'#9333ea','#bbf7d0':'#16a34a','#bfdbfe':'#3b82f6','#99f6e4':'#0d9488','#fef08a':'#ca8a04','#93c5fd':'#2563eb'};
+
+  function pct(v){return (v/12*100).toFixed(2)+'%';}
+  function barBg(row){
+    if(CM[row.id])return CM[row.id];
+    if(row.st==='done')return '#4ade80';
+    if(row.st==='prog')return '#3b82f6';
+    return '#cbd5e1';
+  }
+  function barLbl(row){return row.st==='done'?'Done':row.st==='prog'?'Active':'';}
+  function needsDark(hex){return ['#fef08a','#bbf7d0','#4ade80','#cbd5e1','#fecdd3','#fed7aa','#e9d5ff','#bfdbfe','#99f6e4','#93c5fd'].indexOf(hex)!==-1;}
+
+  function buildColLines(){
+    var s='';
+    for(var i=0;i<=12;i++)s+='<div style="position:absolute;top:0;bottom:0;left:'+pct(i)+';width:0.5px;background:#f1f5f9"></div>';
+    s+='<div class="today-line" style="left:'+pct(todayPct/100*12)+'"><div class="today-pin"></div></div>';
+    return s;
+  }
+
+  var h='',grpId=0;
+
+  function renderSection(title,sub,ganttRows,hdrBg,previewGroups){
+    grpId++;
+    var gid=grpId;
+    var done=ganttRows.filter(function(r){return r.st==='done';}).length;
+    var prog=ganttRows.filter(function(r){return r.st==='prog';}).length;
+    var plan=ganttRows.filter(function(r){return r.st==='plan';}).length;
+    var total=ganttRows.length;
+    var pct_done=Math.round(done/total*100);
+    var out2='';
+
+    out2+='<div class="g-sec-hdr" id="g-hdr-'+gid+'" onclick="toggleGanttGrp('+gid+')" style="background:'+hdrBg+';display:flex;align-items:center;gap:12px;padding:10px 14px;">';
+    out2+='<div style="background:rgba(255,255,255,.15);border-radius:6px;padding:6px 10px;font-size:11px;font-weight:800;color:#fff;flex-shrink:0;letter-spacing:.5px">'+( hdrBg==='#123121'?'Prod':'QA')+'</div>';
+    out2+='<div style="flex:1;min-width:0"><div class="g-sec-title">'+title+'</div><div class="g-sec-sub">'+sub+'</div></div>';
+    out2+='<div style="display:flex;align-items:center;gap:8px;flex-shrink:0">';
+    out2+='<div style="background:rgba(74,222,128,.2);border-radius:5px;padding:4px 10px;text-align:center"><div style="font-size:16px;font-weight:800;color:#4ade80;line-height:1">'+done+'</div><div style="font-size:9px;color:rgba(255,255,255,.5);letter-spacing:.5px">DONE</div></div>';
+    out2+='<div style="background:rgba(255,255,255,.1);border-radius:5px;padding:4px 10px;text-align:center"><div style="font-size:16px;font-weight:800;color:rgba(255,255,255,.7);line-height:1">'+plan+'</div><div style="font-size:9px;color:rgba(255,255,255,.5);letter-spacing:.5px">PLANNED</div></div>';
+    out2+='<div style="height:5px;background:rgba(255,255,255,.1);border-radius:3px;width:80px;overflow:hidden"><div style="height:100%;background:#4ade80;width:'+pct_done+'%;border-radius:3px"></div></div>';
+    out2+='<span style="font-size:10px;color:rgba(255,255,255,.5);white-space:nowrap">Progress %</span>';
+    out2+='<span class="g-chevron" style="margin-left:4px">&#9660;</span>';
+    out2+='</div></div>';
+
+    // Preview
+    if(previewGroups&&previewGroups.length>0){
+      out2+='<div id="g-preview-'+gid+'" style="display:none;border-bottom:0.5px solid rgba(255,255,255,.06)">';
+      out2+='<div style="display:flex;margin-left:240px;border-bottom:0.5px solid #e8edf2">';
+      [{l:'Q1\u2013Q2',c:'#16a34a'},{l:'Q2\u2013Q3',c:'#2563eb'},{l:'Q3\u2013Q4',c:'#f97316'}].forEach(function(q){
+        out2+='<div style="flex:1;text-align:center;padding:3px 0;font-size:10px;font-weight:700;color:'+q.c+';border-right:0.5px solid #f1f5f9">'+q.l+'</div>';
+      });
+      out2+='</div>';
+      previewGroups.forEach(function(pg){
+        var lft=(pg.s/12)*100,wid=Math.max(((pg.e-pg.s)/12)*100,1.2);
+        var darkC=CM_DARK[pg.color]||pg.color;
+        out2+='<div style="display:flex;align-items:center;border-bottom:0.5px solid #f1f5f9;min-height:32px">';
+        out2+='<div style="width:240px;flex-shrink:0;padding:4px 12px 4px 16px;display:flex;align-items:center;gap:6px"><div style="width:3px;height:16px;background:'+pg.color+';border-radius:2px;flex-shrink:0"></div><span style="font-size:12px;font-weight:500;color:#1e293b">'+pg.label+'</span></div>';
+        out2+='<div style="flex:1;position:relative;height:32px">';
+        for(var ci=0;ci<=12;ci++)out2+='<div style="position:absolute;top:0;bottom:0;left:'+(ci/12*100).toFixed(1)+'%;width:0.5px;background:#f1f5f9"></div>';
+        out2+='<div style="position:absolute;top:8px;bottom:8px;left:'+lft.toFixed(1)+'%;width:'+wid.toFixed(1)+'%;background:'+darkC+';border-radius:4px;display:flex;align-items:center;padding:0 8px;overflow:hidden"><span style="font-size:10px;font-weight:700;color:#fff;white-space:nowrap">'+pg.label+'</span></div>';
+        out2+='<div style="position:absolute;top:0;bottom:0;left:'+(5/12*100).toFixed(1)+'%;width:2px;background:#f97316;opacity:.8"></div>';
+        out2+='</div></div>';
+      });
+      out2+='<div style="padding:5px 14px;font-size:11px;color:#94a3b8;font-style:italic">&#9432; Click the header above to expand all '+total+' tasks</div>';
+      out2+='</div>';
+    }
+
+    ganttRows.forEach(function(row){
+      var isCol=!!CM[row.id];
+      var colHex=isCol?CM[row.id]:'';
+      var barColor=isCol?(CM_DARK[colHex]||colHex):barBg(row);
+      var left=(row.s/12)*100,width=Math.max(((row.e-row.s)/12)*100,0.5);
+      var lbl=barLbl(row);
+      var rowBorder=isCol?'border-left:3px solid '+colHex+';':'';
+      out2+='<div class="g-row'+(isCol?' g-lbl bold':'')+' g-grp-'+gid+'" style="'+(isCol?'background:'+colHex+'28;'+rowBorder:'')+'">';
+      out2+='<div class="g-lbl'+(isCol?' bold':'') +'" style="'+(isCol?'padding-left:8px':'')+'">'
+        +'<span style="font-size:10px;color:#94a3b8;flex-shrink:0;min-width:18px">'+row.id+'</span>'
+        +(isCol?'<span style="display:inline-block;width:9px;height:9px;border-radius:2px;background:'+CM[row.id]+';margin-right:5px;vertical-align:middle;flex-shrink:0"></span>':'')
+        +(isCol?'<span style="font-weight:700;color:#1e293b">'+row.l+'</span>':row.l)
+        +'</div>';
+      out2+='<div class="g-chart">'+buildColLines();
+      out2+='<div class="g-bar" style="left:'+left.toFixed(1)+'%;width:'+width.toFixed(1)+'%;background:'+barColor+';border:0.5px solid rgba(0,0,0,.08);border-radius:4px">'
+        +(lbl?'<span class="g-bar-lbl">'+lbl+'</span>':'')
+        +'</div></div></div>';
+    });
+    return out2;
+  }
+
+  var qaRows=GANTT.filter(function(r){return r.id<=27;});
+  var prodRows=GANTT.filter(function(r){return r.id>27;});
+  var qaPreviews=[
+    {label:'New V6.2 model from Lab',s:7,e:7.7,color:'#16a34a'},
+    {label:'Application testing Pre-Prod',s:8,e:9,color:'#3b82f6'},
+    {label:'NPD Sign Off (Everything) V6.2',s:8,e:8.5,color:'#059669'}
+  ];
+  var prodPreviews=[
+    {label:'Deploy & Setup',s:8.5,e:10.5,color:'#f97316'},
+    {label:'Warehouse ERD to NER cut-over',s:10,e:11.4,color:'#93c5fd'},
+    {label:'Cutover',s:9.5,e:12,color:'#ef4444'}
+  ];
+  h+=renderSection('QA \u2014 Basis Content & Model Development','Jan \u2013 Sep 2026 \u00b7 IDs 1\u201327',qaRows,'#1e3a5f',qaPreviews);
+  h+=renderSection('Prod \u2014 Production Deployment & Cutover','Sep \u2013 Dec 2026 \u00b7 IDs 28\u201346',prodRows,'#123121',prodPreviews);
+  document.getElementById('gantt-rows').innerHTML=h;
+}
+
+function toggleGanttGrp(id){
+  var hdr=document.getElementById('g-hdr-'+id);
+  var rows=document.querySelectorAll('.g-grp-'+id);
+  var preview=document.getElementById('g-preview-'+id);
+  var collapsed=hdr.classList.toggle('collapsed');
+  rows.forEach(function(r){r.style.display=collapsed?'none':'';});
+  if(preview)preview.style.display=collapsed?'block':'none';
+}
+
+function toggleColl(id,hdr){
+  var body=document.getElementById(id);
+  var collapsed=hdr.classList.toggle('collapsed');
+  body.style.display=collapsed?'none':'';
+}
+
+document.getElementById('tabs').addEventListener('click',function(e){
+  var btn=e.target.closest('.tab');if(!btn)return;
+  document.querySelectorAll('.tab').forEach(function(b){b.classList.remove('on');});
+  document.querySelectorAll('.pane').forEach(function(p){p.classList.remove('on');});
+  btn.classList.add('on');
+  document.getElementById('tab-'+btn.dataset.tab).classList.add('on');
+});
+
+document.getElementById('ts').textContent=(function(){
+  var d=new Date(),h=d.getHours(),m=d.getMinutes(),s=d.getSeconds();
+  var ampm=h>=12?'PM':'AM';h=h%12||12;
+  return h+':'+(m<10?'0'+m:m)+':'+(s<10?'0'+s:s)+' '+ampm;
+})();
+
+var ALL_ITER={
+  'jun23':[
+    {section:'Person Authority Build',name:'Basis Person Authority Build Up',sub:'',team:'NER',owner:'Krishanu Bhattacharya',health:'Green',status:'In Progress',state:['Execution of the Basis/Authority build-up on V4.8 is underway. CCH and EQCH runs have been completed and successfully merged.','BAHR workflow is currently under investigation due to a performance issue encountered during the merge process.'],risks:['The team is monitoring downstream dependencies, including the NPD review and Recall readiness for V4.8, to ensure continuity as the investigation progresses.'],next:['NER working with Labs to fix on-going BAHR workflow issue and merge','We do need to balance urgency to build authority with best quality practices. We want a good authority, and ensuring merge is correct is worth the time spent.'],impact:['Not at the moment'],link:'',iterLabel:'Jun 23, 2026 (current)'},
+    {section:'Person Authority Build',name:'Non-Basis People Matching/Grading',sub:'',team:'NA',owner:'NA',health:'Green',status:'In Progress',state:['NER–LTC integration is functionally complete, with NER successfully receiving load and promote notifications.'],risks:[],next:['Final readiness is pending subscription setup and end-to-end testing, which are currently in progress.'],impact:['Not at the moment'],link:'',iterLabel:'Jun 23, 2026 (current)'},
+    {section:'Person Authority Build',name:'People Warehouse Integration & Transit Pipeline Readiness',sub:'',team:'NA',owner:'',health:'Green',status:'In Progress',state:['Document Facet initial development for file creation completed. Testing of file creation in progress. Working with Distribution Service and Warehouse team on design for delivering files to on-Prem for ingestion.','Transit Files development in progress. Identification of certain fields usage still being determined. Design for distribution of files to downstream consumers still in progress.','Entity Snapping POC - Initial process has been executed and verified in lower environments. Working to ensure will scale and what environment we will run against.'],risks:['People Warehouse Exadata availability for testing. 19c complications and timeline disruptions may delay these needed tests.'],next:['Identify efficient method of delivering Transit Files to warehouse for ingestion. Fleshing out final data attributes that make up the Transit Files.'],impact:['Not at the moment'],link:'',iterLabel:'Jun 23, 2026 (current)'},
+    {section:'Labs',name:'Labs – Model V6',sub:'',team:'Labs',owner:'Claudia Schulz',health:'Green',status:'In Progress',state:['Finalised merge logic for PA build-up and provided ongoing support for unforeseen build-up issues.'],risks:['V6.1/6.2 delivery remains sensitive due to dependencies on authority build-up and annotation readiness, with emerging model refinement needs indicating timelines may be insufficient to achieve target quality.'],next:['Deliver V6 matching model for non-basis content matching, which includes handling of associated addresses and estimated DOB, enabling more accurate matching.'],impact:['Ensured reduction of entities in new PA compared to legacy authority, ensuring high precision of entity merges and adherence to business rules.'],link:'',iterLabel:'Jun 23, 2026 (current)'},
+    {section:'GCO',name:'GCO',sub:'',team:'GCO',owner:'Mohan Janakiraman',health:'Green',status:'In Progress',state:['Working on setting up regression using Verification service along with Dana & Tom','Following up (live discussions) with TransUnion on the duplicate legacy id issue','Coordinating QA workflow runs with RA team for PA build using 4.8 model'],risks:['Nothing at the moment'],next:['Complete setting up regression using Verification service along with Dana & Tom','Following up (live discussions) with TransUnion on the duplicate legacy id issue','Complete QA build for PA build','Facilitate discussions for Quality workstreams'],impact:['Not at the moment'],link:'',iterLabel:'Jun 23, 2026 (current)'},
+    {section:'NPD',name:'NPD – Annotating Updates',sub:'',team:'NPD/NER',owner:'Jim Votel',health:'Green',status:'In Progress',state:['Basis Content – formalized testing plan for 4.8 and 6.0 Models, including Precision Tasks with anomalous entities and conflicting data elements.','Basis Content – Labs implemented Conflicting Data rules.','Non-Basis Content Precision and Recall Annotating - Completion of 4.8 Tasks across all content types.','Non-Basis Precision – no significant issues identified.','Non-Basis Recall – identification of Name Tokenization issues within several content types, including Real Property and DMV.','Non-Basis Recall - identification of FN and CN Grades (missed matches), will be reviewed with Labs and NER and tested again in 6.0 Model.'],risks:['Recall – Continued Review of Issues noted above, Tokenization and Missed Matches.'],next:['Basis Content – 4.8 Model Precision Annotating Tasks (across various score ranges).','Basis Content – 4.8 Model Recall Annotating Tasks.','Delta Comparison – In progress, ERD vs. Current Model, False Positives and new Matches.','Non-Basis Precision and Recall Annotating – 6.0 Model Review Tasks.','Review of Checklist for conversion to new pathway.','Opt-Out Annotating and Review as needed.'],impact:['Not at the moment'],link:'',iterLabel:'Jun 23, 2026 (current)'}
+  ],
+
+  'may12':[
+    {section:'Content Loading & Matching',name:'Basis Content Loading',sub:'Mid May',team:'GCO / RA / Assembly',owner:'Multiple teams',health:'Green',status:'Completed',
+     state:['Publishing Workflows migrated to GCS - Complete. Successfully migrated four vendor content sets off the legacy PRPW pathway onto the new GCS workflows.','All record types (updates, deletes, death records, privacy processing) functioning as expected and confirmed picked up by ERD.','Experian Credit Header (CCH)','Equifax Credit Header (EQCH)','Bank Account Header Records (BAHR)','TransUnion Credit Services (TUCS) - In process as of 5/7'],
+     risks:['Multiple EQCH/BAHR/TUCS blockers identified and fixed in QA, deployed to Prod','Cross-team coordination key: GCO, Record Authority, Distribution, Assembly, App'],
+     next:['Promote TUCS from R to F stage'],
+     impact:['CCH: 36 hours to 6 hours for like processing','All other basis content sets experienced the same'],link:''},
+    {section:'Content Loading & Matching',name:'Non-Basis People Matching/Grading',sub:'',team:'NER / GCO / Product',owner:'NER',health:'Green',status:'In Progress',
+     state:['Non-Basis People Matching on track - profile configuration and data validation completed across all content sets.','NER testing underway. LTC Integration ongoing'],
+     risks:['Currently no identified risks'],next:['Test ident & resolution results via Annotation Tool','Complete remaining LTC integration'],impact:[],link:''},
+    {section:'Content Loading & Matching',name:'People Re-Match Basis Content Development',sub:'',team:'NER / GCO',owner:'NER',health:'Green',status:'In Progress',
+     state:['Filter criteria to select rematched records developed.','Rematch capability mostly completed. Integration and testing pending.'],
+     risks:['Currently no identified risks'],next:['Integration through Content Console ongoing'],impact:[],link:''},
+    {section:'Content Loading & Matching',name:'People Warehouse Integration & Transit Pipeline Readiness',sub:'',team:'Assembly / Warehouse',owner:'Assembly',health:'Amber',status:'In Progress',
+     state:['Transit File spikes underway to deliver NER match results to legacy Warehouse ingest processes.'],
+     risks:['Currently no identified risks'],next:[],impact:[],link:''},
+    {section:'Labs & Annotation',name:'Labs - Model V6',sub:'',team:'Labs',owner:'Labs',health:'Amber',status:'In Progress',
+     state:['Entity merge strategy in progress','Integrated associated DOB and estimated DOB in datamodel'],
+     risks:['First V6 delivery scheduled for mid May - delayed due to entity merge work to ensure high quality of authority'],
+     next:['Revisit tokenizer for multiple possible tokenizations','Finalize entity merge strategy','Integrate associated address and estimated DOB in matching model'],impact:[],link:''},
+    {section:'Labs & Annotation',name:'Labs - Match Explainability Tool',sub:'',team:'Labs',owner:'Labs',health:'Green',status:'In Progress',
+     state:['Experimentation with smaller model for explanations'],risks:['No risks and dependencies'],next:['Further experimentation'],impact:[],link:''},
+    {section:'Labs & Annotation',name:'Labs - Retraining Pipeline',sub:'',team:'Labs',owner:'Labs',health:'Green',status:'In Progress',
+     state:['High-level architecture defined'],risks:['No risks and dependencies'],next:['Design Snowflake retraining pipeline'],impact:[],link:''},
+    {section:'Labs & Annotation',name:'NPD - Annotating Updates',sub:'Apr 2026',team:'NPD',owner:'NPD',health:'Green',status:'In Progress',
+     state:['Basis Annotating - Overall 87% Precision rate. Over 2200 records reviewed.','Precision and Recall Annotating - Completion of 4.7 Tasks.','Completion of Merge Rules with conflicting Basis data elements.'],
+     risks:['No risks and dependencies'],
+     next:['Basis Annotating - 6.0 Model Review Tasks','Delta Comparison - ERD vs. 4.7','Precision and Recall Annotating - Continuation','Compile Questions and Checklist for conversion to new pathway','Opt Out Annotating and Review as needed'],impact:[],link:''},
+    {section:'Labs & Annotation',name:'GCO',sub:'',team:'GCO',owner:'GCO',health:'Green',status:'In Progress',
+     state:['Migration - 3 basis completed; TUCS in progress'],risks:['No identified risks'],
+     next:['Operationalize processing of migrated content to offshore team'],impact:['Faster throughput','Dashboard reporting and stats'],link:''}
+  ],
+  'apr27':[
+    {section:'Content Loading & Matching',name:'Basis Content Loading - CCH (Q1)',sub:'Apr 27',team:'GCO / RA / Assembly',owner:'Multiple teams',health:'Green',status:'Completed',
+     state:['CCH prospective publishing completed - first fully published basis content set via GCS','33M records loaded in 5 hrs (vs. 36 hrs legacy)'],
+     risks:['All risks/issues resolved on schedule'],next:['Retro learnings applied to EQCH and BAHR loading'],
+     impact:['33M records in 5 hrs vs 36 hrs legacy'],link:''},
+    {section:'Content Loading & Matching',name:'Basis Content Loading - EQCH & BAHR (April)',sub:'',team:'GCO / RA / Assembly',owner:'Multiple teams',health:'Amber',status:'In Progress',
+     state:['EQCH: All QA fixes deployed & verified in Prod','EQCH: Identified and loaded 8,500 missing privacy profiles','GCO executing full EQCH load + CCH reload (Apr 27)','BAHR: QA fixes deployed to Prod & verified','BAHR: TNI small load kicked off'],
+     risks:['Privacy compliance under close monitoring','Multiple EQCH/BAHR blockers fixed in QA, deployed to Prod'],
+     next:['Target full BAHR load by end of week','Execute TUCS processes to production'],impact:[],link:''},
+    {section:'Labs & Annotation',name:'Labs - Model V6',sub:'',team:'Labs',owner:'Labs',health:'Amber',status:'In Progress',
+     state:['V6 development in progress','New train/test dataset analyzed; label issues identified','Mitigation strategies developed and under review'],
+     risks:['SSN/DOB edge-case resolution requires cross-team alignment'],
+     next:['Deliver V6 model to QA by May 15, 2026'],impact:[],link:''},
+    {section:'Labs & Annotation',name:'Non-Basis People Matching/Grading',sub:'',team:'NER / GCO / Product',owner:'NER',health:'Green',status:'In Progress',
+     state:['Profile config complete for all Non-Basis content sets in QA','Data validation (ident) done for all non-basis','Initial NER-only test runs completed','LTC integration 50% complete'],
+     risks:['None'],next:['Test ident & resolution results via Annotation Tool','Complete remaining LTC integration'],impact:[],link:''}
+  ],
+  'apr14':[
+    {section:'Content Loading & Matching',name:'Basis Content Loading for Novus Publishing',sub:'Q1/April',team:'GCO / RA / Assembly',owner:'Multiple teams',health:'Green',status:'In Progress',
+     state:['CCH prospective publishing completed','33M records loaded in 5 hrs (vs. 36 hrs legacy)','EQCH: All QA fixes deployed & verified in Prod','BAHR: QA fixes deployed & verified, TNI small load kicked off'],
+     risks:['Privacy compliance under close monitoring'],next:['Target full BAHR load by end of week','Execute TUCS processes to production'],
+     impact:['CCH 33M records: 5 hrs vs 36 hrs legacy'],link:''},
+    {section:'Labs & Annotation',name:'Labs - Model V6',sub:'',team:'Labs',owner:'Labs',health:'Amber',status:'In Progress',
+     state:['V6 development in progress','New train/test dataset analyzed'],
+     risks:['SSN/DOB edge-case resolution requires cross-team alignment'],
+     next:['Deliver V6 model to QA by May 15, 2026'],impact:[],link:''},
+    {section:'Labs & Annotation',name:'Non-Basis People Matching/Grading',sub:'',team:'NER / GCO',owner:'NER',health:'Green',status:'In Progress',
+     state:['Profile config complete for all Non-Basis content sets in QA','Data validation done for all non-basis','LTC integration 50% complete'],
+     risks:['None'],next:['Test ident & resolution results via Annotation Tool','Complete remaining LTC integration'],impact:[],link:''}
+  ],
+  'mar31':[
+    {section:'Content Loading & Matching',name:'Basis Content Loading for Novus Publishing',sub:'Mar 31',team:'GCO / RA / Assembly',owner:'Multiple teams',health:'Amber',status:'In Progress',
+     state:['CCH cutover kicked off - first fully published basis content set via GCS','CCH March update processing underway','Opt-out traceability bug identified post-load; root cause under investigation'],
+     risks:['Opt-out traceability bug: documents incorrectly attributed to CCPA. Manual cleanup required'],
+     next:['Implement Assembly traceability fix, rerun first load file','Plan EQCH / BAHR / TUCS sequencing'],impact:[],link:''},
+    {section:'Labs & Annotation',name:'Labs - Model V5/V6',sub:'',team:'Labs',owner:'Labs',health:'Amber',status:'In Progress',
+     state:['Will not deliver a new V5 model due to lower-than-expected quality of new authority','Will proceed with V6 directly once new authority is built'],
+     risks:['No potential risk to V6 delivery'],next:['Proceed with V6 directly'],impact:[],link:''},
+    {section:'Content Loading & Matching',name:'Non-Basis People Matching/Grading',sub:'',team:'NER / GCO',owner:'NER',health:'Green',status:'In Progress',
+     state:['Profile configuration complete for 85% of content sets','Data validation in progress','Testing in progress with sample content'],
+     risks:['None'],next:['Dockets data types ingestion','LTC integration'],impact:[],link:''}
+  ],
+  'mar17':[
+    {section:'Content Loading & Matching',name:'Basis Content Loading for Novus Publishing',sub:'Mar 17',team:'GCO / RA / Assembly',owner:'Multiple teams',health:'Green',status:'In Progress',
+     state:['CCH basis content substantially complete across all components','TNI discrepancies resolved through reloads','Opt-out processing complete with CCH'],
+     risks:['Slight timeline delays due to TNI dependency (now resolved)'],
+     next:['Execute full CCH TNI load and validation in PROD','Begin EQCH / BAHR / TUCS sequencing'],impact:[],link:''},
+    {section:'Labs & Annotation',name:'Labs - Model V5',sub:'',team:'Labs',owner:'Labs',health:'Amber',status:'In Progress',
+     state:['Labs Model V5 - Development integrations and testing'],
+     risks:['Running slightly behind schedule - full authority build delayed to end of February'],
+     next:['Targeting delivery by end of March'],impact:[],link:''},
+    {section:'Content Loading & Matching',name:'Non-Basis People Matching/Grading',sub:'',team:'NER / GCO',owner:'NER',health:'Green',status:'In Progress',
+     state:['Profile configuration complete for 75% of content sets','Testing in progress with samples'],
+     risks:['None'],next:['Dockets data types ingestion','LTC integration'],impact:[],link:''}
+  ],
+  'mar03':[
+    {section:'Content Loading & Matching',name:'Basis Content Loading for Novus Publishing',sub:'Mar 03',team:'GCO / RA / Assembly',owner:'Multiple teams',health:'Green',status:'In Progress',
+     state:['CCH basis content substantially complete','TUCS count discrepancy resolved','Opt-out processing initial evaluation complete for 3 of 4 basis content sets'],
+     risks:['Timeline delays due to TNI dependency and sequencing (now resolved)'],
+     next:['Execute full CCH TNI load and validation in PROD','Begin EQCH / BAHR / TUCS sequencing'],impact:[],link:''},
+    {section:'Labs & Annotation',name:'Labs - Model V5',sub:'',team:'Labs',owner:'Labs',health:'Amber',status:'In Progress',
+     state:['Labs Model V5 - Development integrations and testing'],
+     risks:['Running slightly behind - authority build delayed to end of February due to last-minute merge checks'],
+     next:['Targeting delivery by end of March'],impact:[],link:''},
+    {section:'Content Loading & Matching',name:'Non-Basis People Matching/Grading',sub:'',team:'NER / GCO',owner:'NER',health:'Green',status:'In Progress',
+     state:['Profile configuration complete for 75% of content sets','Testing in progress with samples'],
+     risks:['None'],next:['Dockets data types ingestion','LTC integration'],impact:[],link:''}
+  ],
+  'feb17':[
+    {section:'Program Status',name:'Project Planning',sub:'Feb 17',team:'All teams',owner:'Sarah Roy',health:'Green',status:'In Progress',
+     state:['Development teams realigned to accommodate $1M budget reduction','Resource allocation optimized with revised timeline'],
+     risks:[],next:[],impact:[],link:''},
+    {section:'Program Status',name:'Basis Content Loading for Novus Publishing',sub:'Mid-April target',team:'GCO / RA / Assembly',owner:'Multiple teams',health:'Green',status:'In Progress',
+     state:['Project remains on schedule to achieve Basis Content Loading milestone planned for mid-April'],
+     risks:['Data consistency risk (CCH/TNI)','Opt-Out validation dependency'],
+     next:['Resolve CCH/TNI data discrepancies','Complete opt-out testing and validation'],impact:[],link:''},
+    {section:'Program Status',name:'Ongoing Activities',sub:'',team:'All teams',owner:'Sarah Roy',health:'Green',status:'In Progress',
+     state:['Opt-out testing and validation underway','Content loading in PROD (Opt-Out): Legacy opt-out profiles actively being loaded','Content loading in QA (Model evaluation): Full CCH basis content loads running in QA'],
+     risks:[],next:[],impact:[],link:''},
+    {section:'Program Status',name:'Use of Analytical Tools',sub:'',team:'PMO',owner:'Sarah Roy',health:'Green',status:'In Progress',
+     state:['Epics and Features created and mapped, backlog cleanup in progress','Issue items added to ADO for risk management','Power BI dashboard for RF under development'],
+     risks:[],next:[],impact:[],link:''}
+  ]
+};
+
+var PS_ROWS=ALL_ITER['jun23']||ALL_ITER['may12'];
+
+function psChangeIteration(val){
+  if(!ALL_ITER[val])ALL_ITER[val]=[];
+  PS_ROWS=ALL_ITER[val];
+  var labels={'may12':'May 12\u201326, 2026','apr27':'Apr 27\u2013May 12, 2026','apr14':'Apr 14\u201327, 2026','mar31':'Mar 31\u2013Apr 14, 2026','mar17':'Mar 17\u201331, 2026','mar03':'Mar 03\u201317, 2026','feb17':'Feb 17\u2013Mar 03, 2026','jun23':'Jun 23, 2026','jul07':'Jul 7, 2026','jul21':'Jul 21, 2026'};
+  var il=document.getElementById('ps-iter-label');
+  if(il)il.textContent=labels[val]||val;
+  PS_TEMPLATE=null;
+  psClearFilters();
+}
+
+function psBullets(arr){
+  var filtered=arr?arr.filter(function(b){return b&&b.trim();}) :[];
+  if(!filtered.length)return '<span style="color:#94a3b8;display:block;text-align:center">&#8212;</span>';
+  return '<ul class="ps-bullets">'+filtered.map(function(b){return '<li>'+b+'</li>';}).join('')+'</ul>';
+}
+function psHealthDot(h){
+  var cls=h==='Green'?'ps-green':h==='Amber'?'ps-amber':'ps-red';
+  return '<span class="ps-dot '+cls+'"></span>';
+}
+function psStatusBadge(s){
+  var cls=s==='Completed'?'ps-complete':s==='In Progress'?'ps-progress':'ps-planned';
+  return '<span class="ps-badge '+cls+'">'+s+'</span>';
+}
+var PS_TEMPLATE=null;
+
+
+function psBuildTable(data){
+  var tbody=document.getElementById('ps-tbody');
+  if(!tbody)return;
+  var html='',lastSec=null;
+  var iterSel=document.getElementById('ps-iteration');
+  var iterLabel=iterSel?iterSel.options[iterSel.selectedIndex].text:'May 12\u201326, 2026';
+
+  // Template row renders at top of its target section
+  var TMPL_RENDERED=false;
+  if(PS_TEMPLATE!==null && false){ // top-level rendering disabled — render is per-section
+    html+='<tr class="ps-section-row"><td colspan="8" style="background:#15803d !important;display:flex;justify-content:space-between;align-items:center">'+
+      '<span>&#10010; New Milestone &nbsp;<span style="font-size:10px;font-weight:400;opacity:.8">Fill in the fields and click Save</span></span>'+
+      '<button onclick="psRemoveTemplate()" style="background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.4);color:#fff;border-radius:4px;padding:2px 10px;font-size:12px;cursor:pointer;font-weight:600" title="Discard new row">&#x2715; Cancel</button>'+
+      '</td></tr>';
+    html+='<tr class="ps-template-row">';
+    html+='<td style="vertical-align:top;padding:8px">'
+      +'<div style="font-size:10px;color:#64748b;margin-bottom:3px;font-weight:500">Milestone name *</div>'
+      +'<input class="ps-tmpl-input" id="ps-tmpl-name" placeholder="Enter milestone name..." style="margin-bottom:6px">'
+      +'<div style="font-size:10px;color:#64748b;margin-bottom:3px;font-weight:500">Link</div>'
+      +'<input class="ps-tmpl-input" id="ps-tmpl-link" placeholder="https://trten.sharepoint.com/..." style="margin-bottom:6px">'
+      +'<span class="ps-tmpl-badge" onclick="psAddAnotherRow()" style="cursor:pointer;user-select:none" title="Add another new row">&#10010; NEW</span>'
+      +'<span class="ps-iter" style="margin-left:4px">'+iterLabel+'</span>'
+      +'</td>';
+    html+='<td style="vertical-align:top;padding:8px">'
+      +'<div style="font-size:10px;color:#64748b;margin-bottom:5px;font-weight:500">Health</div>'
+      +'<div style="display:flex;flex-direction:column;gap:5px">'
+      +'<label style="display:flex;align-items:center;gap:4px;font-size:11px;cursor:pointer"><input type="radio" name="ps-tmpl-health" value="Green" checked> <span class="ps-dot ps-green"></span></label>'
+      +'<label style="display:flex;align-items:center;gap:4px;font-size:11px;cursor:pointer"><input type="radio" name="ps-tmpl-health" value="Amber"> <span class="ps-dot ps-amber"></span></label>'
+      +'<label style="display:flex;align-items:center;gap:4px;font-size:11px;cursor:pointer"><input type="radio" name="ps-tmpl-health" value="Red"> <span class="ps-dot ps-red"></span></label>'
+      +'</div></td>';
+    html+='<td style="vertical-align:top;padding:8px;width:110px;min-width:110px;max-width:110px">'
+      +'<div style="font-size:10px;color:#64748b;margin-bottom:3px;font-weight:500">Status</div>'
+      +'<select class="ps-tmpl-select" id="ps-tmpl-status" style="margin-bottom:6px;width:100%;font-size:11px"><option>In Progress</option><option>Completed</option><option>Planned</option><option>On Hold</option><option>Blocked</option></select>'
+      +'<div style="font-size:10px;color:#64748b;margin-bottom:3px;font-weight:500">Team</div>'
+      +'<select class="ps-tmpl-select" id="ps-tmpl-team" style="margin-bottom:6px;width:100%;font-size:11px"><option value="">Select...</option><option>All</option><option>N/A</option><option>NPD/NER</option><option>NER</option><option>NPD</option><option>Labs</option><option>GCO/NER</option><option>RA</option><option>Assembly</option><option>Assembly/PA/Warehouse</option><option>Dev Team</option><option>TNI</option><option>GCO</option><option>NER/Assembly</option><option>RA/Console</option><option>PA</option><option>Distribution</option><option>App</option></select>'
+      +'<div style="font-size:10px;color:#64748b;margin-bottom:3px;font-weight:500">Owner</div>'
+      +'<select class="ps-tmpl-select" id="ps-tmpl-owner" style="width:100%;font-size:11px"><option value="">Select...</option><option>All</option><option>N/A</option><option>Tom Klein</option><option>Todd Suhsen</option><option>Jim Votel</option><option>Claudia Schulz</option><option>Mohan Janakiraman</option><option>Krishanu Bhattacharya</option><option>Ranjit Sahu</option><option>Herman Lee</option><option>Lisa Steigerwald</option><option>Sunitha Vijayanarayan</option><option>Brian McNulty</option></select>'
+      +'</td>';
+    html+='<td style="vertical-align:top;padding:8px"><div style="font-size:10px;color:#64748b;margin-bottom:3px;font-weight:500">Current State</div><textarea class="ps-tmpl-input" id="ps-tmpl-state" placeholder="One item per line..." style="min-height:80px"></textarea></td>';
+    html+='<td style="vertical-align:top;padding:8px"><div style="font-size:10px;color:#64748b;margin-bottom:3px;font-weight:500">Risks / Issues</div><textarea class="ps-tmpl-input" id="ps-tmpl-risks" placeholder="One item per line..." style="min-height:80px"></textarea></td>';
+    html+='<td style="vertical-align:top;padding:8px"><div style="font-size:10px;color:#64748b;margin-bottom:3px;font-weight:500">Next Steps</div><textarea class="ps-tmpl-input" id="ps-tmpl-next" placeholder="One item per line..." style="min-height:80px"></textarea></td>';
+    html+='<td style="vertical-align:top;padding:8px"><div style="font-size:10px;color:#64748b;margin-bottom:3px;font-weight:500">Business Impact</div><textarea class="ps-tmpl-input" id="ps-tmpl-impact" placeholder="One item per line..." style="min-height:80px"></textarea></td>';
+    html+='<td style="vertical-align:top;padding:8px;white-space:nowrap">'
+      +'<button class="ps-save-btn" onclick="psSaveTemplate()" style="display:block;width:100%;margin-bottom:6px;font-size:11px;padding:5px 8px">Save</button>'
+      +'<button class="ps-del-btn" onclick="psRemoveTemplate()" style="display:block;width:100%;font-size:11px;padding:5px 8px">Remove</button>'
+      +'</td>';
+    html+='</tr>';
+  }
+
+  // Determine if current iteration is past (read-only)
+  var PAST_ITER_VALS=['apr27','apr14','mar31','mar17','mar03','feb17']; // may12 is current, not locked
+  var curIterVal=iterSel?iterSel.value:'may12';
+  var isPast=PAST_ITER_VALS.indexOf(curIterVal)!==-1;
+  var isPastForTemplate=isPast; // template can still show for upcoming/current
+
+  // Group rows by section
+  var sections={},sectionOrder=[];
+  data.forEach(function(row){
+    var sec=row.section||'Person Authority Build';
+    if(!sections[sec]){sections[sec]=[];sectionOrder.push(sec);}
+    sections[sec].push(row);
+  });
+
+  // Render section collapsibles
+  var PS_SECTIONS=['Basis Content Loading','Person Authority Build','NPD','Labs','GCO'];
+  // Only inject empty built-in sections for upcoming iterations (not may12 which has its own sections)
+  var UPCOMING_VALS=['jun23','jul07','jul21'];
+  var curIterVal2=iterSel?iterSel.value:'may12';
+  if(UPCOMING_VALS.indexOf(curIterVal2)!==-1){
+    PS_SECTIONS.forEach(function(s){if(!sections[s]){sections[s]=[];if(sectionOrder.indexOf(s)===-1)sectionOrder.push(s);}});
+  }
+  // Add any other sections not in built-in list
+  sectionOrder.forEach(function(s){if(PS_SECTIONS.indexOf(s)===-1&&PS_SECTIONS.indexOf(s)===-1){}});
+
+  sectionOrder.forEach(function(sec){
+    var secRows=sections[sec]||[];
+    var secId='pssec-'+sec.replace(/[^a-z0-9]/gi,'');
+    var addFn=isPast?'':'psAddTemplateToSection(\''+sec+'\')';
+    var secBg=sec==='Basis Content Loading'?'#123121':'#1e3a5f';
+    var secBadge=sec==='Basis Content Loading'?'<span class="badge-completed-glow" style="background:#D64000;color:#fff;font-size:9px;font-weight:700;padding:2px 8px;border-radius:3px;letter-spacing:.3px;text-transform:uppercase;margin-left:8px">Completed</span>':'';
+    html+='<tr id="'+secId+'-hdr" onclick="togglePsSec(\''+secId+'\')" style="cursor:pointer;user-select:none">'
+      +'<td colspan="7" style="background:'+secBg+';padding:0">'
+      +'<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px">'
+      +'<span style="display:flex;align-items:center;gap:6px;font-size:10px;font-weight:700;color:rgba(255,255,255,.9);letter-spacing:.5px;text-transform:uppercase">'+sec+'<span style="font-weight:400;opacity:.65;font-size:10px">('+secRows.length+' item'+(secRows.length!==1?'s':'')+')</span>'+secBadge+'</span>'
+      +'<span style="display:flex;align-items:center;gap:8px">'
+      +''
+      +'<span class="ps-sec-chev" style="color:rgba(255,255,255,.5);font-size:11px;transition:transform .2s">&#9660;</span>'
+      +'</span>'
+      +'</div>'
+      +'</td></tr>';
+    // Render template row at top of its section
+    if(PS_TEMPLATE!==null && (PS_TEMPLATE.section===sec||(sec==='Person Authority Build'&&!TMPL_RENDERED&&sectionOrder.indexOf(PS_TEMPLATE.section)===-1)) && !TMPL_RENDERED){
+      TMPL_RENDERED=true;
+      var tIterLabel=PS_TEMPLATE.iterLabel||iterLabel;
+      html+='<tr><td colspan="7" style="padding:0;background:#15803d">'
+        +'<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 12px">'
+        +'<span style="font-size:10px;font-weight:700;color:#fff">&#10010; New Milestone &nbsp;<span style="font-weight:400;opacity:.8">under '+sec+' &mdash; fill in fields and click Save</span></span>'
+        +'<button onclick="psRemoveTemplate()" style="background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.4);color:#fff;border-radius:4px;padding:2px 10px;font-size:12px;cursor:pointer;font-weight:600">&#x2715; Cancel</button>'
+        +'</div></td></tr>';
+      html+='<tr class="ps-template-row">';
+      html+='<td style="vertical-align:top;padding:8px">'
+        +'<div style="font-size:10px;color:#64748b;margin-bottom:3px;font-weight:500">Milestone name *</div>'
+        +'<input class="ps-tmpl-input" id="ps-tmpl-name" placeholder="Enter milestone name..." style="margin-bottom:6px">'
+        +'<div style="font-size:10px;color:#64748b;margin-bottom:3px;font-weight:500">Link</div>'
+        +'<input class="ps-tmpl-input" id="ps-tmpl-link" placeholder="https://trten.sharepoint.com/..." style="margin-bottom:6px">'
+        +'<span class="ps-tmpl-badge" onclick="psAddAnotherRow()" style="cursor:pointer" title="Save and add another">&#10010; NEW</span>'
+        +'<span class="ps-iter" style="margin-left:4px">'+tIterLabel+'</span>'
+        +'</td>';
+      html+='<td style="vertical-align:top;padding:8px">'
+        +'<div style="font-size:10px;color:#64748b;margin-bottom:5px;font-weight:500">Health</div>'
+        +'<div style="display:flex;flex-direction:column;gap:5px">'
+        +'<label style="display:flex;align-items:center;gap:4px;font-size:11px;cursor:pointer"><input type="radio" name="ps-tmpl-health" value="Green" checked> <span class="ps-dot ps-green"></span></label>'
+        +'<label style="display:flex;align-items:center;gap:4px;font-size:11px;cursor:pointer"><input type="radio" name="ps-tmpl-health" value="Amber"> <span class="ps-dot ps-amber"></span></label>'
+        +'<label style="display:flex;align-items:center;gap:4px;font-size:11px;cursor:pointer"><input type="radio" name="ps-tmpl-health" value="Red"> <span class="ps-dot ps-red"></span></label>'
+        +'</div></td>';
+      html+='<td style="vertical-align:top;padding:8px;width:110px;min-width:110px;max-width:110px">'
+        +'<div style="font-size:10px;color:#64748b;margin-bottom:3px;font-weight:500">Status</div>'
+        +'<select class="ps-tmpl-select" id="ps-tmpl-status" style="margin-bottom:6px;width:100%;font-size:11px"><option>In Progress</option><option>Completed</option><option>Planned</option><option>On Hold</option><option>Blocked</option></select>'
+        +'<div style="font-size:10px;color:#64748b;margin-bottom:3px;font-weight:500">Team</div>'
+        +'<select class="ps-tmpl-select" id="ps-tmpl-team" style="margin-bottom:6px;width:100%;font-size:11px"><option value="">Select...</option><option>All</option><option>N/A</option><option>NPD/NER</option><option>NER</option><option>NPD</option><option>Labs</option><option>GCO/NER</option><option>RA</option><option>Assembly</option><option>Assembly/PA/Warehouse</option><option>Dev Team</option><option>TNI</option><option>GCO</option><option>NER/Assembly</option><option>RA/Console</option><option>PA</option><option>Distribution</option><option>App</option></select>'
+        +'<div style="font-size:10px;color:#64748b;margin-bottom:3px;font-weight:500">Owner</div>'
+        +'<select class="ps-tmpl-select" id="ps-tmpl-owner" style="width:100%;font-size:11px"><option value="">Select...</option><option>All</option><option>N/A</option><option>Tom Klein</option><option>Todd Suhsen</option><option>Jim Votel</option><option>Claudia Schulz</option><option>Mohan Janakiraman</option><option>Krishanu Bhattacharya</option><option>Ranjit Sahu</option><option>Herman Lee</option><option>Lisa Steigerwald</option><option>Sunitha Vijayanarayan</option><option>Brian McNulty</option></select>'
+        +'</td>';
+      html+='<td style="vertical-align:top;padding:8px"><div style="font-size:10px;color:#64748b;margin-bottom:3px;font-weight:500">Current State</div><textarea class="ps-tmpl-input" id="ps-tmpl-state" placeholder="One item per line..." style="min-height:80px"></textarea></td>';
+      html+='<td style="vertical-align:top;padding:8px"><div style="font-size:10px;color:#64748b;margin-bottom:3px;font-weight:500">Risks / Issues</div><textarea class="ps-tmpl-input" id="ps-tmpl-risks" placeholder="One item per line..." style="min-height:80px"></textarea></td>';
+      html+='<td style="vertical-align:top;padding:8px"><div style="font-size:10px;color:#64748b;margin-bottom:3px;font-weight:500">Next Steps</div><textarea class="ps-tmpl-input" id="ps-tmpl-next" placeholder="One item per line..." style="min-height:80px"></textarea></td>';
+      html+='<td style="vertical-align:top;padding:8px"><div style="font-size:10px;color:#64748b;margin-bottom:3px;font-weight:500">Business Impact</div><textarea class="ps-tmpl-input" id="ps-tmpl-impact" placeholder="One item per line..." style="min-height:80px"></textarea></td>';
+      html+='<td style="vertical-align:top;padding:8px;white-space:nowrap">'
+        +'<button class="ps-save-btn" onclick="psSaveTemplate()" style="display:block;width:100%;margin-bottom:6px;font-size:11px;padding:5px 8px">Save</button>'
+        +'<button class="ps-del-btn" onclick="psRemoveTemplate()" style="display:block;width:100%;font-size:11px;padding:5px 8px">Remove</button>'
+        +'</td>';
+      html+='</tr>';
+    }
+    secRows.forEach(function(row){
+      var idx=PS_ROWS.indexOf(row);
+      var nameHtml='<div class="ps-name">'+(isPast?'&#128274; ':'')+row.name+'</div>';
+      if(row.sub)nameHtml+='<div class="ps-sub">'+row.sub+'</div>';
+      nameHtml+='<span class="ps-iter">'+(row.iterLabel||iterLabel)+'</span>';
+      html+='<tr data-sec="'+secId+'" style="'+'">'
+        +'<td>'+nameHtml+'</td>'
+        +'<td style="text-align:center">'+psHealthDot(row.health)+'</td>'
+        +'<td>'+psStatusBadge(row.status)+'</td>'
+        +'<td>'+psBullets(row.state)+'</td>'
+        +'<td>'+psBullets(row.risks)+'</td>'
+        +'<td>'+psBullets(row.next)+'</td>'
+        +'<td>'+(row.impact&&row.impact.length?psBullets(row.impact):'<span style="color:#94a3b8">&#8212;</span>')+'</td>'
+        +'</tr>';
+    });
+  });
+  tbody.innerHTML=html;
+  var rc=document.getElementById('ps-row-count');
+  if(rc)rc.textContent=data.length+' milestone'+(data.length!==1?'s':'');
+}
+function togglePsSec(id){
+  var hdr=document.getElementById(id+'-hdr');
+  if(!hdr)return;
+  var collapsed=hdr.classList.toggle('collapsed');
+  // Toggle chev
+  var chev=hdr.querySelector('.ps-sec-chev');
+  if(chev)chev.style.transform=collapsed?'rotate(-90deg)':'';
+  // Show/hide rows that follow until next section header
+  var rows=document.querySelectorAll('tr[data-sec="'+id+'"]');
+  rows.forEach(function(r){r.style.display=collapsed?'none':'';});
+}
+function psApplyFilters(){
+  var status=document.getElementById('ps-f-status').value;
+  var team=document.getElementById('ps-f-team').value;
+  var health=document.getElementById('ps-f-health').value;
+  var search=(document.getElementById('ps-f-search').value||'').toLowerCase();
+  var filtered=PS_ROWS.filter(function(r){
+    if(status&&r.status!==status)return false;
+    if(team&&r.team.indexOf(team)===-1)return false;
+    if(health&&r.health!==health)return false;
+    if(search&&r.name.toLowerCase().indexOf(search)===-1&&r.state.join(' ').toLowerCase().indexOf(search)===-1)return false;
+    return true;
+  });
+  psBuildTable(filtered);
+}
+function psClearFilters(){
+  document.getElementById('ps-f-status').value='';
+  document.getElementById('ps-f-team').value='';
+  document.getElementById('ps-f-health').value='';
+  document.getElementById('ps-f-search').value='';
+  psBuildTable(PS_ROWS);
+}
+function psExportHtml(iterLabel, dateStr){
+  if(!iterLabel){var iterSel=document.getElementById('ps-iteration');iterLabel=iterSel?iterSel.options[iterSel.selectedIndex].text:'Current Iteration';}
+  if(!dateStr){var today=new Date();dateStr=today.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});}
+  var html=psExportHtml2(iterLabel,dateStr);
+  return html;
+}
+function psExportHtml2(iterLabel,dateStr){
+  var iterSel=document.getElementById('ps-iteration');
+  var iterLabel=iterSel?iterSel.options[iterSel.selectedIndex].text:'Current Iteration';
+  var today=new Date();
+  var dateStr=today.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+
+  var sections={},sectionOrder=[];
+  PS_ROWS.forEach(function(r){
+    var sec=r.section||'General';
+    if(!sections[sec]){sections[sec]=[];sectionOrder.push(sec);}
+    sections[sec].push(r);
+  });
+
+  function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  function bullets(arr){
+    if(!arr||!arr.length)return '<span class="empty">&#8212;</span>';
+    return '<ul>'+arr.map(function(b){return '<li>'+esc(b)+'</li>';}).join('')+'</ul>';
+  }
+  function healthBadge(h){
+    var c=h==='Green'?'#16a34a':h==='Amber'?'#d97706':'#dc2626';
+    var bg=h==='Green'?'#dcfce7':h==='Amber'?'#fef3c7':'#fee2e2';
+    return '<span class="health-badge" style="background:'+bg+';color:'+c+'"><span style="width:7px;height:7px;border-radius:50%;background:'+c+';display:inline-block;margin-right:4px;vertical-align:middle"></span>'+h+'</span>';
+  }
+  function statusBadge(s){
+    var c=s==='Completed'?'#123121':s==='In Progress'?'#D64000':s==='Blocked'?'#dc2626':'#475569';
+    return '<span class="status-badge" style="background:'+c+'">'+s+'</span>';
+  }
+  function sectionColor(sec){
+    return sec==='Basis Content Loading'?'#123121':'#1e3a5f';
+  }
+
+  // Count stats
+  var total=PS_ROWS.length;
+  var done=PS_ROWS.filter(function(r){return r.status==='Completed';}).length;
+  var inprog=PS_ROWS.filter(function(r){return r.status==='In Progress';}).length;
+  var planned=PS_ROWS.filter(function(r){return r.status==='Planned';}).length;
+  var green=PS_ROWS.filter(function(r){return r.health==='Green';}).length;
+  var amber=PS_ROWS.filter(function(r){return r.health==='Amber';}).length;
+  var red=PS_ROWS.filter(function(r){return r.health==='Red';}).length;
+
+  var css=`
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Calibri,Arial,sans-serif;font-size:13px;color:#1e293b;background:#f8fafc;line-height:1.5}
+.no-print{position:sticky;top:0;z-index:99;background:#0f2744;color:#fff;padding:10px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid #D64000}
+.no-print h1{font-size:14px;font-weight:700;letter-spacing:.3px}
+.no-print .subtitle{font-size:11px;color:rgba(255,255,255,.6);margin-top:2px}
+.btn-print{background:#D64000;color:#fff;border:none;padding:7px 18px;border-radius:4px;font-size:12px;font-weight:700;cursor:pointer;letter-spacing:.3px}
+.btn-print:hover{background:#b94500}
+.wrapper{max-width:1100px;margin:0 auto;padding:28px 24px}
+.title-block{background:#1e3a5f;color:#fff;border-radius:8px;padding:36px 40px;margin-bottom:24px;position:relative;overflow:hidden}
+.title-block::after{content:'';position:absolute;bottom:0;left:0;right:0;height:4px;background:#D64000}
+.title-block .eyebrow{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#93c5fd;margin-bottom:10px;font-weight:600}
+.title-block h2{font-size:30px;font-weight:800;margin-bottom:6px}
+.title-block .sub{font-size:16px;color:#93c5fd;margin-bottom:20px}
+.title-block .iter-pill{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:6px 16px;font-size:13px}
+.title-block .meta{margin-top:16px;font-size:11px;color:rgba(255,255,255,.5)}
+.stats-row{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:24px}
+.stat-card{background:#fff;border-radius:6px;padding:14px 16px;border:0.5px solid #e2e8f0;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.stat-card .val{font-size:24px;font-weight:800;line-height:1;margin-bottom:4px}
+.stat-card .lbl{font-size:10px;color:#64748b;font-weight:600;letter-spacing:.5px;text-transform:uppercase}
+.summary-section{background:#fff;border-radius:8px;border:0.5px solid #e2e8f0;margin-bottom:24px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.summary-section h3{background:#1e3a5f;color:#fff;padding:10px 16px;font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase}
+table{width:100%;border-collapse:collapse}
+thead th{background:#f1f5f9;color:#475569;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;padding:8px 12px;border-bottom:1px solid #e2e8f0;text-align:left}
+tbody td{padding:10px 12px;border-bottom:0.5px solid #f1f5f9;vertical-align:middle;font-size:12px}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover{background:#f8fafc}
+.health-badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600}
+.status-badge{color:#fff;padding:2px 8px;border-radius:3px;font-size:10px;font-weight:700;text-transform:uppercase}
+.sec-block{background:#fff;border-radius:8px;border:0.5px solid #e2e8f0;margin-bottom:28px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.05);page-break-inside:avoid}
+.sec-title{color:#fff;padding:12px 18px;font-size:12px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;display:flex;align-items:center;justify-content:space-between}
+.sec-count{background:rgba(255,255,255,.15);padding:2px 10px;border-radius:10px;font-size:10px;font-weight:600}
+.milestone-card{border-bottom:0.5px solid #f1f5f9;padding:16px 18px}
+.milestone-card:last-child{border-bottom:none}
+.milestone-hdr{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;gap:12px}
+.milestone-name{font-size:14px;font-weight:700;color:#1e3a5f}
+.milestone-meta{font-size:11px;color:#94a3b8;margin-top:2px}
+.milestone-badges{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.cols4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.col-label{font-size:10px;font-weight:700;color:#D64000;text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px;padding-bottom:4px;border-bottom:1.5px solid #D64000}
+ul{padding-left:14px;margin:0}
+li{font-size:12px;color:#334155;padding:2px 0;line-height:1.6}
+.empty{color:#94a3b8;font-size:12px}
+.page-footer{text-align:center;padding:20px;font-size:10px;color:#94a3b8;border-top:1px solid #e2e8f0;margin-top:8px}
+@media print{
+  .no-print{display:none!important}
+  body{background:#fff}
+  .wrapper{padding:16px}
+  .sec-block{page-break-inside:avoid}
+  .milestone-card{page-break-inside:avoid}
+}`;
+
+  var html='<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>People Authority Build \u2014 '+esc(iterLabel)+'</title><style>'+css+'</style></head><body>';
+
+  // Sticky nav bar
+  html+='<div class="no-print">'
+    +'<div><div class="h1">People Authority Build \u2014 2026 Delivery Plan &amp; Roadmap</div>'
+    +'<div class="subtitle">Bi-Weekly Leadership Update &nbsp;&middot;&nbsp; '+esc(iterLabel)+'&nbsp;&middot;&nbsp; NuCLEAR &nbsp;&middot;&nbsp; Risk &amp; Fraud &nbsp;&middot;&nbsp; PM: Sarah Roy</div></div>'
+    +'<button class="btn-print" onclick="window.print()">&#128438; Print / Save as PDF</button>'
+    +'</div>';
+
+  html+='<div class="wrapper">';
+
+  // Title block
+  html+='<div class="title-block">'
+    +'<div class="eyebrow">Thomson Reuters &nbsp;&middot;&nbsp; NuCLEAR &nbsp;&middot;&nbsp; Risk &amp; Fraud &nbsp;&middot;&nbsp; PM: Sarah Roy</div>'
+    +'<h2>People Authority Build</h2>'
+    +'<div class="sub">2026 Delivery Plan &amp; Roadmap</div>'
+    +'<div class="iter-pill">&#128197; Bi-Weekly Leadership Update &nbsp;&middot;&nbsp; <strong>'+esc(iterLabel)+'</strong></div>'
+    +'<div class="meta">Generated '+dateStr+'</div>'
+    +'</div>';
+
+  // Stats row
+  html+='<div class="stats-row">'
+    +'<div class="stat-card"><div class="val" style="color:#1e3a5f">'+total+'</div><div class="lbl">Total</div></div>'
+    +'<div class="stat-card"><div class="val" style="color:#D64000">'+done+'</div><div class="lbl">Completed</div></div>'
+    +'<div class="stat-card"><div class="val" style="color:#D4792A">'+inprog+'</div><div class="lbl">In Progress</div></div>'
+    +'<div class="stat-card"><div class="val" style="color:#64748b">'+planned+'</div><div class="lbl">Planned</div></div>'
+    +'<div class="stat-card"><div class="val" style="color:#16a34a">'+green+'</div><div class="lbl">Green</div></div>'
+    +'<div class="stat-card"><div class="val" style="color:#d97706">'+amber+(red?'</div><div class="lbl">Amber</div></div><div class="stat-card"><div class="val" style="color:#dc2626">'+red+'</div><div class="lbl">Red</div></div>':'</div><div class="lbl">Amber</div></div>')
+    +'</div>';
+
+  // Summary table
+  html+='<div class="summary-section"><h3>Summary Overview</h3>'
+    +'<table><thead><tr><th style="width:30%">Milestone</th><th>Section</th><th>Health</th><th>Status</th><th>Owner</th><th>Team</th></tr></thead><tbody>';
+  PS_ROWS.forEach(function(r){
+    html+='<tr>'
+      +'<td style="font-weight:600;color:#1e3a5f">'+esc(r.name)+'</td>'
+      +'<td style="font-size:11px;color:#475569">'+esc(r.section||'')+'</td>'
+      +'<td>'+healthBadge(r.health)+'</td>'
+      +'<td>'+statusBadge(r.status)+'</td>'
+      +'<td style="font-size:11px">'+esc(r.owner||'')+'</td>'
+      +'<td style="font-size:11px">'+esc(r.team||'')+'</td>'
+      +'</tr>';
+  });
+  html+='</tbody></table></div>';
+
+  // Detail sections
+  sectionOrder.forEach(function(sec){
+    var rows=sections[sec];
+    if(!rows||!rows.length)return;
+    var secBg=sectionColor(sec);
+    html+='<div class="sec-block">'
+      +'<div class="sec-title" style="background:'+secBg+'">'
+      +'<span>'+esc(sec)+'</span>'
+      +'<span class="sec-count">'+rows.length+' milestone'+(rows.length!==1?'s':'')+'</span>'
+      +'</div>';
+    rows.forEach(function(r){
+      html+='<div class="milestone-card">'
+        +'<div class="milestone-hdr">'
+        +'<div><div class="milestone-name">'+esc(r.name)+'</div>'
+        +(r.owner||r.team?'<div class="milestone-meta">'+(r.owner?'Owner: '+esc(r.owner):'')+(r.owner&&r.team?' &nbsp;&middot;&nbsp; ':'')+(r.team?'Team: '+esc(r.team):'')+'</div>':'')
+        +'</div>'
+        +'<div class="milestone-badges">'+healthBadge(r.health)+statusBadge(r.status)+'</div>'
+        +'</div>'
+        +'<div class="cols4">'
+        +'<div><div class="col-label">Current State</div>'+bullets(r.state)+'</div>'
+        +'<div><div class="col-label">Risks / Issues</div>'+bullets(r.risks)+'</div>'
+        +'<div><div class="col-label">Next Steps</div>'+bullets(r.next)+'</div>'
+        +'<div><div class="col-label">Business Impact</div>'+bullets(r.impact)+'</div>'
+        +'</div>'
+        +'</div>';
+    });
+    html+='</div>';
+  });
+
+  html+='<div class="page-footer">People Authority Build &mdash; 2026 Delivery Plan &amp; Roadmap &nbsp;&middot;&nbsp; '+esc(iterLabel)+' &nbsp;&middot;&nbsp; Generated '+dateStr+' &nbsp;&middot;&nbsp; NuCLEAR &nbsp;&middot;&nbsp; Thomson Reuters</div>';
+  html+='</div></body></html>';
+
+  return html;
+  return html;
+}
+
+
+
+
+
+function psExportAndOpenSP(){
+  // Step 1: download the file
+  var iterSel=document.getElementById('ps-iteration');
+  var iterLabel=iterSel?iterSel.options[iterSel.selectedIndex].text:'Current Iteration';
+  var today=new Date();
+  var dateStr=today.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+  var html=psExportHtml2(iterLabel,dateStr);
+  var filename='People_Authority_Build_'+iterLabel.replace(/[^a-z0-9]/gi,'_')+'.html';
+  var blob=new Blob([html],{type:'text/html;charset=utf-8'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');
+  a.href=url;a.download=filename;
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+  setTimeout(function(){URL.revokeObjectURL(url);},2000);
+
+  // Step 2: show instruction banner then open SharePoint folder
+  var banner=document.createElement('div');
+  banner.style.cssText='position:fixed;bottom:20px;right:20px;background:#1e3a5f;color:#fff;padding:16px 20px;border-radius:6px;font-size:13px;font-weight:500;z-index:999;box-shadow:0 4px 16px rgba(0,0,0,.3);max-width:400px;line-height:1.6';
+  banner.innerHTML='<div style="font-weight:700;margin-bottom:6px">&#11015; File downloaded: <span style="color:#93c5fd">'+filename+'</span></div>'
+    +'<div style="font-size:12px;color:rgba(255,255,255,.8);margin-bottom:10px">Now drag &amp; drop the file into the SharePoint folder that is opening.</div>'
+    +'<a href="https://trten.sharepoint.com/:f:/r/sites/PublicRecordsandDerivedAuthorities-PlanningandEstimating/Shared%20Documents/Planning%20and%20Estimating/2026/NuClear/Bi-Weekly%20Leadership%20Updates?csf=1&web=1&e=cKnf9S" target="_blank" style="background:#D64000;color:#fff;padding:6px 14px;border-radius:3px;font-size:12px;font-weight:700;text-decoration:none;display:inline-block">Open SharePoint Folder &#8594;</a>'
+    +'<span onclick="this.parentNode.parentNode.removeChild(this.parentNode)" style="position:absolute;top:8px;right:10px;cursor:pointer;color:rgba(255,255,255,.5);font-size:16px">&#x2715;</span>';
+  banner.style.position='fixed';
+  document.body.appendChild(banner);
+  setTimeout(function(){if(banner.parentNode)banner.parentNode.removeChild(banner);},15000);
+}
+
+
+function psShowBanner(msg,bg,dur){
+  var b=document.createElement('div');
+  b.style.cssText='position:fixed;bottom:20px;right:20px;background:'+bg+';color:#fff;padding:14px 20px;border-radius:6px;font-size:13px;font-weight:600;z-index:9999;box-shadow:0 4px 16px rgba(0,0,0,.3);max-width:400px;line-height:1.6';
+  b.innerHTML=msg+'<span onclick="this.parentNode.remove()" style="float:right;cursor:pointer;margin-left:12px;opacity:.7">&#x2715;</span>';
+  document.body.appendChild(b);
+  setTimeout(function(){if(b.parentNode)b.parentNode.removeChild(b);},dur||5000);
+}
+
+
+
+
+
+
+buildOv();buildRm();buildGantt();psBuildTable(PS_ROWS);
+// Set initial iteration label in toolbar
+(function(){var iterSel=document.getElementById('ps-iteration');if(iterSel){iterSel.value='jun23';var il=document.getElementById('ps-iter-label');if(il)il.textContent=iterSel.options[iterSel.selectedIndex].text;}})();
+</script>
+</body>
+</html>
