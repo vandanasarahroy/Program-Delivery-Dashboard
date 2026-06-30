@@ -243,6 +243,10 @@ tr.row-dirty td{background:#fffbeb!important}
 .ps-row-edit-btn:hover{background:#1e3a5f;color:#fff}
 .ps-row-remove-btn{background:#fff;border:1px solid #dc2626;color:#dc2626;border-radius:3px;padding:2px 8px;font-size:10px;font-weight:700;cursor:pointer}
 .ps-row-remove-btn:hover{background:#dc2626;color:#fff}
+.pep-toggle-btn{padding:5px 14px;border:1.5px solid #e2e8f0;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;color:#64748b;transition:all .15s;white-space:nowrap}
+.pep-toggle-btn.selected{background:#1e3a5f;color:#fff;border-color:#1e3a5f}
+.pep-toggle-btn:hover:not(.selected){border-color:#1e3a5f;color:#1e3a5f}
+.pep-footer{flex-wrap:wrap;gap:6px}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
 </head>
@@ -2185,8 +2189,35 @@ function pepOpen(idx) {
     b.classList.toggle('selected', b.textContent.trim() === (row.status || ''));
   });
 
-  document.getElementById('pep-title').textContent = 'Edit — ' + (row.name || 'Milestone').substring(0, 30) + (row.name && row.name.length > 30 ? '…' : '');
+  // New fields
+  document.getElementById('pep-leader').value  = row.leader  || row.owner  || '';
+  document.getElementById('pep-pillar').value  = row.pillar  || row.section || '';
+  document.getElementById('pep-pm').value      = row.pm      || '';
+  document.getElementById('pep-commentary').value = (row.commentary || row.n || row.impact && row.impact.join('\n') || '');
+  pepCount(document.getElementById('pep-commentary'), 'pep-commentary-count', 500);
+
+  // Big rock toggle
+  pepToggle('bigrock', row.bigrock === 'yes' ? 'yes' : 'no');
+  // Frequency toggle
+  pepToggle('freq', row.freq === 'monthly' ? 'monthly' : 'sprint');
+
+  // Iteration label
+  var iterSel2 = document.getElementById('ps-iteration');
+  var iterLabel2 = iterSel2 ? iterSel2.options[iterSel2.selectedIndex].text : '';
+  document.getElementById('pep-iter-label').textContent = iterLabel2;
+
+  document.getElementById('pep-title').textContent = 'Edit — ' + (row.name || 'Milestone').substring(0, 28) + (row.name && row.name.length > 28 ? '…' : '');
   document.getElementById('ps-edit-panel').classList.add('open');
+}
+
+function pepToggle(group, val) {
+  document.querySelectorAll('[id^="pep-'+group+'-"]').forEach(function(b) {
+    b.classList.toggle('selected', b.id === 'pep-'+group+'-'+val);
+  });
+}
+
+function pepDeleteProject() {
+  psShowBanner('\uD83D\uDD12 Administrator access required to delete an entire project. Contact your director.', '#92400e', 5000);
 }
 
 function pepClose() {
@@ -2215,10 +2246,18 @@ function pepSave() {
   var row = PS_ROWS[PEP_IDX];
 
   row.name    = document.getElementById('pep-name').value.trim();
-  row.owner   = document.getElementById('pep-owner').value.trim();
-  row.team    = document.getElementById('pep-team').value;
-  row.section = document.getElementById('pep-section').value;
+  row.owner   = document.getElementById('pep-leader').value.trim();
+  row.leader  = document.getElementById('pep-leader').value.trim();
+  row.pillar  = document.getElementById('pep-pillar').value.trim();
+  row.pm      = document.getElementById('pep-pm').value.trim();
+  row.team    = (document.getElementById('pep-team') || {}).value || row.team || '';
+  row.section = document.getElementById('pep-pillar').value.trim() || row.section;
   row.link    = document.getElementById('pep-link').value.trim();
+  var brBtn   = document.querySelector('[id^="pep-bigrock-"].selected');
+  row.bigrock = brBtn ? brBtn.id.replace('pep-bigrock-','') : 'no';
+  var frBtn   = document.querySelector('[id^="pep-freq-"].selected');
+  row.freq    = frBtn ? frBtn.id.replace('pep-freq-','') : 'sprint';
+  row.commentary = document.getElementById('pep-commentary').value.trim();
   row.state   = document.getElementById('pep-state').value.split('\n').map(function(s){return s.trim();}).filter(function(s){return s;});
   row.risks   = document.getElementById('pep-risks').value.split('\n').map(function(s){return s.trim();}).filter(function(s){return s;});
   row.next    = document.getElementById('pep-next').value.split('\n').map(function(s){return s.trim();}).filter(function(s){return s;});
@@ -2322,39 +2361,51 @@ window._ghConnectorNoUI = true;
     <button class="pep-close" onclick="pepClose()">&#x2715;</button>
   </div>
   <div class="pep-body">
+
+    <div style="font-size:9px;font-weight:700;color:#94a3b8;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px">Project Fields</div>
+
     <div class="pep-field">
       <label class="pep-label">Name</label>
       <input class="pep-input" id="pep-name" placeholder="Milestone name">
     </div>
     <div class="pep-field">
-      <label class="pep-label">Owner</label>
-      <input class="pep-input" id="pep-owner" placeholder="Owner name">
+      <label class="pep-label">Leader</label>
+      <input class="pep-input" id="pep-leader" placeholder="Leader name">
     </div>
     <div class="pep-field">
-      <label class="pep-label">Team</label>
-      <select class="pep-input" id="pep-team">
-        <option value="">Select team...</option>
-        <option>NER</option><option>NPD</option><option>NPD/NER</option>
-        <option>Labs</option><option>GCO</option><option>GCO/NER</option>
-        <option>RA</option><option>Assembly</option><option>Assembly/PA/Warehouse</option>
-        <option>Dev Team</option><option>TNI</option><option>PA</option>
-        <option>NER/Assembly</option><option>RA/Console</option>
-        <option>Distribution</option><option>App</option><option>All</option><option>NA</option>
-      </select>
+      <label class="pep-label">Pillar (PE Team)</label>
+      <input class="pep-input" id="pep-pillar" placeholder="e.g. Person Authority Build">
     </div>
     <div class="pep-field">
-      <label class="pep-label">Section</label>
-      <select class="pep-input" id="pep-section">
-        <option>Person Authority Build</option>
-        <option>Basis Content Loading</option>
-        <option>NPD</option><option>Labs</option><option>GCO</option>
-      </select>
+      <label class="pep-label">PM</label>
+      <input class="pep-input" id="pep-pm" placeholder="Program Manager">
+    </div>
+    <div class="pep-field">
+      <label class="pep-label">State</label>
+      <textarea class="pep-textarea" id="pep-state" placeholder="One bullet per line..." oninput="pepCount(this,'pep-state-count',500)" style="min-height:60px"></textarea>
+      <div class="pep-char-count"><span id="pep-state-count">0</span> / 500</div>
+    </div>
+    <div class="pep-field">
+      <label class="pep-label">Big Rock</label>
+      <div style="display:flex;gap:8px">
+        <div class="pep-toggle-btn" id="pep-bigrock-no" onclick="pepToggle('bigrock','no')">No</div>
+        <div class="pep-toggle-btn" id="pep-bigrock-yes" onclick="pepToggle('bigrock','yes')">Yes</div>
+      </div>
+    </div>
+    <div class="pep-field">
+      <label class="pep-label">Update Frequency</label>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <div class="pep-toggle-btn" id="pep-freq-sprint" onclick="pepToggle('freq','sprint')">Every Sprint (2 weeks)</div>
+        <div class="pep-toggle-btn" id="pep-freq-monthly" onclick="pepToggle('freq','monthly')">Monthly (MPR)</div>
+      </div>
     </div>
     <div class="pep-field">
       <label class="pep-label">Link</label>
       <input class="pep-input" id="pep-link" placeholder="https://...">
     </div>
+
     <div class="pep-divider"></div>
+
     <div class="pep-field">
       <label class="pep-label">Status &mdash; <span id="pep-iter-label" style="color:#1e3a5f;font-weight:700"></span></label>
       <div class="pep-status-group" id="pep-status-group">
@@ -2373,11 +2424,14 @@ window._ghConnectorNoUI = true;
         <div class="pep-radio-btn health-red" onclick="pepSelectHealth('Red',this)">&#9679; Red</div>
       </div>
     </div>
+
+    <div class="pep-divider"></div>
+
     <div class="pep-field">
-      <label class="pep-label">Current State</label>
-      <textarea class="pep-textarea" id="pep-state" placeholder="One bullet per line..." oninput="pepCount(this,'pep-state-count',500)"></textarea>
-      <div class="pep-char-count"><span id="pep-state-count">0</span> / 500</div>
-      <button class="pep-ai-btn" onclick="pepRewriteAI('pep-state')">&#10024; Rewrite with AI</button>
+      <label class="pep-label">Commentary</label>
+      <textarea class="pep-textarea" id="pep-commentary" placeholder="Commentary..." oninput="pepCount(this,'pep-commentary-count',500)" style="min-height:80px"></textarea>
+      <div class="pep-char-count"><span id="pep-commentary-count">0</span> / 500</div>
+      <button class="pep-ai-btn" onclick="pepRewriteAI('pep-commentary')">&#10024; Rewrite with AI</button>
     </div>
     <div class="pep-field">
       <label class="pep-label">Risks / Issues</label>
@@ -2394,10 +2448,14 @@ window._ghConnectorNoUI = true;
       <textarea class="pep-textarea" id="pep-impact" placeholder="One bullet per line..." oninput="pepCount(this,'pep-impact-count',500)"></textarea>
       <div class="pep-char-count"><span id="pep-impact-count">0</span> / 500</div>
     </div>
-    <div class="pep-admin-note">&#128274; Administrator access required. Deleting a row is restricted. Contact your director to make this change.</div>
+
+    <div class="pep-admin-note">&#128274; <strong>Administrator access required.</strong> Saving a past row (&#128274;) or deleting is restricted to directors. Contact your director to make this change. Saving a project's latest row doesn't need it.</div>
+
   </div>
   <div class="pep-footer">
     <button class="pep-delete-btn" onclick="pepDelete()">&#128465; Delete row</button>
+    <button class="pep-delete-btn" style="background:#fef2f2;color:#991b1b;border-color:#fca5a5" onclick="pepDeleteProject()">&#128465; Delete entire project</button>
+    <div style="flex:1"></div>
     <button class="pep-cancel-btn" onclick="pepClose()">Cancel</button>
     <button class="pep-save-btn" onclick="pepSave()">Save</button>
   </div>
