@@ -2149,19 +2149,7 @@ function pepOpen(idx) {
 
   // Populate fields
   document.getElementById('pep-name').value    = row.name    || '';
-  document.getElementById('pep-owner').value   = row.owner   || '';
   document.getElementById('pep-link').value    = row.link    || '';
-
-  // Team select
-  var teamSel = document.getElementById('pep-team');
-  for (var i = 0; i < teamSel.options.length; i++) {
-    if (teamSel.options[i].value === (row.team || '')) { teamSel.selectedIndex = i; break; }
-  }
-  // Section select
-  var secSel = document.getElementById('pep-section');
-  for (var i = 0; i < secSel.options.length; i++) {
-    if (secSel.options[i].value === (row.section || '')) { secSel.selectedIndex = i; break; }
-  }
 
   // Iteration label
   var iterSel = document.getElementById('ps-iteration');
