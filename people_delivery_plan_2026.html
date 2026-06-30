@@ -1679,8 +1679,35 @@ function psToggleEditMode() {
   PS_EDIT_MODE = !PS_EDIT_MODE;
   var btn = document.getElementById('ps-edit-toggle');
   btn.className = PS_EDIT_MODE ? 'on' : 'off';
-  btn.textContent = PS_EDIT_MODE ? '\u270F Editing' : '\u270F Edit';
-  if (PS_EDIT_MODE) psActivateEditMode(); else psDeactivateEditMode();
+  btn.innerHTML = PS_EDIT_MODE ? '&#9999; Editing' : '&#9999; Edit';
+  // Show/hide cancel button
+  var cancelBtn = document.getElementById('ps-cancel-edit');
+  if(cancelBtn) cancelBtn.style.display = PS_EDIT_MODE ? 'inline-block' : 'none';
+  if (PS_EDIT_MODE) {
+    // Activate correct tab
+    var activeTab = document.querySelector('.tab.active');
+    var tabId = activeTab ? activeTab.dataset.tab : 'summary';
+    if(tabId === 'roadmap') rmActivateEdit();
+    else if(tabId === 'risks') risksActivateEdit();
+    else psActivateEditMode();
+  } else {
+    psDeactivateEditMode();
+    rmDeactivateEdit();
+    risksDeactivateEdit();
+  }
+}
+
+// Re-activate edit when switching tabs if edit mode is on
+var _origShowTab = showTab;
+function showTab(id) {
+  _origShowTab(id);
+  if(PS_EDIT_MODE) {
+    setTimeout(function(){
+      if(id === 'roadmap') rmActivateEdit();
+      else if(id === 'risks') risksActivateEdit();
+      else if(id === 'summary') psActivateEditMode();
+    }, 50);
+  }
 }
 
 var PS_HEALTH_CYCLE = ['Green', 'Amber', 'Red'];
@@ -1764,10 +1791,13 @@ function psSaveEditChanges() {
   ALL_ITER[iterVal] = PS_ROWS;
   psSaveOfflineCache();
 
-  // Also save to GitHub if connector is loaded
+  // Also save to GitHub if connector is loaded (includes ROWS for Roadmap)
   if (typeof GitHubDB !== 'undefined') {
+    // Sync ROWS back to window so GitHubDB picks it up
+    window.ROWS = ROWS;
+    window.ALL_ITER = ALL_ITER;
     GitHubDB.save();
-    return; // GitHubDB.save() shows its own banner
+    return;
   }
 
   // Live API not configured — local cache only
@@ -1967,6 +1997,98 @@ function psPptxDownload(){
     psShowBanner('Error generating PowerPoint. Try the Export button instead.','#D64000',5000);
   });
 }
+
+function psCancelEdit() {
+  if(PS_EDIT_MODE) {
+    PS_EDIT_MODE = true; // force deactivate
+    psToggleEditMode();
+  }
+  PS_DIRTY_ROWS = {};
+  psRefreshChangeCount();
+}
+
+// ── ROADMAP EDIT MODE ─────────────────────────────────────────────────────────
+var RM_STATUS_OPTS = [{v:'done',l:'Done'},{v:'prog',l:'In Progress'},{v:'plan',l:'Planned'}];
+
+function rmActivateEdit() {
+  document.querySelectorAll('#rm-body tr[id^="rm-row-"]').forEach(function(tr) {
+    var id = parseInt(tr.id.replace('rm-row-',''));
+    var row = ROWS.find(function(r){return r.id===id;});
+    if(!row) return;
+    var cells = tr.querySelectorAll('td');
+    // col 2=title, 3=date, 4=owner, 5=status, 7=notes
+    // Date (col 3)
+    if(cells[3] && !cells[3].dataset.rmEditing) {
+      cells[3].dataset.rmEditing='1';
+      cells[3].contentEditable='true';
+      cells[3].classList.add('editable-cell');
+      cells[3].oninput=function(){row.d=cells[3].textContent.trim();rmMarkDirty(id,tr);};
+    }
+    // Owner (col 4)
+    if(cells[4] && !cells[4].dataset.rmEditing) {
+      cells[4].dataset.rmEditing='1';
+      cells[4].contentEditable='true';
+      cells[4].classList.add('editable-cell');
+      cells[4].oninput=function(){row.o=cells[4].textContent.trim();rmMarkDirty(id,tr);};
+    }
+    // Status (col 5)
+    if(cells[5] && !cells[5].dataset.rmEditing) {
+      cells[5].dataset.rmEditing='1';
+      var sel=document.createElement('select');
+      sel.className='edit-select-cell';
+      RM_STATUS_OPTS.forEach(function(o){
+        var opt=document.createElement('option');
+        opt.value=o.v;opt.textContent=o.l;
+        if(o.v===row.s)opt.selected=true;
+        sel.appendChild(opt);
+      });
+      sel.onchange=function(){row.s=sel.value;rmMarkDirty(id,tr);};
+      cells[5].innerHTML='';cells[5].appendChild(sel);
+    }
+    // Notes (col 7)
+    if(cells[7] && !cells[7].dataset.rmEditing) {
+      cells[7].dataset.rmEditing='1';
+      cells[7].contentEditable='true';
+      cells[7].classList.add('editable-cell');
+      cells[7].oninput=function(){row.n=cells[7].textContent.trim();rmMarkDirty(id,tr);};
+    }
+  });
+}
+
+function rmDeactivateEdit() {
+  buildRm();
+}
+
+function rmMarkDirty(id, tr) {
+  PS_DIRTY_ROWS['rm_'+id]=true;
+  tr.classList.add('row-dirty');
+  psRefreshChangeCount();
+}
+
+// ── RISKS & ISSUES EDIT MODE ──────────────────────────────────────────────────
+function risksActivateEdit() {
+  // Make card titles and blocker content editable
+  document.querySelectorAll('#tab-risks .card-title, #tab-risks .blocker, #tab-risks .card-meta').forEach(function(el,i) {
+    if(!el.dataset.risksEditing) {
+      el.dataset.risksEditing='1';
+      el.dataset.risksIdx=i;
+      el.contentEditable='true';
+      el.classList.add('editable-cell');
+      el.oninput=function(){
+        PS_DIRTY_ROWS['risks_'+i]=true;
+        psRefreshChangeCount();
+      };
+    }
+  });
+}
+
+function risksDeactivateEdit() {
+  document.querySelectorAll('#tab-risks .card-title, #tab-risks .blocker, #tab-risks .card-meta').forEach(function(el) {
+    el.contentEditable='false';
+    el.classList.remove('editable-cell');
+    delete el.dataset.risksEditing;
+  });
+}
 buildOv();buildRm();buildGantt();psLoadOfflineCache();psBuildTable(PS_ROWS);
 // Load latest data from GitHub on startup
 if (typeof GitHubDB !== 'undefined') {
@@ -1978,6 +2100,7 @@ if (typeof GitHubDB !== 'undefined') {
 (function(){var iterSel=document.getElementById('ps-iteration');if(iterSel){iterSel.value='jun23';var il=document.getElementById('ps-iter-label');if(il)il.textContent=iterSel.options[iterSel.selectedIndex].text;}})();
 </script>
 <button id="ps-edit-toggle" class="off">&#9999; Edit</button>
+<button id="ps-cancel-edit" onclick="psCancelEdit()" style="display:none;position:fixed;bottom:24px;right:110px;z-index:9000;padding:10px 16px;border-radius:8px;border:1.5px solid #64748b;background:#fff;color:#374151;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.15)">&#x2715; Cancel</button>
 <div id="ps-save-bar">
   <span id="ps-change-count">0 unsaved changes</span>
   <button class="ps-discard-btn" id="ps-discard-btn">Discard</button>
