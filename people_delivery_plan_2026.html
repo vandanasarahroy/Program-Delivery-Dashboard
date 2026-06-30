@@ -182,6 +182,23 @@ ol.steps{padding-left:18px;font-size:12px;color:#475569;line-height:1.9}
 .ps-save-btn{background:#1e3a5f;color:#fff;border:none;border-radius:4px;padding:7px 20px;font-size:13px;font-weight:700;cursor:pointer}
 .ps-save-btn:hover{background:#0f2744}
 .ps-section-title{font-size:13px;font-weight:700;color:#D64000;margin:16px 0 12px}
+
+.editable-cell{background:#fffbeb!important;outline:1px solid #f59e0b;border-radius:4px;cursor:text;min-height:18px}
+.editable-cell:focus{outline:2px solid #f97316}
+tr.row-dirty td{background:#fffbeb!important}
+.edit-select-cell{border:1px solid #d1d5db;border-radius:4px;padding:3px 6px;font-size:11px;background:#fffbeb;cursor:pointer;width:100%}
+.health-cycle{cursor:pointer}
+#ps-edit-toggle{position:fixed;bottom:24px;right:24px;z-index:9000;padding:10px 20px;border-radius:8px;border:none;cursor:pointer;font-size:13px;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.25);transition:all .2s}
+#ps-edit-toggle.off{background:#1e3a5f;color:#fff}
+#ps-edit-toggle.on{background:#f97316;color:#fff}
+#ps-save-bar{position:fixed;bottom:70px;right:24px;z-index:9000;display:none;gap:8px;align-items:center;background:#fff;border:1px solid #d1d5db;border-radius:10px;padding:8px 14px;box-shadow:0 2px 12px rgba(0,0,0,.15);font-size:13px}
+#ps-save-bar button{padding:6px 14px;border-radius:6px;border:none;cursor:pointer;font-size:12px;font-weight:700}
+.ps-save-btn-main{background:#166534;color:#fff}
+.ps-discard-btn{background:#f3f4f6;color:#374151}
+#ps-change-count{color:#92400e;font-weight:700;font-size:12px}
+#ps-edit-banner{position:fixed;top:0;left:0;right:0;z-index:9999;padding:8px 16px;font-size:13px;text-align:center;transition:opacity .3s;display:none;color:#fff}
+.ps-offline-pill{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:700;padding:3px 9px;border-radius:10px;background:#f1f5f9;color:#64748b}
+.ps-offline-pill.cached{background:#dbeafe;color:#1e40af}
 </style>
 </head>
 <body>
@@ -601,6 +618,7 @@ ol.steps{padding-left:18px;font-size:12px;color:#475569;line-height:1.9}
     <div style="font-size:12px;color:#1e3a5f;line-height:1.6">
       <strong>&#8505;&#65039; Data source:</strong> <span id="ps-data-source">SharePoint List (CSV)</span>. To add, edit or delete milestones open the List directly, or connect a live API backend.
       &nbsp;<span id="ps-last-sync" style="font-size:11px;color:#64748b"></span>
+      &nbsp;<span id="ps-offline-indicator" class="ps-offline-pill">&#128190; No local cache</span>
     </div>
     <a href="https://trten.sharepoint.com/:l:/r/sites/PublicRecordsandDerivedAuthorities-PlanningandEstimating/Lists/People%20Authority%20BuildProject%20Summary?e=GwWirb" target="_blank" style="background:#1e3a5f;color:#fff;padding:5px 14px;border-radius:3px;font-size:11px;font-weight:700;text-decoration:none;white-space:nowrap">&#128203; Open SharePoint List</a>
       <button onclick="psShowApiConfig()" id="ps-api-btn" style="background:#f97316;color:#fff;border:none;border-radius:3px;padding:5px 14px;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap" title="Connect to live API backend">&#9889; Connect Live API</button>
@@ -1341,14 +1359,14 @@ function psBuildTable(data){
       var nameHtml='<div class="ps-name">'+(isPast?'&#128274; ':'')+row.name+'</div>';
       if(row.sub)nameHtml+='<div class="ps-sub">'+row.sub+'</div>';
       nameHtml+='<span class="ps-iter">'+(row.iterLabel||iterLabel)+'</span>';
-      html+='<tr data-sec="'+secId+'" style="'+'">'
+      html+='<tr data-sec="'+secId+'" data-row-idx="'+idx+'" style="'+'">'
         +'<td>'+nameHtml+'</td>'
-        +'<td style="text-align:center">'+psHealthDot(row.health)+'</td>'
-        +'<td>'+psStatusBadge(row.status)+'</td>'
-        +'<td>'+psBullets(row.state)+'</td>'
-        +'<td>'+psBullets(row.risks)+'</td>'
-        +'<td>'+psBullets(row.next)+'</td>'
-        +'<td>'+(row.impact&&row.impact.length?psBullets(row.impact):'<span style="color:#94a3b8">&#8212;</span>')+'</td>'
+        +'<td data-pcol="health" style="text-align:center">'+psHealthDot(row.health)+'</td>'
+        +'<td data-pcol="status">'+psStatusBadge(row.status)+'</td>'
+        +'<td data-pcol="state">'+psBullets(row.state)+'</td>'
+        +'<td data-pcol="risks">'+psBullets(row.risks)+'</td>'
+        +'<td data-pcol="next">'+psBullets(row.next)+'</td>'
+        +'<td data-pcol="impact">'+(row.impact&&row.impact.length?psBullets(row.impact):'<span style="color:#94a3b8">&#8212;</span>')+'</td>'
         +'</tr>';
     });
   });
@@ -1685,11 +1703,209 @@ setInterval(function() {
   if (API_ENABLED) psSyncFromAPI();
 }, 30000);
 
-buildOv();buildRm();buildGantt();psBuildTable(PS_ROWS);
+
+// ── EDIT MODE + OFFLINE CACHE ─────────────────────────────────────────────────
+var PS_EDIT_MODE = false;
+var PS_DIRTY_ROWS = {};
+var CACHE_KEY = 'pab_offline_cache_v1';
+
+// Load cached data on startup if present (offline-first)
+function psLoadOfflineCache() {
+  try {
+    var cached = localStorage.getItem(CACHE_KEY);
+    if (!cached) return false;
+    var parsed = JSON.parse(cached);
+    if (parsed && parsed.allIter) {
+      Object.keys(parsed.allIter).forEach(function(k) { ALL_ITER[k] = parsed.allIter[k]; });
+      var ind = document.getElementById('ps-offline-indicator');
+      if (ind) {
+        ind.textContent = '\uD83D\uDCBE Cached ' + new Date(parsed.savedAt).toLocaleString();
+        ind.classList.add('cached');
+      }
+      return true;
+    }
+  } catch (e) { console.error('Cache load error:', e); }
+  return false;
+}
+
+function psSaveOfflineCache() {
+  try {
+    localStorage.setItem(CACHE_KEY, JSON.stringify({ allIter: ALL_ITER, savedAt: new Date().toISOString() }));
+    var ind = document.getElementById('ps-offline-indicator');
+    if (ind) {
+      ind.textContent = '\uD83D\uDCBE Cached ' + new Date().toLocaleString();
+      ind.classList.add('cached');
+    }
+  } catch (e) { console.error('Cache save error:', e); }
+}
+
+function psClearOfflineCache() {
+  localStorage.removeItem(CACHE_KEY);
+  var ind = document.getElementById('ps-offline-indicator');
+  if (ind) { ind.textContent = '\uD83D\uDCBE No local cache'; ind.classList.remove('cached'); }
+}
+
+// ── EDIT MODE TOGGLE ───────────────────────────────────────────────────────────
+function psToggleEditMode() {
+  PS_EDIT_MODE = !PS_EDIT_MODE;
+  var btn = document.getElementById('ps-edit-toggle');
+  btn.className = PS_EDIT_MODE ? 'on' : 'off';
+  btn.textContent = PS_EDIT_MODE ? '\u270F Editing' : '\u270F Edit';
+  if (PS_EDIT_MODE) psActivateEditMode(); else psDeactivateEditMode();
+}
+
+var PS_HEALTH_CYCLE = ['Green', 'Amber', 'Red'];
+var PS_STATUS_OPTS = ['In Progress', 'Completed', 'Planned', 'On Hold', 'Blocked'];
+
+function psActivateEditMode() {
+  document.querySelectorAll('#ps-tbody tr[data-row-idx]').forEach(function(tr) {
+    var idx = parseInt(tr.dataset.rowIdx, 10);
+    var row = PS_ROWS[idx];
+    if (!row) return;
+
+    tr.querySelectorAll('td[data-pcol]').forEach(function(td) {
+      var col = td.dataset.pcol;
+
+      if (col === 'health') {
+        td.classList.add('health-cycle');
+        td.title = 'Click to cycle Green \u2192 Amber \u2192 Red';
+        td.onclick = function() {
+          var next = PS_HEALTH_CYCLE[(PS_HEALTH_CYCLE.indexOf(row.health) + 1) % PS_HEALTH_CYCLE.length];
+          row.health = next;
+          td.innerHTML = psHealthDot(next);
+          psMarkRowDirty(idx, tr);
+        };
+      }
+
+      if (col === 'status') {
+        var sel = document.createElement('select');
+        sel.className = 'edit-select-cell';
+        PS_STATUS_OPTS.forEach(function(v) {
+          var o = document.createElement('option');
+          o.value = v; o.textContent = v;
+          if (v === row.status) o.selected = true;
+          sel.appendChild(o);
+        });
+        sel.onchange = function() { row.status = sel.value; psMarkRowDirty(idx, tr); };
+        td.innerHTML = ''; td.appendChild(sel);
+      }
+
+      if (col === 'state' || col === 'risks' || col === 'next' || col === 'impact') {
+        var current = (row[col] || []).join('\n');
+        var ta = document.createElement('textarea');
+        ta.value = current;
+        ta.className = 'editable-cell';
+        ta.style.cssText = 'width:100%;min-height:60px;border:none;font-size:12px;font-family:inherit;resize:vertical;padding:4px';
+        ta.oninput = function() {
+          row[col] = ta.value.split('\n').map(function(s) { return s.trim(); }).filter(function(s) { return s; });
+          psMarkRowDirty(idx, tr);
+        };
+        td.innerHTML = ''; td.appendChild(ta);
+      }
+    });
+  });
+}
+
+function psDeactivateEditMode() {
+  psBuildTable(PS_ROWS);
+  PS_DIRTY_ROWS = {};
+  psRefreshChangeCount();
+}
+
+function psMarkRowDirty(idx, tr) {
+  PS_DIRTY_ROWS[idx] = true;
+  tr.classList.add('row-dirty');
+  psRefreshChangeCount();
+}
+
+function psRefreshChangeCount() {
+  var n = Object.keys(PS_DIRTY_ROWS).length;
+  var bar = document.getElementById('ps-save-bar');
+  bar.style.display = n > 0 ? 'flex' : 'none';
+  document.getElementById('ps-change-count').textContent = n + ' unsaved change' + (n !== 1 ? 's' : '');
+}
+
+function psSaveEditChanges() {
+  var n = Object.keys(PS_DIRTY_ROWS).length;
+  psShowEditBanner('Saving ' + n + ' change' + (n !== 1 ? 's' : '') + '\u2026', '#1e3a5f');
+
+  // Persist to offline cache immediately (works even without network)
+  var iterSel = document.getElementById('ps-iteration');
+  var iterVal = iterSel ? iterSel.value : 'jun23';
+  ALL_ITER[iterVal] = PS_ROWS;
+  psSaveOfflineCache();
+
+  // If a live API is connected, also push there
+  if (typeof API_ENABLED !== 'undefined' && API_ENABLED) {
+    fetch(API_BASE + '/api/milestones/bulk', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        iteration: iterVal,
+        replace: true,
+        milestones: PS_ROWS.map(function(r) {
+          return {
+            name: r.name, section: r.section, iteration: iterVal,
+            health: r.health, status: r.status, team: r.team, owner: r.owner,
+            current_state: (r.state || []).join('|'),
+            risks_issues: (r.risks || []).join('|'),
+            next_steps: (r.next || []).join('|'),
+            business_impact: (r.impact || []).join('|'),
+            link: r.link || ''
+          };
+        })
+      })
+    }).catch(function(err) { console.error('API save error:', err); });
+  }
+
+  setTimeout(function() {
+    PS_DIRTY_ROWS = {};
+    document.querySelectorAll('#ps-tbody tr.row-dirty').forEach(function(tr) { tr.classList.remove('row-dirty'); });
+    psRefreshChangeCount();
+    psShowEditBanner('\u2713 ' + n + ' change' + (n !== 1 ? 's' : '') + ' saved' + (typeof API_ENABLED !== 'undefined' && API_ENABLED ? ' to live API' : ' to local cache'), '#166534');
+    setTimeout(psHideEditBanner, 3000);
+  }, 600);
+}
+
+function psDiscardEditChanges() {
+  PS_EDIT_MODE = true; // force deactivate path to redraw clean
+  psToggleEditMode();
+  psShowEditBanner('Changes discarded', '#64748b');
+  setTimeout(psHideEditBanner, 2000);
+}
+
+function psShowEditBanner(msg, bg) {
+  var b = document.getElementById('ps-edit-banner');
+  b.style.background = bg; b.style.display = 'block'; b.style.opacity = '1'; b.textContent = msg;
+}
+function psHideEditBanner() {
+  var b = document.getElementById('ps-edit-banner');
+  b.style.opacity = '0';
+  setTimeout(function() { b.style.display = 'none'; }, 300);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  var editBtn = document.getElementById('ps-edit-toggle');
+  if (editBtn) editBtn.onclick = psToggleEditMode;
+  var saveBtn = document.getElementById('ps-save-btn-main');
+  if (saveBtn) saveBtn.onclick = psSaveEditChanges;
+  var discardBtn = document.getElementById('ps-discard-btn');
+  if (discardBtn) discardBtn.onclick = psDiscardEditChanges;
+  psLoadOfflineCache();
+});
+
+buildOv();buildRm();buildGantt();psLoadOfflineCache();psBuildTable(PS_ROWS);
 // Auto-connect if API URL stored
 if(API_ENABLED){setTimeout(psSyncFromAPI,500);}
 // Set initial iteration label in toolbar
 (function(){var iterSel=document.getElementById('ps-iteration');if(iterSel){iterSel.value='jun23';var il=document.getElementById('ps-iter-label');if(il)il.textContent=iterSel.options[iterSel.selectedIndex].text;}})();
 </script>
+<button id="ps-edit-toggle" class="off">&#9999; Edit</button>
+<div id="ps-save-bar">
+  <span id="ps-change-count">0 unsaved changes</span>
+  <button class="ps-discard-btn" id="ps-discard-btn">Discard</button>
+  <button class="ps-save-btn-main" id="ps-save-btn-main">Save</button>
+</div>
+<div id="ps-edit-banner"></div>
 </body>
 </html>
