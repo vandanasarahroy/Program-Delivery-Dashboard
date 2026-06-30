@@ -1059,6 +1059,15 @@ document.getElementById('tabs').addEventListener('click',function(e){
   document.querySelectorAll('.pane').forEach(function(p){p.classList.remove('on');});
   btn.classList.add('on');
   document.getElementById('tab-'+btn.dataset.tab).classList.add('on');
+  // Re-activate edit mode on the new tab if edit is on
+  if(typeof PS_EDIT_MODE !== 'undefined' && PS_EDIT_MODE) {
+    var tabId = btn.dataset.tab;
+    setTimeout(function(){
+      if(tabId === 'roadmap') { if(typeof rmActivateEdit==='function') rmActivateEdit(); }
+      else if(tabId === 'risks') { if(typeof risksActivateEdit==='function') risksActivateEdit(); }
+      else if(tabId === 'summary') { if(typeof psActivateEditMode==='function') psActivateEditMode(); }
+    }, 50);
+  }
 });
 
 document.getElementById('ts').textContent=(function(){
@@ -1685,11 +1694,11 @@ function psToggleEditMode() {
   if(cancelBtn) cancelBtn.style.display = PS_EDIT_MODE ? 'inline-block' : 'none';
   if (PS_EDIT_MODE) {
     // Activate correct tab
-    var activeTab = document.querySelector('.tab.active');
+    var activeTab = document.querySelector('.tab.on');
     var tabId = activeTab ? activeTab.dataset.tab : 'summary';
-    if(tabId === 'roadmap') rmActivateEdit();
-    else if(tabId === 'risks') risksActivateEdit();
-    else psActivateEditMode();
+    if(tabId === 'roadmap') { if(typeof rmActivateEdit==='function') rmActivateEdit(); }
+    else if(tabId === 'risks') { if(typeof risksActivateEdit==='function') risksActivateEdit(); }
+    else { psActivateEditMode(); }
   } else {
     psDeactivateEditMode();
     rmDeactivateEdit();
@@ -1697,18 +1706,7 @@ function psToggleEditMode() {
   }
 }
 
-// Re-activate edit when switching tabs if edit mode is on
-var _origShowTab = showTab;
-function showTab(id) {
-  _origShowTab(id);
-  if(PS_EDIT_MODE) {
-    setTimeout(function(){
-      if(id === 'roadmap') rmActivateEdit();
-      else if(id === 'risks') risksActivateEdit();
-      else if(id === 'summary') psActivateEditMode();
-    }, 50);
-  }
-}
+// Tab edit activation handled in tab click event listener
 
 var PS_HEALTH_CYCLE = ['Green', 'Amber', 'Red'];
 var PS_STATUS_OPTS = ['In Progress', 'Completed', 'Planned', 'On Hold', 'Blocked'];
