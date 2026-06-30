@@ -1984,6 +1984,23 @@ if (typeof GitHubDB !== 'undefined') {
   <button class="ps-save-btn-main" id="ps-save-btn-main">Save</button>
 </div>
 <div id="ps-edit-banner"></div>
+<script>
+// Override github-connector.js UI injection — we use our own edit button
+// Allow GitHubDB read/write but suppress duplicate button injection
+window._ghConnectorNoUI = true;
+</script>
 <script src="github-connector.js"></script>
+<script>
+// After connector loads, suppress its injected UI elements
+document.addEventListener('DOMContentLoaded', function(){
+  // Remove duplicate gh-edit-btn if injected
+  var ghBtn = document.getElementById('gh-edit-btn');
+  if(ghBtn) ghBtn.remove();
+  var ghBar = document.getElementById('gh-save-bar');
+  if(ghBar) ghBar.remove();
+  var ghBanner = document.getElementById('gh-banner');
+  if(ghBanner) ghBanner.remove();
+});
+</script>
 </body>
 </html>
