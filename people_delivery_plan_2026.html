@@ -1107,11 +1107,13 @@ document.getElementById('tabs').addEventListener('click',function(e){
   document.querySelectorAll('.pane').forEach(function(p){p.classList.remove('on');});
   btn.classList.add('on');
   document.getElementById('tab-'+btn.dataset.tab).classList.add('on');
-  // Hide floating Edit button on Project Summary tab (it has inline Edit per row instead)
+  // Show Edit button only on Roadmap and Risks & Issues tabs
   var editToggle = document.getElementById('ps-edit-toggle');
   var cancelEdit = document.getElementById('ps-cancel-edit');
-  if(editToggle) editToggle.style.display = btn.dataset.tab === 'summary' ? 'none' : '';
-  if(cancelEdit && btn.dataset.tab === 'summary') cancelEdit.style.display = 'none';
+  var showEditTabs = ['roadmap','risks'];
+  var showEdit = showEditTabs.indexOf(btn.dataset.tab) !== -1;
+  if(editToggle) editToggle.style.display = showEdit ? '' : 'none';
+  if(cancelEdit && !showEdit) cancelEdit.style.display = 'none';
   // Re-activate edit mode on the new tab if edit is on
   if(typeof PS_EDIT_MODE !== 'undefined' && PS_EDIT_MODE) {
     var tabId = btn.dataset.tab;
@@ -2146,13 +2148,19 @@ function risksDeactivateEdit() {
 // ── PS EDIT PANEL ─────────────────────────────────────────────────────────────
 var PEP_IDX = -1;
 
+
+function pepHealthColor(sel) {
+  var colors = {Green:'#16a34a', Amber:'#d97706', Red:'#dc2626'};
+  var bgs    = {Green:'#dcfce7', Amber:'#fef3c7', Red:'#fee2e2'};
+  sel.style.color = colors[sel.value] || '#1e293b';
+  sel.style.background = bgs[sel.value] || '#fff';
+}
 function pepOpen(idx) {
   var row = PS_ROWS[idx];
   if (!row) return;
   PEP_IDX = idx;
 
   document.getElementById('pep-name').value = row.name || '';
-  document.getElementById('pep-link').value = row.link || '';
 
   // Leader dropdown
   var leaderSel = document.getElementById('pep-leader');
@@ -2168,7 +2176,9 @@ function pepOpen(idx) {
   document.getElementById('pep-status-select').value = row.status || 'In Progress';
 
   // Health dropdown
-  document.getElementById('pep-health-select').value = row.health || 'Green';
+  var hSel=document.getElementById('pep-health-select');
+  hSel.value = row.health || 'Green';
+  pepHealthColor(hSel);
 
   // Iteration label
   var iterSel = document.getElementById('ps-iteration');
@@ -2218,7 +2228,6 @@ function pepSave() {
   row.leader  = document.getElementById('pep-leader').value;
   row.pillar  = document.getElementById('pep-pillar').value;
   row.section = document.getElementById('pep-pillar').value || row.section;
-  row.link    = document.getElementById('pep-link').value.trim();
   row.status  = document.getElementById('pep-status-select').value;
   row.health  = document.getElementById('pep-health-select').value;
   row.state   = document.getElementById('pep-state').value.split('\n').map(function(s){return s.trim();}).filter(function(s){return s;});
@@ -2341,7 +2350,6 @@ window._ghConnectorNoUI = true;
         <option>Ranjit Sahu</option>
         <option>Lisa Steigerwald</option>
         <option>Sunitha Vijayanarayan</option>
-        <option>Karen Steadman</option>
         <option>Patricia Schell</option>
       </select>
     </div>
@@ -2349,8 +2357,6 @@ window._ghConnectorNoUI = true;
       <label class="pep-label">Team Name</label>
       <select class="pep-input" id="pep-pillar">
         <option value="">Select team...</option>
-        <option>Person Authority Build</option>
-        <option>Basis Content Loading</option>
         <option>NPD</option>
         <option>Labs</option>
         <option>GCO</option>
@@ -2363,11 +2369,7 @@ window._ghConnectorNoUI = true;
         <option>TNI</option>
       </select>
     </div>
-    <div class="pep-field">
-      <label class="pep-label">Link</label>
-      <input class="pep-input" id="pep-link" placeholder="https://...">
-    </div>
-    <div class="pep-divider"></div>
+<div class="pep-divider"></div>
     <div class="pep-field">
       <label class="pep-label">Status &mdash; <span id="pep-iter-label" style="color:#1e3a5f;font-weight:700"></span></label>
       <select class="pep-input" id="pep-status-select">
@@ -2380,10 +2382,10 @@ window._ghConnectorNoUI = true;
     </div>
     <div class="pep-field">
       <label class="pep-label">Health</label>
-      <select class="pep-input" id="pep-health-select">
-        <option value="Green">&#9679; Green</option>
-        <option value="Amber">&#9679; Amber</option>
-        <option value="Red">&#9679; Red</option>
+      <select class="pep-input" id="pep-health-select" onchange="pepHealthColor(this)" style="font-weight:700">
+        <option value="Green" style="color:#16a34a;background:#dcfce7">&#9679; Green</option>
+        <option value="Amber" style="color:#d97706;background:#fef3c7">&#9679; Amber</option>
+        <option value="Red" style="color:#dc2626;background:#fee2e2">&#9679; Red</option>
       </select>
     </div>
     <div class="pep-divider"></div>
@@ -2408,7 +2410,7 @@ window._ghConnectorNoUI = true;
       <textarea class="pep-textarea" id="pep-impact" placeholder="One bullet per line..." oninput="pepCount(this,'pep-impact-count',500)"></textarea>
       <div class="pep-char-count"><span id="pep-impact-count">0</span> / 500</div>
     </div>
-    <div class="pep-admin-note">&#128274; <strong>Administrator access required.</strong> Saving a past row (&#128274;) or deleting is restricted to directors. Contact your director to make this change. Saving a project's latest row doesn't need it.</div>
+
   </div>
   <div class="pep-footer">
     <button class="pep-delete-btn" onclick="pepDelete()">&#128465; Delete row</button>
