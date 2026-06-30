@@ -1334,7 +1334,7 @@ function psBuildTable(data){
   }
 
   // Determine if current iteration is past (read-only)
-  var PAST_ITER_VALS=['apr27','apr14','mar31','mar17','mar03','feb17']; // may12 is current, not locked
+  var PAST_ITER_VALS=['may12','apr27','apr14','mar31','mar17','mar03','feb17']; // past iterations - locked
   var curIterVal=iterSel?iterSel.value:'may12';
   var isPast=PAST_ITER_VALS.indexOf(curIterVal)!==-1;
   var isPastForTemplate=isPast; // template can still show for upcoming/current
@@ -1350,7 +1350,7 @@ function psBuildTable(data){
   // Render section collapsibles
   var PS_SECTIONS=['Basis Content Loading','Person Authority Build','NPD','Labs','GCO'];
   // Only inject empty built-in sections for upcoming iterations (not may12 which has its own sections)
-  var UPCOMING_VALS=['jun23','jul07','jul21'];
+  var UPCOMING_VALS=['jun23','jul07','jul21','aug04','aug18','sep01','sep15','sep29','oct13','oct27','nov10','nov24','dec08','dec22'];
   var curIterVal2=iterSel?iterSel.value:'may12';
   if(UPCOMING_VALS.indexOf(curIterVal2)!==-1){
     PS_SECTIONS.forEach(function(s){if(!sections[s]){sections[s]=[];if(sectionOrder.indexOf(s)===-1)sectionOrder.push(s);}});
