@@ -199,6 +199,50 @@ tr.row-dirty td{background:#fffbeb!important}
 #ps-edit-banner{position:fixed;top:0;left:0;right:0;z-index:9999;padding:8px 16px;font-size:13px;text-align:center;transition:opacity .3s;display:none;color:#fff}
 .ps-offline-pill{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:700;padding:3px 9px;border-radius:10px;background:#f1f5f9;color:#64748b}
 .ps-offline-pill.cached{background:#dbeafe;color:#1e40af}
+
+/* ── PS Row Edit Panel ── */
+#ps-edit-panel{position:fixed;top:50%;right:0;transform:translateY(-50%);width:380px;max-height:90vh;overflow-y:auto;background:#fff;border-left:3px solid #1e3a5f;border-top:3px solid #1e3a5f;border-bottom:3px solid #1e3a5f;border-radius:8px 0 0 8px;box-shadow:-4px 0 24px rgba(0,0,0,.18);z-index:8000;display:none;flex-direction:column}
+#ps-edit-panel.open{display:flex}
+.pep-header{background:#1e3a5f;color:#fff;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-radius:5px 0 0 0}
+.pep-header h3{font-size:13px;font-weight:700;letter-spacing:.3px}
+.pep-close{background:none;border:none;color:rgba(255,255,255,.7);font-size:18px;cursor:pointer;padding:0 4px;line-height:1}
+.pep-close:hover{color:#fff}
+.pep-body{padding:16px;flex:1}
+.pep-field{margin-bottom:14px}
+.pep-label{font-size:10px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;display:block}
+.pep-input{width:100%;border:1px solid #e2e8f0;border-radius:5px;padding:7px 10px;font-size:12px;color:#1e293b;outline:none;font-family:inherit;box-sizing:border-box}
+.pep-input:focus{border-color:#1e3a5f;box-shadow:0 0 0 2px rgba(30,58,95,.1)}
+.pep-textarea{width:100%;border:1px solid #e2e8f0;border-radius:5px;padding:7px 10px;font-size:12px;color:#1e293b;outline:none;font-family:inherit;resize:vertical;min-height:70px;box-sizing:border-box}
+.pep-textarea:focus{border-color:#1e3a5f;box-shadow:0 0 0 2px rgba(30,58,95,.1)}
+.pep-radio-group{display:flex;gap:8px;flex-wrap:wrap}
+.pep-radio-btn{display:flex;align-items:center;gap:5px;padding:5px 12px;border:1.5px solid #e2e8f0;border-radius:20px;cursor:pointer;font-size:12px;font-weight:600;transition:all .15s}
+.pep-radio-btn.health-green{color:#16a34a;border-color:#16a34a}
+.pep-radio-btn.health-green.selected{background:#16a34a;color:#fff}
+.pep-radio-btn.health-amber{color:#d97706;border-color:#d97706}
+.pep-radio-btn.health-amber.selected{background:#d97706;color:#fff}
+.pep-radio-btn.health-red{color:#dc2626;border-color:#dc2626}
+.pep-radio-btn.health-red.selected{background:#dc2626;color:#fff}
+.pep-status-group{display:flex;gap:6px;flex-wrap:wrap}
+.pep-status-btn{padding:4px 12px;border-radius:4px;border:1.5px solid #e2e8f0;font-size:11px;font-weight:700;cursor:pointer;text-transform:uppercase;letter-spacing:.3px;transition:all .15s;color:#64748b}
+.pep-status-btn.selected{background:#1e3a5f;color:#fff;border-color:#1e3a5f}
+.pep-status-btn:hover:not(.selected){border-color:#1e3a5f;color:#1e3a5f}
+.pep-ai-btn{display:flex;align-items:center;gap:6px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:5px;padding:6px 10px;font-size:11px;color:#64748b;cursor:pointer;width:100%;margin-top:4px}
+.pep-ai-btn:hover{background:#eff6ff;border-color:#1e3a5f;color:#1e3a5f}
+.pep-char-count{font-size:10px;color:#94a3b8;text-align:right;margin-top:3px}
+.pep-divider{height:1px;background:#f1f5f9;margin:14px 0}
+.pep-footer{padding:12px 16px;border-top:1px solid #f1f5f9;display:flex;gap:8px;flex-wrap:wrap}
+.pep-save-btn{flex:1;background:#1e3a5f;color:#fff;border:none;border-radius:5px;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer}
+.pep-save-btn:hover{background:#162d4a}
+.pep-cancel-btn{background:#f1f5f9;color:#374151;border:none;border-radius:5px;padding:8px 14px;font-size:12px;font-weight:600;cursor:pointer}
+.pep-cancel-btn:hover{background:#e2e8f0}
+.pep-delete-btn{background:#fee2e2;color:#dc2626;border:1px solid #fca5a5;border-radius:5px;padding:8px 12px;font-size:11px;font-weight:700;cursor:pointer}
+.pep-delete-btn:hover{background:#fca5a5}
+.pep-admin-note{background:#fffbeb;border:1px solid #fde68a;border-radius:5px;padding:8px 10px;font-size:11px;color:#92400e;margin-bottom:10px;line-height:1.5}
+.ps-row-actions{display:flex;gap:4px;white-space:nowrap}
+.ps-row-edit-btn{background:#fff;border:1px solid #1e3a5f;color:#1e3a5f;border-radius:3px;padding:2px 8px;font-size:10px;font-weight:700;cursor:pointer}
+.ps-row-edit-btn:hover{background:#1e3a5f;color:#fff}
+.ps-row-remove-btn{background:#fff;border:1px solid #dc2626;color:#dc2626;border-radius:3px;padding:2px 8px;font-size:10px;font-weight:700;cursor:pointer}
+.ps-row-remove-btn:hover{background:#dc2626;color:#fff}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
 </head>
@@ -1369,7 +1413,10 @@ function psBuildTable(data){
       if(row.sub)nameHtml+='<div class="ps-sub">'+row.sub+'</div>';
       nameHtml+='<span class="ps-iter">'+(row.iterLabel||iterLabel)+'</span>';
       html+='<tr data-sec="'+secId+'" data-row-idx="'+idx+'" style="'+'">'
-        +'<td>'+nameHtml+'</td>'
+        +'<td>'+nameHtml+'<div class="ps-row-actions" style="margin-top:6px">'
+        +'<button class="ps-row-edit-btn" onclick="pepOpen('+idx+')">&#9999; Edit</button>'
+        +'<button class="ps-row-remove-btn" onclick="pepRemove('+idx+')">&#128465; Remove</button>'
+        +'</div></td>'
         +'<td data-pcol="health" style="text-align:center">'+psHealthDot(row.health)+'</td>'
         +'<td data-pcol="status">'+psStatusBadge(row.status)+'</td>'
         +'<td data-pcol="state">'+psBullets(row.state)+'</td>'
@@ -2087,6 +2134,164 @@ function risksDeactivateEdit() {
     delete el.dataset.risksEditing;
   });
 }
+
+// ── PS EDIT PANEL ─────────────────────────────────────────────────────────────
+var PEP_IDX = -1;
+
+function pepOpen(idx) {
+  var row = PS_ROWS[idx];
+  if (!row) return;
+  PEP_IDX = idx;
+
+  // Populate fields
+  document.getElementById('pep-name').value    = row.name    || '';
+  document.getElementById('pep-owner').value   = row.owner   || '';
+  document.getElementById('pep-link').value    = row.link    || '';
+
+  // Team select
+  var teamSel = document.getElementById('pep-team');
+  for (var i = 0; i < teamSel.options.length; i++) {
+    if (teamSel.options[i].value === (row.team || '')) { teamSel.selectedIndex = i; break; }
+  }
+  // Section select
+  var secSel = document.getElementById('pep-section');
+  for (var i = 0; i < secSel.options.length; i++) {
+    if (secSel.options[i].value === (row.section || '')) { secSel.selectedIndex = i; break; }
+  }
+
+  // Iteration label
+  var iterSel = document.getElementById('ps-iteration');
+  var iterLabel = iterSel ? iterSel.options[iterSel.selectedIndex].text : '';
+  document.getElementById('pep-iter-label').textContent = iterLabel;
+
+  // Textareas
+  document.getElementById('pep-state').value  = (row.state  || []).join('\n');
+  document.getElementById('pep-risks').value  = (row.risks  || []).join('\n');
+  document.getElementById('pep-next').value   = (row.next   || []).join('\n');
+  document.getElementById('pep-impact').value = (row.impact || []).join('\n');
+  ['pep-state','pep-risks','pep-next','pep-impact'].forEach(function(id) {
+    var el = document.getElementById(id);
+    var countId = id + '-count';
+    pepCount(el, countId, 500);
+  });
+
+  // Health buttons
+  document.querySelectorAll('.pep-radio-btn').forEach(function(b) { b.classList.remove('selected'); });
+  var hBtn = document.querySelector('.health-' + (row.health || 'green').toLowerCase());
+  if (hBtn) hBtn.classList.add('selected');
+
+  // Status buttons
+  document.querySelectorAll('.pep-status-btn').forEach(function(b) {
+    b.classList.toggle('selected', b.textContent.trim() === (row.status || ''));
+  });
+
+  document.getElementById('pep-title').textContent = 'Edit — ' + (row.name || 'Milestone').substring(0, 30) + (row.name && row.name.length > 30 ? '…' : '');
+  document.getElementById('ps-edit-panel').classList.add('open');
+}
+
+function pepClose() {
+  document.getElementById('ps-edit-panel').classList.remove('open');
+  PEP_IDX = -1;
+}
+
+function pepSelectHealth(val, btn) {
+  document.querySelectorAll('.pep-radio-btn').forEach(function(b) { b.classList.remove('selected'); });
+  btn.classList.add('selected');
+}
+
+function pepSelectStatus(val, btn) {
+  document.querySelectorAll('.pep-status-btn').forEach(function(b) { b.classList.remove('selected'); });
+  btn.classList.add('selected');
+}
+
+function pepCount(el, countId, max) {
+  var n = el.value.length;
+  var countEl = document.getElementById(countId);
+  if (countEl) { countEl.textContent = n; countEl.style.color = n > max * 0.9 ? '#dc2626' : '#94a3b8'; }
+}
+
+function pepSave() {
+  if (PEP_IDX < 0 || !PS_ROWS[PEP_IDX]) return;
+  var row = PS_ROWS[PEP_IDX];
+
+  row.name    = document.getElementById('pep-name').value.trim();
+  row.owner   = document.getElementById('pep-owner').value.trim();
+  row.team    = document.getElementById('pep-team').value;
+  row.section = document.getElementById('pep-section').value;
+  row.link    = document.getElementById('pep-link').value.trim();
+  row.state   = document.getElementById('pep-state').value.split('\n').map(function(s){return s.trim();}).filter(function(s){return s;});
+  row.risks   = document.getElementById('pep-risks').value.split('\n').map(function(s){return s.trim();}).filter(function(s){return s;});
+  row.next    = document.getElementById('pep-next').value.split('\n').map(function(s){return s.trim();}).filter(function(s){return s;});
+  row.impact  = document.getElementById('pep-impact').value.split('\n').map(function(s){return s.trim();}).filter(function(s){return s;});
+
+  // Health
+  var hBtn = document.querySelector('.pep-radio-btn.selected');
+  if (hBtn) row.health = hBtn.textContent.trim().replace(/^. /,'');
+
+  // Status
+  var sBtn = document.querySelector('.pep-status-btn.selected');
+  if (sBtn) row.status = sBtn.textContent.trim();
+
+  // Rebuild table and save
+  psBuildTable(PS_ROWS);
+  pepClose();
+
+  // Save to GitHub
+  var iterSel = document.getElementById('ps-iteration');
+  var iterVal = iterSel ? iterSel.value : 'jun23';
+  ALL_ITER[iterVal] = PS_ROWS;
+  psSaveOfflineCache();
+  if (typeof GitHubDB !== 'undefined') { window.ROWS = ROWS; window.ALL_ITER = ALL_ITER; GitHubDB.save(); }
+  else { psShowBanner('\u2705 Saved to local cache', '#123121', 3000); }
+}
+
+function pepRemove(idx) {
+  var row = PS_ROWS[idx];
+  if (!row) return;
+  if (!confirm('Remove "' + row.name + '" from this iteration?')) return;
+  PS_ROWS.splice(idx, 1);
+  psBuildTable(PS_ROWS);
+  var iterSel = document.getElementById('ps-iteration');
+  var iterVal = iterSel ? iterSel.value : 'jun23';
+  ALL_ITER[iterVal] = PS_ROWS;
+  psSaveOfflineCache();
+  if (typeof GitHubDB !== 'undefined') { window.ALL_ITER = ALL_ITER; GitHubDB.save(); }
+  psShowBanner('Row removed', '#64748b', 2000);
+}
+
+function pepDelete() {
+  psShowBanner('\uD83D\uDD12 Administrator access required to delete. Contact your director.', '#92400e', 5000);
+}
+
+function pepRewriteAI(fieldId) {
+  var el = document.getElementById(fieldId);
+  if (!el || !el.value.trim()) { psShowBanner('Add some text first, then click Rewrite with AI.', '#64748b', 3000); return; }
+  var original = el.value.trim();
+  el.disabled = true;
+  el.value = 'Rewriting…';
+
+  fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-6',
+      max_tokens: 400,
+      messages: [{role: 'user', content: 'Rewrite the following project status update to be clearer, more concise, and professional. Keep it as bullet points (one per line). Do not add extra commentary. Text:\n\n' + original}]
+    })
+  })
+  .then(function(r){return r.json();})
+  .then(function(d){
+    var text = d.content && d.content[0] ? d.content[0].text : original;
+    el.value = text.replace(/^[\-\*\u2022]\s*/gm,'').trim();
+    el.disabled = false;
+    pepCount(el, fieldId+'-count', 500);
+  })
+  .catch(function(){
+    el.value = original;
+    el.disabled = false;
+    psShowBanner('AI rewrite failed. Please try again.', '#D64000', 3000);
+  });
+}
 buildOv();buildRm();buildGantt();psLoadOfflineCache();psBuildTable(PS_ROWS);
 // Load latest data from GitHub on startup
 if (typeof GitHubDB !== 'undefined') {
@@ -2110,6 +2315,94 @@ if (typeof GitHubDB !== 'undefined') {
 // Allow GitHubDB read/write but suppress duplicate button injection
 window._ghConnectorNoUI = true;
 </script>
+
+<div id="ps-edit-panel">
+  <div class="pep-header">
+    <h3 id="pep-title">Edit Milestone</h3>
+    <button class="pep-close" onclick="pepClose()">&#x2715;</button>
+  </div>
+  <div class="pep-body">
+    <div class="pep-field">
+      <label class="pep-label">Name</label>
+      <input class="pep-input" id="pep-name" placeholder="Milestone name">
+    </div>
+    <div class="pep-field">
+      <label class="pep-label">Owner</label>
+      <input class="pep-input" id="pep-owner" placeholder="Owner name">
+    </div>
+    <div class="pep-field">
+      <label class="pep-label">Team</label>
+      <select class="pep-input" id="pep-team">
+        <option value="">Select team...</option>
+        <option>NER</option><option>NPD</option><option>NPD/NER</option>
+        <option>Labs</option><option>GCO</option><option>GCO/NER</option>
+        <option>RA</option><option>Assembly</option><option>Assembly/PA/Warehouse</option>
+        <option>Dev Team</option><option>TNI</option><option>PA</option>
+        <option>NER/Assembly</option><option>RA/Console</option>
+        <option>Distribution</option><option>App</option><option>All</option><option>NA</option>
+      </select>
+    </div>
+    <div class="pep-field">
+      <label class="pep-label">Section</label>
+      <select class="pep-input" id="pep-section">
+        <option>Person Authority Build</option>
+        <option>Basis Content Loading</option>
+        <option>NPD</option><option>Labs</option><option>GCO</option>
+      </select>
+    </div>
+    <div class="pep-field">
+      <label class="pep-label">Link</label>
+      <input class="pep-input" id="pep-link" placeholder="https://...">
+    </div>
+    <div class="pep-divider"></div>
+    <div class="pep-field">
+      <label class="pep-label">Status &mdash; <span id="pep-iter-label" style="color:#1e3a5f;font-weight:700"></span></label>
+      <div class="pep-status-group" id="pep-status-group">
+        <div class="pep-status-btn" onclick="pepSelectStatus('In Progress',this)">In Progress</div>
+        <div class="pep-status-btn" onclick="pepSelectStatus('Completed',this)">Completed</div>
+        <div class="pep-status-btn" onclick="pepSelectStatus('Planned',this)">Planned</div>
+        <div class="pep-status-btn" onclick="pepSelectStatus('On Hold',this)">On Hold</div>
+        <div class="pep-status-btn" onclick="pepSelectStatus('Blocked',this)">Blocked</div>
+      </div>
+    </div>
+    <div class="pep-field">
+      <label class="pep-label">Health</label>
+      <div class="pep-radio-group">
+        <div class="pep-radio-btn health-green" onclick="pepSelectHealth('Green',this)">&#9679; Green</div>
+        <div class="pep-radio-btn health-amber" onclick="pepSelectHealth('Amber',this)">&#9679; Amber</div>
+        <div class="pep-radio-btn health-red" onclick="pepSelectHealth('Red',this)">&#9679; Red</div>
+      </div>
+    </div>
+    <div class="pep-field">
+      <label class="pep-label">Current State</label>
+      <textarea class="pep-textarea" id="pep-state" placeholder="One bullet per line..." oninput="pepCount(this,'pep-state-count',500)"></textarea>
+      <div class="pep-char-count"><span id="pep-state-count">0</span> / 500</div>
+      <button class="pep-ai-btn" onclick="pepRewriteAI('pep-state')">&#10024; Rewrite with AI</button>
+    </div>
+    <div class="pep-field">
+      <label class="pep-label">Risks / Issues</label>
+      <textarea class="pep-textarea" id="pep-risks" placeholder="One bullet per line..." oninput="pepCount(this,'pep-risks-count',500)"></textarea>
+      <div class="pep-char-count"><span id="pep-risks-count">0</span> / 500</div>
+    </div>
+    <div class="pep-field">
+      <label class="pep-label">Next Steps</label>
+      <textarea class="pep-textarea" id="pep-next" placeholder="One bullet per line..." oninput="pepCount(this,'pep-next-count',500)"></textarea>
+      <div class="pep-char-count"><span id="pep-next-count">0</span> / 500</div>
+    </div>
+    <div class="pep-field">
+      <label class="pep-label">Business Impact</label>
+      <textarea class="pep-textarea" id="pep-impact" placeholder="One bullet per line..." oninput="pepCount(this,'pep-impact-count',500)"></textarea>
+      <div class="pep-char-count"><span id="pep-impact-count">0</span> / 500</div>
+    </div>
+    <div class="pep-admin-note">&#128274; Administrator access required. Deleting a row is restricted. Contact your director to make this change.</div>
+  </div>
+  <div class="pep-footer">
+    <button class="pep-delete-btn" onclick="pepDelete()">&#128465; Delete row</button>
+    <button class="pep-cancel-btn" onclick="pepClose()">Cancel</button>
+    <button class="pep-save-btn" onclick="pepSave()">Save</button>
+  </div>
+</div>
+
 <script src="github-connector.js"></script>
 <script>
 // After connector loads, suppress its injected UI elements
