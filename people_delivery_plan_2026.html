@@ -644,14 +644,27 @@ tr.row-dirty td{background:#fffbeb!important}
     </div>
     <div style="display:flex;align-items:center;gap:8px">
       <label style="font-size:10px;font-weight:600;color:#64748b;white-space:nowrap">Iteration</label>
-      <select id="ps-iteration" onchange="psChangeIteration(this.value)" style="border:0.5px solid #1e3a5f;border-radius:3px;padding:5px 10px;font-size:12px;color:#1e293b;background:#fff;outline:none;min-width:170px;font-weight:500">
-        <optgroup label="-- Upcoming --" style="color:#94a3b8;font-style:italic">
+      <select id="ps-iteration" onchange="psChangeIteration(this.value)" style="border:0.5px solid #1e3a5f;border-radius:3px;padding:5px 10px;font-size:12px;color:#1e293b;background:#fff;outline:none;min-width:180px;font-weight:500">
+        <optgroup label="-- Current --" style="color:#16a34a;font-weight:700">
           <option value="jun23" selected>Jun 23, 2026 (current)</option>
-          <option value="jul07">Jul 7, 2026 (upcoming)</option>
-          <option value="jul21">Jul 21, 2026 (upcoming)</option>
         </optgroup>
-        <optgroup label="-- Past iterations --" style="color:#64748b">
-          <option value="may12">May 12&ndash;26, 2026 (current)</option>
+        <optgroup label="-- Upcoming --" style="color:#94a3b8;font-style:italic">
+          <option value="jul07">Jul 7, 2026</option>
+          <option value="jul21">Jul 21, 2026</option>
+          <option value="aug04">Aug 4, 2026</option>
+          <option value="aug18">Aug 18, 2026</option>
+          <option value="sep01">Sep 1, 2026</option>
+          <option value="sep15">Sep 15, 2026</option>
+          <option value="sep29">Sep 29, 2026</option>
+          <option value="oct13">Oct 13, 2026</option>
+          <option value="oct27">Oct 27, 2026</option>
+          <option value="nov10">Nov 10, 2026</option>
+          <option value="nov24">Nov 24, 2026</option>
+          <option value="dec08">Dec 8, 2026</option>
+          <option value="dec22">Dec 22, 2026</option>
+        </optgroup>
+        <optgroup label="-- Past --" style="color:#64748b">
+          <option value="may12">May 12&ndash;26, 2026</option>
           <option value="apr27">Apr 27&ndash;May 12, 2026</option>
           <option value="apr14">Apr 14&ndash;27, 2026</option>
           <option value="mar31">Mar 31&ndash;Apr 14, 2026</option>
