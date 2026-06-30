@@ -20,7 +20,7 @@ const GH_CONFIG = {
   repo:  'Program-Delivery-Dashboard',
   path:  'data.json',
   branch: 'main',
-  token: '',   // leave blank to be prompted, or paste your ghp_... token here
+  token: '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',
 };
 
 // ─── Token handling ───────────────────────────────────────────────────────────
