@@ -2168,6 +2168,34 @@ function pepHealthColor(sel) {
   sel.style.color = colors[sel.value] || '#1e293b';
   sel.style.background = bgs[sel.value] || '#fff';
 }
+
+function pepOpenNew() {
+  PEP_IDX = -1; // -1 means new row
+
+  // Clear all fields
+  document.getElementById('pep-name').value   = '';
+  document.getElementById('pep-leader').selectedIndex = 0;
+  document.getElementById('pep-pillar').selectedIndex = 0;
+  document.getElementById('pep-state').value  = '';
+  document.getElementById('pep-risks').value  = '';
+  document.getElementById('pep-next').value   = '';
+  document.getElementById('pep-impact').value = '';
+  document.getElementById('pep-status-select').value = 'In Progress';
+  var hSel = document.getElementById('pep-health-select');
+  hSel.value = 'Green';
+  pepHealthColor(hSel);
+  ['pep-state','pep-risks','pep-next','pep-impact'].forEach(function(id){
+    pepCount(document.getElementById(id), id+'-count', 500);
+  });
+
+  // Set iteration label
+  var iterSel = document.getElementById('ps-iteration');
+  var iterLabel = iterSel ? iterSel.options[iterSel.selectedIndex].text : '';
+  document.getElementById('pep-iter-label').textContent = iterLabel;
+
+  document.getElementById('pep-title').textContent = 'New Milestone';
+  document.getElementById('ps-edit-panel').classList.add('open');
+}
 function pepOpen(idx) {
   var row = PS_ROWS[idx];
   if (!row) return;
@@ -2233,8 +2261,9 @@ function pepCount(el, countId, max) {
 }
 
 function pepSave() {
-  if (PEP_IDX < 0 || !PS_ROWS[PEP_IDX]) return;
-  var row = PS_ROWS[PEP_IDX];
+  var isNew = PEP_IDX === -1;
+  var row = isNew ? {} : PS_ROWS[PEP_IDX];
+  if (!isNew && !PS_ROWS[PEP_IDX]) return;
 
   row.name    = document.getElementById('pep-name').value.trim();
   row.owner   = document.getElementById('pep-leader').value;
@@ -2247,6 +2276,14 @@ function pepSave() {
   row.risks   = document.getElementById('pep-risks').value.split('\n').map(function(s){return s.trim();}).filter(function(s){return s;});
   row.next    = document.getElementById('pep-next').value.split('\n').map(function(s){return s.trim();}).filter(function(s){return s;});
   row.impact  = document.getElementById('pep-impact').value.split('\n').map(function(s){return s.trim();}).filter(function(s){return s;});
+
+  // Add to PS_ROWS if new
+  if (isNew) {
+    var iterSel2 = document.getElementById('ps-iteration');
+    row.iterLabel = iterSel2 ? iterSel2.options[iterSel2.selectedIndex].text : '';
+    row.sub = '';
+    PS_ROWS.push(row);
+  }
 
   // Rebuild table and save
   psBuildTable(PS_ROWS);
