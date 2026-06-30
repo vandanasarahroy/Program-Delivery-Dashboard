@@ -1,6 +1,796 @@
 {
-  "rows": [],
-  "gantt": [],
+  "_meta": {
+    "lastRefreshed": "2026-06-30",
+    "updatedBy": "Sarah Roy",
+    "iteration": "jun23",
+    "autoRefresh": true
+  },
+  "rows": [
+    {
+      "id": 1,
+      "e": "QA",
+      "t": "Threshold Merge for Basis Content",
+      "s": "done",
+      "d": "Jan 27, 2026",
+      "o": "NPD/NER",
+      "a": "User Story 1448457",
+      "n": ""
+    },
+    {
+      "id": 2,
+      "e": "QA",
+      "t": "Load full content set using v4.7 - qa",
+      "s": "done",
+      "d": "Feb 26, 2026",
+      "o": "Dev",
+      "a": "",
+      "n": ""
+    },
+    {
+      "id": 3,
+      "e": "QA",
+      "t": "Run all non-basis content (200 records for each) against V4.8",
+      "s": "done",
+      "d": "May 22, 2026",
+      "o": "NER",
+      "a": "",
+      "n": "10 days."
+    },
+    {
+      "id": 4,
+      "e": "QA",
+      "t": "NPD Validation & Feedback V4.8 (Non-Basis verification)",
+      "s": "done",
+      "d": "Jun 15, 2026",
+      "o": "NPD",
+      "a": "",
+      "n": "5/27 - NPD indicates 6/15 date to complete.\n6/11 - Precision looks good. Recall - Orphan testing on-going. Few issues noted. Not a blocker.\n6/18 - Non-basis testing completed. Recall/Orphan - name tokenization, still issue. Content Sets: Real property, DMV, Dockets, & others"
+    },
+    {
+      "id": 5,
+      "e": "QA",
+      "t": "Complete Build out of Authority again. (v4.8) - New Snapping or Merging logic to handle Multi-Matches efficiently",
+      "s": "plan",
+      "d": "Jun 24, 2026",
+      "o": "NER",
+      "a": "Feature 1290619",
+      "n": "6/11 - Currently on track. Challenges noted.\n6/18 - In-progress. Testing merging & super entities. BAHR kicked off today.\n6/24 - BAHR issue fixed, analysis in progress. Samples can be shared for NPD review"
+    },
+    {
+      "id": 6,
+      "e": "QA",
+      "t": "Review NPD testing plan for v4.8",
+      "s": "done",
+      "d": "Jun 19, 2026",
+      "o": "NPD",
+      "a": "",
+      "n": "Precision testing pulls 200 random entities at each confidence level.\n6/18 - Test plan already in place\n6/24: Samples for CCH/EQCH looking good. BAHR samples will be shared shortly"
+    },
+    {
+      "id": 7,
+      "e": "QA",
+      "t": "NPD Validation & Feedback (Authority quality / Basis content) on V4.8",
+      "s": "plan",
+      "d": "Jun 30, 2026",
+      "o": "NPD",
+      "a": "",
+      "n": "Question for NPD: Do we need 20 days to verify Basis content again?\n6/24: Samples for CCH/EQCH looking good so far. BAHR samples will be shared shortly"
+    },
+    {
+      "id": 8,
+      "e": "QA",
+      "t": "Review NPD testing plan for v6.0",
+      "s": "done",
+      "d": "Jul 3, 2026",
+      "o": "NPD",
+      "a": "",
+      "n": "Precision and Recall testing pulls 100-200 records per Content Set.\n6/18 - test plan in place\n6/24: Still on target. Focusing on BAHR Merge rules, which might push deliveries by a week"
+    },
+    {
+      "id": 9,
+      "e": "QA",
+      "t": "Initial V6.0 Model Delivery (Non-Basis)",
+      "s": "plan",
+      "d": "Jul 1, 2026",
+      "o": "Labs",
+      "a": "",
+      "n": "Summary by NPD by Jul 1"
+    },
+    {
+      "id": 10,
+      "e": "QA",
+      "t": "Workflow - Support Non Basis Prospective loading through Content Console (1 Content Set) (Listening to LTC) (Aircraft?)",
+      "s": "plan",
+      "d": "Jul 2, 2026",
+      "o": "GCO/NER",
+      "a": "Feature 1315869",
+      "n": "6/24 - LTC workflow currently in process - needs following up"
+    },
+    {
+      "id": 11,
+      "e": "QA",
+      "t": "Process non-Basis content (200/500 records for each ContentSet) using V6.0 against authority built with V4.8 model",
+      "s": "plan",
+      "d": "Jul 10, 2026",
+      "o": "NER",
+      "a": "Feature 1478100",
+      "n": "10 days."
+    },
+    {
+      "id": 12,
+      "e": "QA",
+      "t": "NPD Validation & Feedback (Non-Basis) on V6.0",
+      "s": "plan",
+      "d": "Jul 30, 2026",
+      "o": "NPD/Product Testing",
+      "a": "",
+      "n": "6/18 - Recall/Orphan - name tokenization, still issue. Content Sets: Real property, DMV, Dockets, & others"
+    },
+    {
+      "id": 13,
+      "e": "QA",
+      "t": "Workflow - Rematch testing (functional validation with a small batch, ensuring Re)",
+      "s": "plan",
+      "d": "Jul 15, 2026",
+      "o": "NER",
+      "a": "Feature 1291076",
+      "n": ""
+    },
+    {
+      "id": 14,
+      "e": "QA",
+      "t": "Feature: Support capability for Full Content Set Reprocessing.",
+      "s": "plan",
+      "d": "Jul 30, 2026",
+      "o": "RA",
+      "a": "Feature 1511415",
+      "n": ""
+    },
+    {
+      "id": 15,
+      "e": "QA",
+      "t": "Feature: Transit Files - Ability to generate Transit files for warehouse consumption for all content sets",
+      "s": "plan",
+      "d": "Jul 31, 2026",
+      "o": "Assembly",
+      "a": "Epic 1457215",
+      "n": ""
+    },
+    {
+      "id": 16,
+      "e": "QA",
+      "t": "Workflow - Load Non Basis from TNI through Content Console (2 Content Sets) (Dependency on TNI loads to S3)",
+      "s": "plan",
+      "d": "Jul 31, 2026",
+      "o": "GCO/NER",
+      "a": "Feature 1436007",
+      "n": ""
+    },
+    {
+      "id": 17,
+      "e": "QA",
+      "t": "Workflow - Support Non Basis Prospective through Content Console (All Content Sets) (Listening to LTC)",
+      "s": "plan",
+      "d": "Jul 31, 2026",
+      "o": "GCO/NER",
+      "a": "Feature 1315869",
+      "n": ""
+    },
+    {
+      "id": 18,
+      "e": "QA",
+      "t": "New V6.1 model from Lab based on feed back from line no 9 (if needed) (Basis)",
+      "s": "plan",
+      "d": "Jul 20, 2026",
+      "o": "Labs",
+      "a": "",
+      "n": ""
+    },
+    {
+      "id": 19,
+      "e": "QA",
+      "t": "Complete Build out of Authority again if needed. (V6.1) - Based upon feedback from model v4.8 including Merge and Snap rules.",
+      "s": "plan",
+      "d": "Jul 31, 2026",
+      "o": "NER",
+      "a": "Feature 1478100",
+      "n": ""
+    },
+    {
+      "id": 20,
+      "e": "QA",
+      "t": "NPD Validation & Sign Off (Basis Content And Person Authority) V 6.1",
+      "s": "plan",
+      "d": "Aug 20, 2026",
+      "o": "NPD",
+      "a": "",
+      "n": "Question: Do we need 20 days to verify Basis content again? NPD will provide a report signed off by all. (What is the Delta? TBC)"
+    },
+    {
+      "id": 21,
+      "e": "QA",
+      "t": "Review NPD testing plan for v6.2",
+      "s": "plan",
+      "d": "Aug 20, 2026",
+      "o": "NPD",
+      "a": "",
+      "n": "NPD will provide a report that will be signed off by all. (What is the Delta? TBC)"
+    },
+    {
+      "id": 22,
+      "e": "QA",
+      "t": "New V6.2 model from Lab based on feedback from line no 13 (Non-Basis)",
+      "s": "plan",
+      "d": "Aug 20, 2026",
+      "o": "Labs",
+      "a": "",
+      "n": ""
+    },
+    {
+      "id": 23,
+      "e": "QA",
+      "t": "Process non-Basis content (200/500 records for each) against V6.2 deliverable",
+      "s": "plan",
+      "d": "Aug 25, 2026",
+      "o": "NER",
+      "a": "Feature 1478100",
+      "n": "10 days."
+    },
+    {
+      "id": 24,
+      "e": "QA",
+      "t": "Feature: Transit Files - Automated comparison with Legacy.",
+      "s": "plan",
+      "d": "Aug 10, 2026",
+      "o": "Assembly",
+      "a": "Epic 1457215",
+      "n": ""
+    },
+    {
+      "id": 25,
+      "e": "QA",
+      "t": "Warehouse cutover to new Person Authority process finalized and tested.",
+      "s": "prog",
+      "d": "Aug 28, 2026",
+      "o": "Assembly/PA/Warehouse",
+      "a": "Feature 1473075",
+      "n": "Use Person Warehouse standby to test, then restore to get back in sync. NOTE: These artifacts will drive the final cutover timelines and playbook."
+    },
+    {
+      "id": 26,
+      "e": "QA",
+      "t": "Application testing in Pre-Prod through Clear, Batch, S2S, Investigate, PR on Westlaw.",
+      "s": "plan",
+      "d": "Sep 1, 2026",
+      "o": "NPD",
+      "a": "",
+      "n": "Are there items that need to be removed from the application side? Confidence level thresholds need to be adjusted?"
+    },
+    {
+      "id": 27,
+      "e": "QA",
+      "t": "NPD Validation & Sign Off (Everything) V 6.2",
+      "s": "plan",
+      "d": "Sep 15, 2026",
+      "o": "NPD",
+      "a": "",
+      "n": "20 days to validate"
+    },
+    {
+      "id": 28,
+      "e": "Prod",
+      "t": "Feature: Reprocessing of Basis Content from RA",
+      "s": "plan",
+      "d": "Sep 11, 2026",
+      "o": "RA",
+      "a": "Feature 1290494",
+      "n": "Find A feature for this…"
+    },
+    {
+      "id": 29,
+      "e": "Prod",
+      "t": "V6.2 and all related code moved to Production",
+      "s": "plan",
+      "d": "Sep 17, 2026",
+      "o": "Dev",
+      "a": "Feature 1478100",
+      "n": ""
+    },
+    {
+      "id": 30,
+      "e": "Prod",
+      "t": "Build out Production Person Authority Targeting reprocessing of all 4 basis contents. (RA, NER & PA activities only) V6.2",
+      "s": "plan",
+      "d": "Sep 29, 2026",
+      "o": "Dev Team",
+      "a": "Feature 1512011",
+      "n": ""
+    },
+    {
+      "id": 31,
+      "e": "Prod",
+      "t": "NPD Validation?",
+      "s": "plan",
+      "d": "Oct 9, 2026",
+      "o": "NPD",
+      "a": "",
+      "n": "Question: Should have been all validated in QA, do we need to in Prod? Allocating 1 week."
+    },
+    {
+      "id": 32,
+      "e": "Prod",
+      "t": "Loading Novus Collections to TNI - Non-Basis (S3)",
+      "s": "plan",
+      "d": "Oct 30, 2026",
+      "o": "Todd/TNI Team",
+      "a": "",
+      "n": "Need a story/Feature created."
+    },
+    {
+      "id": 33,
+      "e": "Prod",
+      "t": "Setup Workflow - Non Basis Prospective (All Content Sets) (THIS IS NOT PROCESSING CONTENT)",
+      "s": "plan",
+      "d": "Oct 15, 2026",
+      "o": "GCO",
+      "a": "Feature 1490405",
+      "n": ""
+    },
+    {
+      "id": 34,
+      "e": "Prod",
+      "t": "Setup Workflow - Dockets Prospective (THIS IS NOT PROCESSING CONTENT)",
+      "s": "plan",
+      "d": "Oct 15, 2026",
+      "o": "GCO",
+      "a": "Feature 1490405",
+      "n": ""
+    },
+    {
+      "id": 35,
+      "e": "Prod",
+      "t": "Setup Workflow - Rematch (THIS IS NOT PROCESSING CONTENT)",
+      "s": "plan",
+      "d": "Oct 15, 2026",
+      "o": "GCO",
+      "a": "Feature 1436006",
+      "n": ""
+    },
+    {
+      "id": 36,
+      "e": "Prod",
+      "t": "Setup Workflow - Update CCH, EQCH, BAHR and TUCS Prospective workflows (THIS IS NOT PROCESSING CONTENT)",
+      "s": "plan",
+      "d": "Oct 30, 2026",
+      "o": "GCO",
+      "a": "Feature 1512011",
+      "n": ""
+    },
+    {
+      "id": 37,
+      "e": "Prod",
+      "t": "Workflow setup to support Non-Basis Retro loading",
+      "s": "plan",
+      "d": "Nov 13, 2026",
+      "o": "NER",
+      "a": "",
+      "n": ""
+    },
+    {
+      "id": 38,
+      "e": "Prod",
+      "t": "Loading Novus Collections through TNI - Non-Basis - Loading to NER Tables",
+      "s": "plan",
+      "d": "Nov 13, 2026",
+      "o": "Todd/ NER",
+      "a": "Feature 1436007",
+      "n": ""
+    },
+    {
+      "id": 39,
+      "e": "Prod",
+      "t": "Feature: Privacy Deletes for Non-Basis contents (Legally Obligated. Ensure we are deleting NER, PA & Assembly data)",
+      "s": "plan",
+      "d": "Nov 13, 2026",
+      "o": "NER/Assembly",
+      "a": "",
+      "n": "Need to add feature to support this to NER backlog."
+    },
+    {
+      "id": 40,
+      "e": "Prod",
+      "t": "Feature: TRSS needed features",
+      "s": "plan",
+      "d": "Nov 13, 2026",
+      "o": "RA/Console",
+      "a": "",
+      "n": "Pending ongoing discussions led by Kurt"
+    },
+    {
+      "id": 41,
+      "e": "Prod",
+      "t": "Cutover - Start",
+      "s": "plan",
+      "d": "Oct 30, 2026",
+      "o": "—",
+      "a": "",
+      "n": "Full Authority is ready"
+    },
+    {
+      "id": 42,
+      "e": "Prod",
+      "t": "Update Person Authority",
+      "s": "plan",
+      "d": "TBD",
+      "o": "—",
+      "a": "",
+      "n": "(Are we updating Authority from September? We need to ensure it is current to match ERD)"
+    },
+    {
+      "id": 43,
+      "e": "Prod",
+      "t": "Pause Content Processing",
+      "s": "plan",
+      "d": "TBD",
+      "o": "—",
+      "a": "",
+      "n": ""
+    },
+    {
+      "id": 44,
+      "e": "Prod",
+      "t": "Update Warehouse, NEDS, Marts",
+      "s": "plan",
+      "d": "TBD",
+      "o": "—",
+      "a": "",
+      "n": "Timeline is also dependent on POC. Sunitha/Andy"
+    },
+    {
+      "id": 45,
+      "e": "Prod",
+      "t": "Warehouse ERD to NER cut-over",
+      "s": "plan",
+      "d": "Dec 10, 2026",
+      "o": "Dev Team",
+      "a": "Feature 1290494",
+      "n": "This is the process of mapping all existing ERD based relationships into new Person Authority relationships. This is not rematching of content.\n6/24 - Functional test in QA done - worked. Larger testing is in plan, which needs fleshing out"
+    },
+    {
+      "id": 46,
+      "e": "Prod",
+      "t": "Cutover - Done",
+      "s": "plan",
+      "d": "Dec 31, 2026 11:59pm",
+      "o": "—",
+      "a": "",
+      "n": ""
+    }
+  ],
+  "gantt": [
+    {
+      "id": 1,
+      "l": "Threshold Merge for Basis Content",
+      "s": 0,
+      "e": 0.9,
+      "st": "done"
+    },
+    {
+      "id": 2,
+      "l": "Load full content set v4.7",
+      "s": 1,
+      "e": 2,
+      "st": "done"
+    },
+    {
+      "id": 3,
+      "l": "Run non-basis content vs V4.8",
+      "s": 2,
+      "e": 4.7,
+      "st": "done"
+    },
+    {
+      "id": 4,
+      "l": "NPD Validation V4.8 (Non-Basis)",
+      "s": 4.5,
+      "e": 5.5,
+      "st": "done"
+    },
+    {
+      "id": 5,
+      "l": "Build out Authority (v4.8)",
+      "s": 5,
+      "e": 5.75,
+      "st": "plan"
+    },
+    {
+      "id": 6,
+      "l": "Review NPD test plan v4.8",
+      "s": 5,
+      "e": 5.65,
+      "st": "done"
+    },
+    {
+      "id": 7,
+      "l": "NPD Validation Authority quality V4.8",
+      "s": 5,
+      "e": 6,
+      "st": "plan"
+    },
+    {
+      "id": 8,
+      "l": "Review NPD test plan v6.0",
+      "s": 5.5,
+      "e": 6.1,
+      "st": "done"
+    },
+    {
+      "id": 9,
+      "l": "Initial V6.0 Model Delivery",
+      "s": 6,
+      "e": 6.1,
+      "st": "plan"
+    },
+    {
+      "id": 10,
+      "l": "Workflow Non Basis Prospective (1 Set)",
+      "s": 6,
+      "e": 6.2,
+      "st": "plan"
+    },
+    {
+      "id": 11,
+      "l": "Process non-Basis content vs V6.0",
+      "s": 6,
+      "e": 6.4,
+      "st": "plan"
+    },
+    {
+      "id": 12,
+      "l": "NPD Validation (Non-Basis) V6.0",
+      "s": 6,
+      "e": 7,
+      "st": "plan"
+    },
+    {
+      "id": 13,
+      "l": "Workflow Rematch testing",
+      "s": 6,
+      "e": 6.5,
+      "st": "plan"
+    },
+    {
+      "id": 14,
+      "l": "Feature: Full Content Set Reprocessing",
+      "s": 6,
+      "e": 7,
+      "st": "plan"
+    },
+    {
+      "id": 15,
+      "l": "Feature: Transit Files (warehouse)",
+      "s": 6,
+      "e": 7.1,
+      "st": "plan"
+    },
+    {
+      "id": 16,
+      "l": "Workflow Load Non Basis from TNI (2 Sets)",
+      "s": 5,
+      "e": 7.1,
+      "st": "plan"
+    },
+    {
+      "id": 17,
+      "l": "Workflow Non Basis Prospective (All Sets)",
+      "s": 5,
+      "e": 7.1,
+      "st": "plan"
+    },
+    {
+      "id": 18,
+      "l": "New V6.1 model from Lab",
+      "s": 6,
+      "e": 6.7,
+      "st": "plan"
+    },
+    {
+      "id": 19,
+      "l": "Build out Authority (V6.1)",
+      "s": 6,
+      "e": 7.1,
+      "st": "plan"
+    },
+    {
+      "id": 20,
+      "l": "NPD Validation & Sign Off V6.1",
+      "s": 7,
+      "e": 7.7,
+      "st": "plan"
+    },
+    {
+      "id": 21,
+      "l": "Review NPD test plan v6.2",
+      "s": 7,
+      "e": 7.7,
+      "st": "plan"
+    },
+    {
+      "id": 22,
+      "l": "New V6.2 model from Lab",
+      "s": 7,
+      "e": 7.7,
+      "st": "plan"
+    },
+    {
+      "id": 23,
+      "l": "Process non-Basis content vs V6.2",
+      "s": 7.5,
+      "e": 8,
+      "st": "plan"
+    },
+    {
+      "id": 24,
+      "l": "Feature: Transit Files (Legacy comparison)",
+      "s": 7,
+      "e": 7.4,
+      "st": "plan"
+    },
+    {
+      "id": 25,
+      "l": "Warehouse cutover testing",
+      "s": 4,
+      "e": 7.9,
+      "st": "prog"
+    },
+    {
+      "id": 26,
+      "l": "Application testing Pre-Prod",
+      "s": 8,
+      "e": 9,
+      "st": "plan"
+    },
+    {
+      "id": 27,
+      "l": "NPD Sign Off (Everything) V6.2",
+      "s": 8,
+      "e": 8.5,
+      "st": "plan"
+    },
+    {
+      "id": 28,
+      "l": "Reprocessing Basis Content from RA",
+      "s": 8.4,
+      "e": 8.5,
+      "st": "plan"
+    },
+    {
+      "id": 29,
+      "l": "V6.2 code to Production",
+      "s": 8.5,
+      "e": 8.6,
+      "st": "plan"
+    },
+    {
+      "id": 30,
+      "l": "Build out Prod Person Authority",
+      "s": 8.5,
+      "e": 9,
+      "st": "plan"
+    },
+    {
+      "id": 31,
+      "l": "NPD Validation? (Prod)",
+      "s": 9,
+      "e": 9.3,
+      "st": "plan"
+    },
+    {
+      "id": 32,
+      "l": "Load Novus Collections to TNI (S3)",
+      "s": 9.5,
+      "e": 10,
+      "st": "plan"
+    },
+    {
+      "id": 33,
+      "l": "Setup Workflow Non Basis Prospective",
+      "s": 9.5,
+      "e": 9.6,
+      "st": "plan"
+    },
+    {
+      "id": 34,
+      "l": "Setup Workflow Dockets Prospective",
+      "s": 9.5,
+      "e": 9.6,
+      "st": "plan"
+    },
+    {
+      "id": 35,
+      "l": "Setup Workflow Rematch",
+      "s": 9.5,
+      "e": 9.6,
+      "st": "plan"
+    },
+    {
+      "id": 36,
+      "l": "Setup Workflow CCH/EQCH/BAHR/TUCS",
+      "s": 9.5,
+      "e": 10,
+      "st": "plan"
+    },
+    {
+      "id": 37,
+      "l": "Workflow Non-Basis Retro loading",
+      "s": 10,
+      "e": 10.5,
+      "st": "plan"
+    },
+    {
+      "id": 38,
+      "l": "Load Novus through TNI to NER Tables",
+      "s": 10,
+      "e": 10.5,
+      "st": "plan"
+    },
+    {
+      "id": 39,
+      "l": "Feature: Privacy Deletes (Non-Basis)",
+      "s": 10,
+      "e": 10.5,
+      "st": "plan"
+    },
+    {
+      "id": 40,
+      "l": "Feature: TRSS needed features",
+      "s": 10,
+      "e": 10.5,
+      "st": "plan"
+    },
+    {
+      "id": 41,
+      "l": "Cutover - Start",
+      "s": 9.5,
+      "e": 9.6,
+      "st": "plan"
+    },
+    {
+      "id": 42,
+      "l": "Update Person Authority",
+      "s": 10,
+      "e": 11,
+      "st": "plan"
+    },
+    {
+      "id": 43,
+      "l": "Pause Content Processing",
+      "s": 10,
+      "e": 11,
+      "st": "plan"
+    },
+    {
+      "id": 44,
+      "l": "Update Warehouse, NEDS, Marts",
+      "s": 10,
+      "e": 11,
+      "st": "plan"
+    },
+    {
+      "id": 45,
+      "l": "Warehouse ERD to NER cut-over",
+      "s": 10,
+      "e": 11.4,
+      "st": "plan"
+    },
+    {
+      "id": 46,
+      "l": "Cutover - Done",
+      "s": 11.9,
+      "e": 12,
+      "st": "plan"
+    }
+  ],
   "iterations": {
     "jun23": [
       {
@@ -16,7 +806,7 @@
           "BAHR workflow is currently under investigation due to a performance issue encountered during the merge process."
         ],
         "risks": [
-          "The team is monitoring downstream dependencies, including the NPD review and Recall readiness for V4.8, to ensure continuity as the investigation progresses."
+          "The team is monitoring downstream dependencies, including the NPD review and Recall readiness for V4.8."
         ],
         "next": [
           "NER working with Labs to fix on-going BAHR workflow issue and merge",
@@ -24,7 +814,8 @@
         ],
         "impact": [
           "Not at the moment"
-        ]
+        ],
+        "link": ""
       },
       {
         "section": "Person Authority Build",
@@ -43,7 +834,8 @@
         ],
         "impact": [
           "Not at the moment"
-        ]
+        ],
+        "link": ""
       },
       {
         "section": "Person Authority Build",
@@ -66,7 +858,8 @@
         ],
         "impact": [
           "Not at the moment"
-        ]
+        ],
+        "link": ""
       },
       {
         "section": "Labs",
@@ -87,7 +880,8 @@
         ],
         "impact": [
           "Ensured reduction of entities in new PA compared to legacy authority, ensuring high precision of entity merges and adherence to business rules."
-        ]
+        ],
+        "link": ""
       },
       {
         "section": "GCO",
@@ -113,7 +907,8 @@
         ],
         "impact": [
           "Not at the moment"
-        ]
+        ],
+        "link": ""
       },
       {
         "section": "NPD",
@@ -144,7 +939,8 @@
         ],
         "impact": [
           "Not at the moment"
-        ]
+        ],
+        "link": ""
       }
     ],
     "jul07": [
@@ -159,13 +955,9 @@
         "state": [],
         "risks": [],
         "next": [],
-        "impact": []
+        "impact": [],
+        "link": ""
       }
     ]
-  },
-  "_meta": {
-    "lastUpdated": "2026-06-25",
-    "updatedBy": "Sarah Roy",
-    "iteration": "jun23"
   }
 }

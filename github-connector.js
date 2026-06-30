@@ -91,28 +91,50 @@ const GitHubDB = {
 
   _data: null,  // in-memory cache of the full data.json
 
-  // Load data from GitHub and update the dashboard globals
+  // Load data from GitHub — SAFE OVERRIDE
+  // Hardcoded data always renders first; data.json silently overrides in background
+  // Falls back silently on any error — dashboard always works
   async load() {
-    _showBanner('Loading data from GitHub…', 'info');
     try {
       const data = await _readFile();
       GitHubDB._data = data;
 
-      if (data.rows       && data.rows.length)       window.ROWS     = data.rows;
-      if (data.gantt      && data.gantt.length)       window.GANTT    = data.gantt;
-      if (data.iterations && Object.keys(data.iterations).length) window.ALL_ITER = data.iterations;
+      // Override Project Summary iterations (safest — no rendering risk)
+      if (data.iterations && Object.keys(data.iterations).length) {
+        window.ALL_ITER = data.iterations;
+        if (typeof psBuildTable === 'function') {
+          const iterSel = document.getElementById('ps-iteration');
+          const iterVal = iterSel ? iterSel.value : 'jun23';
+          if (window.ALL_ITER[iterVal]) {
+            window.PS_ROWS = window.ALL_ITER[iterVal];
+            psBuildTable(window.PS_ROWS);
+          }
+        }
+      }
 
-      _showBanner('Data loaded from GitHub', 'success');
-      setTimeout(_hideBanner, 2500);
+      // Override Roadmap only if full 46-row dataset present (sanity check)
+      if (data.rows && data.rows.length === 46) {
+        window.ROWS = data.rows;
+        if (typeof buildRm === 'function') buildRm();
+      }
 
-      if (typeof buildOv    === 'function') buildOv();
-      if (typeof buildRm    === 'function') buildRm();
-      if (typeof buildGantt === 'function') buildGantt();
+      // Override Gantt only if full dataset present
+      if (data.gantt && data.gantt.length === 46) {
+        window.GANTT = data.gantt;
+        if (typeof buildGantt === 'function') buildGantt();
+      }
+
+      // Show auto-refresh timestamp quietly in header
+      if (data._meta && data._meta.lastRefreshed) {
+        const ar = document.getElementById('ps-auto-refresh');
+        if (ar) ar.textContent = '↻ Auto-refreshed: ' + data._meta.lastRefreshed;
+      }
+
+      console.log('[GitHubDB] Safe override applied from GitHub');
 
     } catch (err) {
-      console.error('[GitHubDB] load error:', err);
-      _showBanner('GitHub load failed — using built-in data. ' + err.message, 'warning');
-      setTimeout(_hideBanner, 5000);
+      // Silent fail — hardcoded data already showing, nothing breaks
+      console.warn('[GitHubDB] GitHub load skipped — using built-in data:', err.message);
     }
   },
 
