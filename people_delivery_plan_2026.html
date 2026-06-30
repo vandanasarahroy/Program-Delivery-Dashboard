@@ -1764,6 +1764,12 @@ function psSaveEditChanges() {
   ALL_ITER[iterVal] = PS_ROWS;
   psSaveOfflineCache();
 
+  // Also save to GitHub if connector is loaded
+  if (typeof GitHubDB !== 'undefined') {
+    GitHubDB.save();
+    return; // GitHubDB.save() shows its own banner
+  }
+
   // Live API not configured — local cache only
   if (false) {
     fetch(API_BASE + '/api/milestones/bulk', {
@@ -1962,6 +1968,12 @@ function psPptxDownload(){
   });
 }
 buildOv();buildRm();buildGantt();psLoadOfflineCache();psBuildTable(PS_ROWS);
+// Load latest data from GitHub on startup
+if (typeof GitHubDB !== 'undefined') {
+  GitHubDB.load().then(function(){
+    psBuildTable(PS_ROWS);
+  });
+}
 // Set initial iteration label in toolbar
 (function(){var iterSel=document.getElementById('ps-iteration');if(iterSel){iterSel.value='jun23';var il=document.getElementById('ps-iter-label');if(il)il.textContent=iterSel.options[iterSel.selectedIndex].text;}})();
 </script>
@@ -1972,5 +1984,6 @@ buildOv();buildRm();buildGantt();psLoadOfflineCache();psBuildTable(PS_ROWS);
   <button class="ps-save-btn-main" id="ps-save-btn-main">Save</button>
 </div>
 <div id="ps-edit-banner"></div>
+<script src="github-connector.js"></script>
 </body>
 </html>
