@@ -1,0 +1,47 @@
+name: Twice-Daily Dashboard Refresh
+
+on:
+  schedule:
+    # 9 AM EST = 14:00 UTC
+    - cron: '0 14 * * *'
+    # 5 PM EST = 22:00 UTC
+    - cron: '0 22 * * *'
+  workflow_dispatch:  # Allow manual trigger from GitHub Actions tab
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Update refresh timestamp in data.json
+        run: |
+          python3 - << 'PYEOF'
+          import json, datetime, os
+
+          with open('data.json', 'r', encoding='utf-8') as f:
+              data = json.load(f)
+
+          # Update the _meta timestamp
+          if '_meta' not in data:
+              data['_meta'] = {}
+          data['_meta']['lastRefreshed'] = datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC')
+          data['_meta']['autoRefresh'] = True
+
+          with open('data.json', 'w', encoding='utf-8') as f:
+              json.dump(data, f, indent=2, ensure_ascii=False)
+
+          print(f"Refreshed at {data['_meta']['lastRefreshed']}")
+          PYEOF
+
+      - name: Commit refresh timestamp
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add data.json
+          git diff --staged --quiet || git commit -m "Auto-refresh: $(date -u '+%Y-%m-%d %H:%M UTC')"
+          git push
