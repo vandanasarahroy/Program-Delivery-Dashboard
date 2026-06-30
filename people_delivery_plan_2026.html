@@ -200,6 +200,7 @@ tr.row-dirty td{background:#fffbeb!important}
 .ps-offline-pill{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:700;padding:3px 9px;border-radius:10px;background:#f1f5f9;color:#64748b}
 .ps-offline-pill.cached{background:#dbeafe;color:#1e40af}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
 </head>
 <body>
 <div class="hdr">
@@ -637,7 +638,7 @@ tr.row-dirty td{background:#fffbeb!important}
     </div>
     <button class="ps-clear" onclick="psClearFilters()">Clear filters</button>
     <div style="margin-left:auto;display:flex;gap:8px;flex-shrink:0">
-      <button onclick="psExportIteration()" style="border:1.5px solid #1e3a5f;color:#1e3a5f;background:#fff;border-radius:4px;padding:6px 14px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap">&#11015; Download</button>
+      <button onclick="psPptxDownload()" style="border:1.5px solid #1e3a5f;color:#1e3a5f;background:#fff;border-radius:4px;padding:6px 14px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap">&#11015; Download as PowerPoint</button>
       <a href="https://trten.sharepoint.com/:f:/r/sites/PublicRecordsandDerivedAuthorities-PlanningandEstimating/Shared%20Documents/Planning%20and%20Estimating/2026/NuClear/Bi-Weekly%20Leadership%20Updates?csf=1&web=1&e=cKnf9S" target="_blank" style="border:1.5px solid #123121;color:#123121;background:#fff;border-radius:4px;padding:6px 14px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;text-decoration:none">&#128279; Bi-Weekly Updates</a>
     </div>
   </div>
@@ -1822,6 +1823,144 @@ document.addEventListener('DOMContentLoaded', function() {
   psLoadOfflineCache();
 });
 
+
+function psPptxDownload(){
+  if(typeof PptxGenJS === 'undefined'){
+    psShowBanner('PowerPoint library still loading, please try again in a moment.','#D64000',4000);
+    return;
+  }
+  var iterSel=document.getElementById('ps-iteration');
+  var iterLabel=iterSel?iterSel.options[iterSel.selectedIndex].text:'Current Iteration';
+  var today=new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+
+  var pptx=new PptxGenJS();
+  pptx.layout='LAYOUT_WIDE';
+  pptx.author='Sarah Roy';
+  pptx.company='Thomson Reuters';
+  pptx.subject='People Authority Build 2026';
+  pptx.title='People Authority Build — '+iterLabel;
+
+  var NAVY='1e3a5f', ORANGE='D64000', GREEN='123121', WHITE='FFFFFF', LGRAY='f1f5f9', MGRAY='64748b';
+
+  // ── TITLE SLIDE ──────────────────────────────────────────────────────────────
+  var slide1=pptx.addSlide();
+  slide1.background={color:NAVY};
+  slide1.addText('Thomson Reuters  ·  NuCLEAR  ·  Risk & Fraud  ·  PM: Sarah Roy',{x:0.5,y:0.4,w:12,h:0.3,fontSize:10,color:'93c5fd',bold:false});
+  slide1.addText('People Authority Build',{x:0.5,y:1.0,w:12,h:1.0,fontSize:40,bold:true,color:WHITE});
+  slide1.addText('2026 Delivery Plan & Roadmap',{x:0.5,y:2.0,w:12,h:0.6,fontSize:22,color:'93c5fd'});
+  slide1.addShape(pptx.ShapeType.rect,{x:0.5,y:2.75,w:12,h:0.55,fill:{color:'1a3356'},line:{color:'1a3356'}});
+  slide1.addText('Bi-Weekly Leadership Update  ·  '+iterLabel,{x:0.6,y:2.82,w:11.8,h:0.4,fontSize:14,color:WHITE,bold:true});
+  slide1.addShape(pptx.ShapeType.rect,{x:0.5,y:4.5,w:1.2,h:0.08,fill:{color:ORANGE},line:{color:ORANGE}});
+  slide1.addText('Generated '+today,{x:0.5,y:4.7,w:6,h:0.3,fontSize:11,color:'93c5fd'});
+
+  // ── SUMMARY SLIDE ─────────────────────────────────────────────────────────────
+  var slide2=pptx.addSlide();
+  slide2.background={color:WHITE};
+  slide2.addText('People Authority Build  —  Summary',{x:0.5,y:0.3,w:12,h:0.5,fontSize:20,bold:true,color:NAVY});
+  slide2.addShape(pptx.ShapeType.rect,{x:0.5,y:0.82,w:12,h:0.05,fill:{color:ORANGE},line:{color:ORANGE}});
+
+  var headers=['Milestone','Section','Health','Status','Owner'];
+  var colW=[3.5,2,1,1.5,2];
+  var startX=0.5,rowH=0.32,headerY=1.0;
+  var xPos=startX;
+  headers.forEach(function(h,i){
+    slide2.addShape(pptx.ShapeType.rect,{x:xPos,y:headerY,w:colW[i],h:rowH,fill:{color:NAVY},line:{color:NAVY}});
+    slide2.addText(h,{x:xPos+0.05,y:headerY,w:colW[i]-0.1,h:rowH,fontSize:10,bold:true,color:WHITE,valign:'middle'});
+    xPos+=colW[i];
+  });
+
+  var rowY=headerY+rowH;
+  PS_ROWS.forEach(function(r,ri){
+    if(rowY>7.0)return;
+    var bg=ri%2===0?LGRAY:WHITE;
+    xPos=startX;
+    var rowData=[r.name||'',r.section||'',r.health||'',r.status||'',r.owner||''];
+    rowData.forEach(function(val,ci){
+      slide2.addShape(pptx.ShapeType.rect,{x:xPos,y:rowY,w:colW[ci],h:rowH,fill:{color:bg},line:{color:'e2e8f0'}});
+      var textColor='1e293b';
+      if(ci===2){textColor=val==='Green'?'16a34a':val==='Amber'?'d97706':'dc2626';}
+      slide2.addText(val,{x:xPos+0.05,y:rowY,w:colW[ci]-0.1,h:rowH,fontSize:9,color:textColor,valign:'middle',bold:ci===0});
+      xPos+=colW[ci];
+    });
+    rowY+=rowH;
+  });
+  slide2.addText(iterLabel,{x:0.5,y:7.3,w:12,h:0.25,fontSize:9,color:MGRAY,align:'right'});
+
+  // ── DETAIL SLIDES BY SECTION ──────────────────────────────────────────────────
+  var sections={},sectionOrder=[];
+  PS_ROWS.forEach(function(r){
+    var sec=r.section||'General';
+    if(!sections[sec]){sections[sec]=[];sectionOrder.push(sec);}
+    sections[sec].push(r);
+  });
+
+  sectionOrder.forEach(function(sec){
+    var rows=sections[sec];
+    if(!rows||!rows.length)return;
+    var secBg=sec==='Basis Content Loading'?GREEN:NAVY;
+
+    rows.forEach(function(r){
+      var sl=pptx.addSlide();
+      sl.background={color:WHITE};
+
+      // Section pill
+      sl.addShape(pptx.ShapeType.rect,{x:0.5,y:0.2,w:3,h:0.28,fill:{color:secBg},line:{color:secBg},rounding:true});
+      sl.addText(sec.toUpperCase(),{x:0.55,y:0.22,w:2.9,h:0.24,fontSize:9,color:WHITE,bold:true,valign:'middle'});
+
+      // Health & Status
+      var hc=r.health==='Green'?'16a34a':r.health==='Amber'?'d97706':'dc2626';
+      sl.addShape(pptx.ShapeType.ellipse,{x:3.7,y:0.24,w:0.2,h:0.2,fill:{color:hc},line:{color:hc}});
+      sl.addText(r.health||'',{x:3.95,y:0.2,w:1,h:0.28,fontSize:9,color:hc,bold:true,valign:'middle'});
+      sl.addShape(pptx.ShapeType.rect,{x:5.1,y:0.2,w:1.6,h:0.28,fill:{color:r.status==='Completed'?GREEN:ORANGE},line:{color:r.status==='Completed'?GREEN:ORANGE},rounding:true});
+      sl.addText((r.status||'').toUpperCase(),{x:5.15,y:0.2,w:1.5,h:0.28,fontSize:8,color:WHITE,bold:true,align:'center',valign:'middle'});
+
+      // Milestone name
+      sl.addText(r.name||'',{x:0.5,y:0.58,w:12,h:0.6,fontSize:18,bold:true,color:NAVY});
+
+      // Owner/Team meta
+      var meta='';
+      if(r.owner)meta+='Owner: '+r.owner;
+      if(r.owner&&r.team)meta+='   ·   ';
+      if(r.team)meta+='Team: '+r.team;
+      if(meta)sl.addText(meta,{x:0.5,y:1.18,w:12,h:0.25,fontSize:10,color:MGRAY});
+
+      sl.addShape(pptx.ShapeType.rect,{x:0.5,y:1.48,w:12,h:0.04,fill:{color:ORANGE},line:{color:ORANGE}});
+
+      // 4 columns
+      var cols=[
+        {label:'Current State',data:r.state||[]},
+        {label:'Risks / Issues',data:r.risks||[]},
+        {label:'Next Steps',data:r.next||[]},
+        {label:'Business Impact',data:r.impact||[]}
+      ];
+      var cw=2.95,cx=0.5,cy=1.65,ch=4.8;
+      cols.forEach(function(col,ci){
+        sl.addShape(pptx.ShapeType.rect,{x:cx,y:cy,w:cw,h:0.28,fill:{color:NAVY},line:{color:NAVY}});
+        sl.addText(col.label,{x:cx+0.05,y:cy,w:cw-0.1,h:0.28,fontSize:9,bold:true,color:WHITE,valign:'middle'});
+        var bodyY=cy+0.32;
+        if(col.data.length){
+          var bullets=col.data.map(function(b){return {text:b,options:{bullet:true,fontSize:10,color:'334155',paraSpaceAfter:4}};});
+          sl.addText(bullets,{x:cx+0.05,y:bodyY,w:cw-0.15,h:ch-0.32,valign:'top',fontSize:10,color:'334155'});
+        } else {
+          sl.addText('—',{x:cx,y:bodyY+0.5,w:cw,h:0.4,fontSize:16,color:'cbd5e1',align:'center'});
+        }
+        cx+=cw+0.07;
+      });
+
+      // Footer
+      sl.addText(sec+' · People Authority Build 2026 · '+iterLabel,{x:0.5,y:7.3,w:12,h:0.25,fontSize:8,color:MGRAY,align:'right'});
+    });
+  });
+
+  // Save
+  var filename='People_Authority_Build_'+iterLabel.replace(/[^a-z0-9]/gi,'_')+'.pptx';
+  pptx.writeFile({fileName:filename}).then(function(){
+    psShowBanner('&#x2705; '+filename+' downloaded!','#123121',4000);
+  }).catch(function(err){
+    console.error(err);
+    psShowBanner('Error generating PowerPoint. Try the Export button instead.','#D64000',5000);
+  });
+}
 buildOv();buildRm();buildGantt();psLoadOfflineCache();psBuildTable(PS_ROWS);
 if(API_ENABLED){setTimeout(psSyncFromAPI,500);}
 // Set initial iteration label in toolbar
