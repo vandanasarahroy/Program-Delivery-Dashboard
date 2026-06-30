@@ -616,12 +616,11 @@ tr.row-dirty td{background:#fffbeb!important}
   <div class="ps-orange-accent"></div>
   <div style="background:#eff6ff;border:0.5px solid #bfdbfe;border-radius:6px;padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
     <div style="font-size:12px;color:#1e3a5f;line-height:1.6">
-      <strong>&#8505;&#65039; Data source:</strong> <span id="ps-data-source">SharePoint List (CSV)</span>. To add, edit or delete milestones open the List directly, or connect a live API backend.
+      <strong>&#8505;&#65039; Data source:</strong> <span id="ps-data-source">SharePoint List (CSV)</span>. To add, edit or delete milestones open the List directly.
       &nbsp;<span id="ps-last-sync" style="font-size:11px;color:#64748b"></span>
       &nbsp;<span id="ps-offline-indicator" class="ps-offline-pill">&#128190; No local cache</span>
     </div>
     <a href="https://trten.sharepoint.com/:l:/r/sites/PublicRecordsandDerivedAuthorities-PlanningandEstimating/Lists/People%20Authority%20BuildProject%20Summary?e=GwWirb" target="_blank" style="background:#1e3a5f;color:#fff;padding:5px 14px;border-radius:3px;font-size:11px;font-weight:700;text-decoration:none;white-space:nowrap">&#128203; Open SharePoint List</a>
-      <button onclick="psShowApiConfig()" id="ps-api-btn" style="background:#f97316;color:#fff;border:none;border-radius:3px;padding:5px 14px;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap" title="Connect to live API backend">&#9889; Connect Live API</button>
   </div>
   <div style="display:flex;align-items:flex-end;flex-wrap:wrap;gap:8px;margin-bottom:12px">
     <div class="ps-filter-group"><span class="ps-filter-label">Status</span>
@@ -1631,77 +1630,6 @@ function psShowBanner(msg,bg,dur){
 
 
 
-// ── LIVE API CONFIG ──────────────────────────────────────────────────────────
-var API_BASE = localStorage.getItem('pab_api_url') || '';
-var API_ENABLED = !!API_BASE;
-
-function psSetApiUrl(url) {
-  API_BASE = url.replace(/\/+$/, '');
-  localStorage.setItem('pab_api_url', API_BASE);
-  API_ENABLED = true;
-  psShowBanner('&#x2705; Connected to live API: ' + API_BASE, '#123121', 4000);
-  psSyncFromAPI();
-}
-
-function psShowApiConfig() {
-  var current = API_BASE || 'Not configured';
-  var url = prompt('Enter your Codespaces API URL:\n(e.g. https://xyz-3000.app.github.dev)\n\nCurrent: ' + current);
-  if (url && url.trim()) psSetApiUrl(url.trim());
-}
-
-// ── SYNC FROM API ─────────────────────────────────────────────────────────────
-function psSyncFromAPI() {
-  if (!API_ENABLED) return;
-  var iterSel = document.getElementById('ps-iteration');
-  var iterVal = iterSel ? iterSel.value : 'jun23';
-
-  fetch(API_BASE + '/api/milestones?iteration=' + iterVal)
-    .then(function(r) { return r.json(); })
-    .then(function(rows) {
-      if (!Array.isArray(rows)) throw new Error('Invalid response');
-      // Convert API rows to dashboard format
-      var mapped = rows.map(function(r) {
-        return {
-          name: r.name || '',
-          section: r.section || 'Person Authority Build',
-          sub: '',
-          team: r.team || '',
-          owner: r.owner || '',
-          health: r.health || 'Green',
-          status: r.status || 'In Progress',
-          state: r.current_state ? r.current_state.split('|').filter(function(s){return s.trim();}) : [],
-          risks: r.risks_issues ? r.risks_issues.split('|').filter(function(s){return s.trim();}) : [],
-          next: r.next_steps ? r.next_steps.split('|').filter(function(s){return s.trim();}) : [],
-          impact: r.business_impact ? r.business_impact.split('|').filter(function(s){return s.trim();}) : [],
-          link: r.link || '',
-          iterLabel: iterSel ? iterSel.options[iterSel.selectedIndex].text : '',
-          _apiId: r.id
-        };
-      });
-      if (!ALL_ITER[iterVal]) ALL_ITER[iterVal] = [];
-      ALL_ITER[iterVal] = mapped;
-      PS_ROWS = mapped;
-      psBuildTable(PS_ROWS);
-      var ls = document.getElementById('ps-last-sync');
-      if (ls) ls.textContent = 'Live • Last synced: ' + new Date().toLocaleTimeString();
-      console.log('Synced ' + mapped.length + ' rows from API');
-    })
-    .catch(function(err) {
-      console.error('API sync error:', err);
-    });
-}
-
-// Auto-sync when iteration changes if API enabled
-var _origPsChangeIteration = psChangeIteration;
-psChangeIteration = function(val) {
-  _origPsChangeIteration(val);
-  if (API_ENABLED) psSyncFromAPI();
-};
-
-// Poll for updates every 30 seconds if API connected
-setInterval(function() {
-  if (API_ENABLED) psSyncFromAPI();
-}, 30000);
 
 
 // ── EDIT MODE + OFFLINE CACHE ─────────────────────────────────────────────────
@@ -1835,8 +1763,8 @@ function psSaveEditChanges() {
   ALL_ITER[iterVal] = PS_ROWS;
   psSaveOfflineCache();
 
-  // If a live API is connected, also push there
-  if (typeof API_ENABLED !== 'undefined' && API_ENABLED) {
+  // Live API not configured — local cache only
+  if (false) {
     fetch(API_BASE + '/api/milestones/bulk', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -1895,7 +1823,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 buildOv();buildRm();buildGantt();psLoadOfflineCache();psBuildTable(PS_ROWS);
-// Auto-connect if API URL stored
 if(API_ENABLED){setTimeout(psSyncFromAPI,500);}
 // Set initial iteration label in toolbar
 (function(){var iterSel=document.getElementById('ps-iteration');if(iterSel){iterSel.value='jun23';var il=document.getElementById('ps-iter-label');if(il)il.textContent=iterSel.options[iterSel.selectedIndex].text;}})();
