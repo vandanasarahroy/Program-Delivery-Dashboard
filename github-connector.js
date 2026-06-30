@@ -20,7 +20,7 @@ const GH_CONFIG = {
   repo:  'Program-Delivery-Dashboard',
   path:  'data.json',
   branch: 'main',
-  token: atob('Z2l0aHViX3BhdF8xMUJUNllZMkEwMXVsazNVOGREeHVTX0F0OGlHNm1wd003NUdrZ1NHVUI3M2NPUDB3RTd5NnhRREZkNXNJNFE2enhXTldJNkw3NlJEdEFwQjVu'),
+  token: atob('Z2l0aHViX3BhdF8xMUJUNllZMkEweTNiZXNOVFJvR2dGXzlzc3d0ZnNXbndBZDlHMTNZM2ZBUWJWNVBRMkJKclU5ZFdwYkQ4aTZvcm41NkE0VlFGSzlmNlJsd1ky'),
 };
 
 // ─── Token handling ───────────────────────────────────────────────────────────
