@@ -1791,7 +1791,7 @@ function psSaveEditChanges() {
     PS_DIRTY_ROWS = {};
     document.querySelectorAll('#ps-tbody tr.row-dirty').forEach(function(tr) { tr.classList.remove('row-dirty'); });
     psRefreshChangeCount();
-    psShowEditBanner('\u2713 ' + n + ' change' + (n !== 1 ? 's' : '') + ' saved' + (typeof API_ENABLED !== 'undefined' && API_ENABLED ? ' to live API' : ' to local cache'), '#166534');
+    psShowEditBanner('\u2713 ' + n + ' change' + (n !== 1 ? 's' : '') + ' saved to local cache', '#166534');
     setTimeout(psHideEditBanner, 3000);
   }, 600);
 }
@@ -1962,7 +1962,6 @@ function psPptxDownload(){
   });
 }
 buildOv();buildRm();buildGantt();psLoadOfflineCache();psBuildTable(PS_ROWS);
-if(API_ENABLED){setTimeout(psSyncFromAPI,500);}
 // Set initial iteration label in toolbar
 (function(){var iterSel=document.getElementById('ps-iteration');if(iterSel){iterSel.value='jun23';var il=document.getElementById('ps-iter-label');if(il)il.textContent=iterSel.options[iterSel.selectedIndex].text;}})();
 </script>
