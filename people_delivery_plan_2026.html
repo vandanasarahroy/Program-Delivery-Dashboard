@@ -251,9 +251,7 @@ tr.row-dirty td{background:#fffbeb!important}
 .ps-drag-handle{display:inline-flex;align-items:center;justify-content:center;width:18px;height:32px;cursor:grab;color:#cbd5e1;font-size:14px;margin-right:6px;vertical-align:middle;flex-shrink:0;user-select:none}
 .ps-drag-handle:hover{color:#64748b}
 .ps-drag-handle:active{cursor:grabbing}
-tr.ps-dragging{opacity:.4;background:#eff6ff!important}
 tr.ps-drag-over{border-top:2px solid #D64000!important}
-tr[draggable="true"]{transition:opacity .15s}
 
 #ps-name-prompt{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:99999;display:flex;align-items:center;justify-content:center}
 #ps-name-prompt.hidden{display:none}
@@ -269,6 +267,13 @@ tr[draggable="true"]{transition:opacity .15s}
 #ps-editing-banner.show{display:flex}
 .pseb-dot{width:8px;height:8px;border-radius:50%;background:#4ade80;animation:pulseDot 1.2s ease-in-out infinite}
 @keyframes pulseDot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.7)}}
+.ps-drag-handle{display:inline-flex;align-items:center;justify-content:center;width:20px;height:32px;cursor:grab;color:#cbd5e1;font-size:14px;margin-right:6px;flex-shrink:0;user-select:none}
+.ps-drag-handle:hover{color:#64748b}
+.ps-sec-drag-handle{display:inline-flex;align-items:center;cursor:grab;opacity:.6;font-size:16px;color:#fff;margin-right:4px;padding:2px 4px;user-select:none}
+.ps-sec-drag-handle:hover{opacity:1}
+.ps-row-dragging{outline:2px dashed #D64000;outline-offset:1px;opacity:.6}
+.ps-drag-clone{position:fixed;pointer-events:none;z-index:99999;opacity:.9;background:#1e3a5f;color:#fff;box-shadow:0 4px 20px rgba(0,0,0,.3);border-radius:6px;padding:6px 14px;font-size:12px;font-weight:700;white-space:nowrap;max-width:320px;overflow:hidden;text-overflow:ellipsis;border-left:3px solid #D64000}
+.ps-drop-line{position:fixed;height:3px;background:#D64000;border-radius:2px;pointer-events:none;z-index:99998;left:0;right:0}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
 </head>
@@ -1398,7 +1403,7 @@ function psBuildTable(data){
       +'<td colspan="7" style="background:'+secBg+';padding:0">'
       +'<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px">'
       +'<span style="display:flex;align-items:center;gap:6px;font-size:10px;font-weight:700;color:rgba(255,255,255,.9);letter-spacing:.5px;text-transform:uppercase">'
-      +'<span draggable="true" data-section-drag="'+sec+'" onmousedown="event.stopPropagation()" onclick="event.stopPropagation()" style="cursor:grab;opacity:.6;font-size:16px;color:#fff;margin-right:2px;padding:2px 4px" title="Drag to reorder section">&#8942;&#8942;</span>'
+      +'<span class="ps-sec-drag-handle" onmousedown="psDragSecStart(event,\''+sec+'\')">&#8942;&#8942;</span>'
       +sec+'<span style="font-weight:400;opacity:.65;font-size:10px">('+secRows.length+' item'+(secRows.length!==1?'s':'')+')</span>'+secBadge+'</span>'
       +'<span style="display:flex;align-items:center;gap:6px">'
       +'<button class="ps-sec-add" onclick="event.stopPropagation();pepOpenNewInSection(\''+sec+'\')">+ Add</button>'
@@ -1452,10 +1457,10 @@ function psBuildTable(data){
     }
     secRows.forEach(function(row){
       var idx=PS_ROWS.indexOf(row);
-      var nameHtml='<span class="ps-drag-handle" title="Drag to reorder">&#8942;&#8942;</span><div class="ps-name" style="display:inline-block">'+(isPast?'&#128274; ':'')+row.name+'</div>';
+      var nameHtml='<span class="ps-drag-handle" onmousedown="psDragRowStart(event,'+idx+')">&#8942;&#8942;</span><div class="ps-name" style="display:inline-block">'+(isPast?'&#128274; ':'')+row.name+'</div>';
       if(row.sub)nameHtml+='<div class="ps-sub">'+row.sub+'</div>';
       nameHtml+='<span class="ps-iter">'+(row.iterLabel||iterLabel)+'</span>';
-      html+='<tr draggable="true" data-sec="'+secId+'" data-section="'+sec+'" data-row-idx="'+idx+'" style="'+'">'
+      html+='<tr data-sec="'+secId+'" data-section="'+sec+'" data-row-idx="'+idx+'" style="'+'">'
         +'<td>'+nameHtml+'<div class="ps-row-actions" style="margin-top:6px">'
         +'<button class="ps-row-edit-btn" data-edit-idx="'+idx+'">&#9999; Edit</button>'
         +'<button class="ps-row-remove-btn" data-remove-idx="'+idx+'">&#128465; Remove</button>'
@@ -1473,6 +1478,7 @@ function psBuildTable(data){
   var rc=document.getElementById('ps-row-count');
   if(rc)rc.textContent=data.length+' milestone'+(data.length!==1?'s':'');
   var _tb=document.getElementById('ps-tbody'); if(_tb) _tb._dragInited=false;
+  var _tb2=document.getElementById('ps-tbody');if(_tb2)_tb2._ci=false;
   psInitDrag();
 }
 function togglePsSec(id){
@@ -2176,112 +2182,158 @@ function pepRewriteAI(fieldId) {
 var psDragSrcIdx = null;
 
 function psSectionClick(e, secId) {
-  // Don't toggle if clicking the drag handle or + Add button
-  if (e.target.closest('.ps-sec-drag-handle') || e.target.closest('.ps-sec-add')) return;
+  if (e.target.closest('.ps-sec-drag-handle,.ps-sec-add,button')) return;
   togglePsSec(secId);
 }
 
+// ── MOUSE DRAG ENGINE ─────────────────────────────────────────────────────────
+var _pd = null; // active drag state
 
+function psDragSecStart(e, sec) {
+  e.preventDefault(); e.stopPropagation();
+  _pd = { type:'section', sec:sec, x:e.clientX, y:e.clientY, moved:false };
+  _pdBind(); _pdClone(sec);
+}
+
+function psDragRowStart(e, idx) {
+  e.preventDefault(); e.stopPropagation();
+  var row = PS_ROWS[idx];
+  if (!row) return;
+  _pd = { type:'row', idx:idx, row:row, x:e.clientX, y:e.clientY, moved:false };
+  _pdBind(); _pdClone(row.name||'Row');
+}
+
+function _pdBind() {
+  document.addEventListener('mousemove', _pdMove, {passive:false});
+  document.addEventListener('mouseup',   _pdUp);
+}
+
+function _pdClone(label) {
+  var el = document.createElement('div');
+  el.id = 'pd-clone';
+  el.className = 'ps-drag-clone';
+  el.textContent = label.substring(0,50) + (label.length>50 ? '\u2026' : '');
+  el.style.cssText = 'left:-9999px;top:-9999px';
+  document.body.appendChild(el);
+}
+
+function _pdMove(e) {
+  if (!_pd) return;
+  _pd.moved = true;
+  var cl = document.getElementById('pd-clone');
+  if (cl) { cl.style.left=(e.clientX+16)+'px'; cl.style.top=(e.clientY-8)+'px'; }
+
+  // Drop line
+  var target = _pdTarget(e);
+  var line = document.getElementById('pd-line') || (function(){
+    var l=document.createElement('div'); l.id='pd-line'; l.className='ps-drop-line';
+    document.body.appendChild(l); return l;
+  })();
+  if (target) {
+    var rect = target.el.getBoundingClientRect();
+    var atTop = e.clientY < rect.top + rect.height/2;
+    line.style.top = (atTop ? rect.top : rect.bottom) + 'px';
+    line.style.left = rect.left + 'px';
+    line.style.width = rect.width + 'px';
+    line.style.display = 'block';
+  } else {
+    line.style.display = 'none';
+  }
+}
+
+function _pdTarget(e) {
+  // Find the tr under cursor
+  var els = document.elementsFromPoint(e.clientX, e.clientY);
+  for (var i=0; i<els.length; i++) {
+    var tr = els[i].tagName === 'TR' ? els[i] : (els[i].closest ? els[i].closest('tr[data-row-idx],tr[data-section]') : null);
+    if (tr && (tr.dataset.rowIdx !== undefined || tr.dataset.section)) {
+      return { el: tr, rowIdx: tr.dataset.rowIdx, sec: tr.dataset.section };
+    }
+  }
+  return null;
+}
+
+function _pdUp(e) {
+  document.removeEventListener('mousemove', _pdMove);
+  document.removeEventListener('mouseup', _pdUp);
+  var cl = document.getElementById('pd-clone'); if(cl) cl.remove();
+  var ln = document.getElementById('pd-line');  if(ln) ln.remove();
+  if (!_pd || !_pd.moved) { _pd=null; return; }
+
+  var target = _pdTarget(e);
+
+  if (_pd.type === 'section' && target && target.sec && target.sec !== _pd.sec) {
+    var rect = target.el.getBoundingClientRect();
+    var before = e.clientY < rect.top + rect.height/2;
+    var src  = PS_ROWS.filter(function(r){ return r.section===_pd.sec; });
+    var rest = PS_ROWS.filter(function(r){ return r.section!==_pd.sec; });
+    var ins = -1;
+    for(var i=0;i<rest.length;i++){
+      if(rest[i].section===target.sec){ ins=i; break; }
+    }
+    if(!before){
+      // insert after last row of target section
+      var lastTgt=-1;
+      for(var j=0;j<rest.length;j++){ if(rest[j].section===target.sec) lastTgt=j; }
+      ins = lastTgt+1;
+    }
+    if(ins<0) ins=rest.length;
+    rest.splice.apply(rest,[ins,0].concat(src));
+    PS_ROWS=rest;
+    _pdSave();
+
+  } else if (_pd.type === 'row' && target) {
+    var srcIdx = _pd.idx;
+
+    if (target.rowIdx !== undefined) {
+      // Dropped on a row
+      var tIdx = parseInt(target.rowIdx,10);
+      if (tIdx === srcIdx) { _pd=null; return; }
+      var rect2 = target.el.getBoundingClientRect();
+      var before2 = e.clientY < rect2.top + rect2.height/2;
+      var moved = PS_ROWS.splice(srcIdx,1)[0];
+      // Update section if target row is in a different section
+      if (target.el.dataset.section && moved.section !== target.el.dataset.section) {
+        moved.section = target.el.dataset.section;
+      }
+      var ni = tIdx > srcIdx ? tIdx-1 : tIdx;
+      if(!before2 && ni < PS_ROWS.length) ni++;
+      PS_ROWS.splice(Math.min(ni,PS_ROWS.length),0,moved);
+      _pdSave();
+
+    } else if (target.sec) {
+      // Dropped on a section header — reassign section
+      var moved2 = PS_ROWS.splice(srcIdx,1)[0];
+      moved2.section = target.sec;
+      // Insert at start of that section
+      var firstInSec = PS_ROWS.findIndex ? PS_ROWS.findIndex(function(r){return r.section===target.sec;}) : -1;
+      if(firstInSec<0) PS_ROWS.push(moved2);
+      else PS_ROWS.splice(firstInSec,0,moved2);
+      _pdSave();
+    }
+  }
+  _pd = null;
+}
+
+function _pdSave() {
+  var iterSel=document.getElementById('ps-iteration');
+  var iterVal=iterSel?iterSel.value:'jun23';
+  ALL_ITER[iterVal]=PS_ROWS;
+  psSaveOfflineCache();
+  psBuildTable(PS_ROWS);
+  if(typeof GitHubDB!=='undefined'){window.ALL_ITER=ALL_ITER;GitHubDB.save();}
+}
 
 function psInitDrag() {
-  var tbody = document.getElementById('ps-tbody');
-  if (!tbody) return;
-
-  // DON'T clone — just add listeners directly (called fresh on every psBuildTable)
-  // Use a flag to prevent double-registration
-  if (tbody._dragInited) return;
-  tbody._dragInited = true;
-
-  // ── Delegated click: Edit and Remove ────────────────────────────────────────
-  tbody.addEventListener('click', function(e) {
-    var removeBtn = e.target.closest('[data-remove-idx]');
-    var editBtn   = e.target.closest('[data-edit-idx]');
-    if (removeBtn) { pepRemove(parseInt(removeBtn.dataset.removeIdx, 10)); }
-    else if (editBtn) { pepOpen(parseInt(editBtn.dataset.editIdx, 10)); }
-  });
-
-  // ── Delegated dragstart: section handle OR row ───────────────────────────────
-  tbody.addEventListener('dragstart', function(e) {
-    var handle = e.target.closest('[data-section-drag]');
-    var row    = e.target.closest('tr[data-row-idx]');
-
-    if (handle) {
-      PS_DRAG_TYPE    = 'section';
-      PS_DRAG_SECTION = handle.dataset.sectionDrag;
-      var hdr = handle.closest('tr[data-section]');
-      if (hdr) hdr.style.opacity = '0.4';
-      e.dataTransfer.effectAllowed = 'move';
-      e.dataTransfer.setData('text/plain', 'sec:' + PS_DRAG_SECTION);
-    } else if (row) {
-      PS_DRAG_TYPE    = 'row';
-      PS_DRAG_ROW_IDX = parseInt(row.dataset.rowIdx, 10);
-      row.classList.add('ps-dragging');
-      e.dataTransfer.effectAllowed = 'move';
-      e.dataTransfer.setData('text/plain', 'row:' + PS_DRAG_ROW_IDX);
-    }
-  });
-
-  // ── dragend ──────────────────────────────────────────────────────────────────
-  tbody.addEventListener('dragend', function(e) {
-    PS_DRAG_TYPE = null; PS_DRAG_SECTION = null; PS_DRAG_ROW_IDX = null;
-    document.querySelectorAll('tr[data-section]').forEach(function(r) { r.style.opacity=''; });
-    document.querySelectorAll('tr.ps-dragging').forEach(function(r) { r.classList.remove('ps-dragging'); });
-    document.querySelectorAll('tr.ps-drag-over').forEach(function(r) { r.classList.remove('ps-drag-over'); });
-  });
-
-  // ── dragover ─────────────────────────────────────────────────────────────────
-  tbody.addEventListener('dragover', function(e) {
-    e.preventDefault();
-    document.querySelectorAll('tr.ps-drag-over').forEach(function(r) { r.classList.remove('ps-drag-over'); });
-    if (PS_DRAG_TYPE === 'section') {
-      var hdr = e.target.closest('tr[data-section]');
-      if (hdr && hdr.dataset.section !== PS_DRAG_SECTION) hdr.classList.add('ps-drag-over');
-    } else if (PS_DRAG_TYPE === 'row') {
-      var tr = e.target.closest('tr[data-row-idx]');
-      if (tr) tr.classList.add('ps-drag-over');
-    }
-  });
-
-  // ── drop ─────────────────────────────────────────────────────────────────────
-  tbody.addEventListener('drop', function(e) {
-    e.preventDefault();
-
-    if (PS_DRAG_TYPE === 'section' && PS_DRAG_SECTION) {
-      // Section drag: find nearest section header target
-      var hdr = e.target.closest('tr[data-section]');
-      if (!hdr || hdr.dataset.section === PS_DRAG_SECTION) { PS_DRAG_TYPE=null; return; }
-      var tSec = hdr.dataset.section;
-      var src  = PS_ROWS.filter(function(r){ return r.section===PS_DRAG_SECTION; });
-      var rest = PS_ROWS.filter(function(r){ return r.section!==PS_DRAG_SECTION; });
-      var ins = -1;
-      for(var i=0;i<rest.length;i++){ if(rest[i].section===tSec){ins=i;break;} }
-      if (ins < 0) ins = rest.length;
-      rest.splice.apply(rest, [ins,0].concat(src));
-      PS_ROWS = rest;
-
-    } else if (PS_DRAG_TYPE === 'row' && PS_DRAG_ROW_IDX !== null) {
-      var tr = e.target.closest('tr[data-row-idx]');
-      if (!tr) { PS_DRAG_TYPE=null; return; }
-      var tIdx = parseInt(tr.dataset.rowIdx, 10);
-      if (PS_DRAG_ROW_IDX === tIdx) { PS_DRAG_TYPE=null; return; }
-      // Get target section from the target row's data-section attribute
-      var targetSection = tr.dataset.section;
-      var moved = PS_ROWS.splice(PS_DRAG_ROW_IDX, 1)[0];
-      // ── KEY FIX: update row.section if dropped into a different section ──
-      if (targetSection && moved.section !== targetSection) {
-        moved.section = targetSection;
-      }
-      var ni = tIdx > PS_DRAG_ROW_IDX ? tIdx-1 : tIdx;
-      PS_ROWS.splice(ni, 0, moved);
-    }
-
-    var iterSel = document.getElementById('ps-iteration');
-    var iterVal = iterSel ? iterSel.value : 'jun23';
-    ALL_ITER[iterVal] = PS_ROWS;
-    psSaveOfflineCache();
-    psBuildTable(PS_ROWS);
-    if (typeof GitHubDB !== 'undefined') { window.ALL_ITER=ALL_ITER; GitHubDB.save(); }
-    PS_DRAG_TYPE=null; PS_DRAG_SECTION=null; PS_DRAG_ROW_IDX=null;
+  // Delegated click for Edit/Remove (survive table rebuilds)
+  var tbody=document.getElementById('ps-tbody');
+  if(!tbody||tbody._ci) return;
+  tbody._ci=true;
+  tbody.addEventListener('click',function(e){
+    var rb=e.target.closest('[data-remove-idx]');
+    var eb=e.target.closest('[data-edit-idx]');
+    if(rb) pepRemove(parseInt(rb.dataset.removeIdx,10));
+    else if(eb) pepOpen(parseInt(eb.dataset.editIdx,10));
   });
 }
 
