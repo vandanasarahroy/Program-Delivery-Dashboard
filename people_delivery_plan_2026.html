@@ -188,15 +188,15 @@ ol.steps{padding-left:18px;font-size:12px;color:#475569;line-height:1.9}
 tr.row-dirty td{background:#fffbeb!important}
 .edit-select-cell{border:1px solid #d1d5db;border-radius:4px;padding:4px 28px 4px 8px;font-size:11px;background:#fffbeb;cursor:pointer;width:100%;min-width:110px;box-sizing:border-box;-webkit-appearance:menulist;appearance:menulist}
 .health-cycle{cursor:pointer}
-#ps-edit-toggle{position:fixed;bottom:24px;right:24px;z-index:9000;padding:10px 20px;border-radius:8px;border:none;cursor:pointer;font-size:13px;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.25);transition:all .2s}
-#ps-edit-toggle.off{background:#1e3a5f;color:#fff}
-#ps-edit-toggle.on{background:#f97316;color:#fff}
-#ps-save-bar{position:fixed;bottom:70px;right:24px;z-index:9000;display:none;gap:8px;align-items:center;background:#fff;border:1px solid #d1d5db;border-radius:10px;padding:8px 14px;box-shadow:0 2px 12px rgba(0,0,0,.15);font-size:13px}
+
+
+
+
 #ps-save-bar button{padding:6px 14px;border-radius:6px;border:none;cursor:pointer;font-size:12px;font-weight:700}
-.ps-save-btn-main{background:#166534;color:#fff}
-.ps-discard-btn{background:#f3f4f6;color:#374151}
-#ps-change-count{color:#92400e;font-weight:700;font-size:12px}
-#ps-edit-banner{position:fixed;top:0;left:0;right:0;z-index:9999;padding:8px 16px;font-size:13px;text-align:center;transition:opacity .3s;display:none;color:#fff}
+
+
+
+
 .ps-offline-pill{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:700;padding:3px 9px;border-radius:10px;background:#f1f5f9;color:#64748b}
 .ps-offline-pill.cached{background:#dbeafe;color:#1e40af}
 
@@ -1143,13 +1143,7 @@ document.getElementById('tabs').addEventListener('click',function(e){
   document.querySelectorAll('.pane').forEach(function(p){p.classList.remove('on');});
   btn.classList.add('on');
   document.getElementById('tab-'+btn.dataset.tab).classList.add('on');
-  // Show Edit button only on Roadmap and Risks & Issues tabs
-  var editToggle = document.getElementById('ps-edit-toggle');
-  var cancelEdit = document.getElementById('ps-cancel-edit');
-  var showEditTabs = ['roadmap','risks'];
-  var showEdit = showEditTabs.indexOf(btn.dataset.tab) !== -1;
-  if(editToggle) editToggle.style.display = showEdit ? '' : 'none';
-  if(cancelEdit && !showEdit) cancelEdit.style.display = 'none';
+
   // Re-activate edit mode on the new tab if edit is on
   if(typeof PS_EDIT_MODE !== 'undefined' && PS_EDIT_MODE) {
     var tabId = btn.dataset.tab;
@@ -1778,176 +1772,20 @@ function psClearOfflineCache() {
 }
 
 // ── EDIT MODE TOGGLE ───────────────────────────────────────────────────────────
-function psToggleEditMode() {
-  PS_EDIT_MODE = !PS_EDIT_MODE;
-  var btn = document.getElementById('ps-edit-toggle');
-  btn.className = PS_EDIT_MODE ? 'on' : 'off';
-  btn.innerHTML = PS_EDIT_MODE ? '&#9999; Editing' : '&#9999; Edit';
-  // Show/hide cancel button
-  var cancelBtn = document.getElementById('ps-cancel-edit');
-  if(cancelBtn) cancelBtn.style.display = PS_EDIT_MODE ? 'inline-block' : 'none';
-  if (PS_EDIT_MODE) {
-    // Activate correct tab
-    var activeTab = document.querySelector('.tab.on');
-    var tabId = activeTab ? activeTab.dataset.tab : 'summary';
-    if(tabId === 'roadmap') { if(typeof rmActivateEdit==='function') rmActivateEdit(); }
-    else if(tabId === 'risks') { if(typeof risksActivateEdit==='function') risksActivateEdit(); }
-    else { psActivateEditMode(); }
-  } else {
-    psDeactivateEditMode();
-    rmDeactivateEdit();
-    risksDeactivateEdit();
-  }
-}
 
 // Tab edit activation handled in tab click event listener
 
 var PS_HEALTH_CYCLE = ['Green', 'Amber', 'Red'];
 var PS_STATUS_OPTS = ['In Progress', 'Completed', 'Planned', 'On Hold', 'Blocked'];
 
-function psActivateEditMode() {
-  document.querySelectorAll('#ps-tbody tr[data-row-idx]').forEach(function(tr) {
-    var idx = parseInt(tr.dataset.rowIdx, 10);
-    var row = PS_ROWS[idx];
-    if (!row) return;
 
-    tr.querySelectorAll('td[data-pcol]').forEach(function(td) {
-      var col = td.dataset.pcol;
 
-      if (col === 'health') {
-        td.classList.add('health-cycle');
-        td.title = 'Click to cycle Green \u2192 Amber \u2192 Red';
-        td.onclick = function() {
-          var next = PS_HEALTH_CYCLE[(PS_HEALTH_CYCLE.indexOf(row.health) + 1) % PS_HEALTH_CYCLE.length];
-          row.health = next;
-          td.innerHTML = psHealthDot(next);
-          psMarkRowDirty(idx, tr);
-        };
-      }
 
-      if (col === 'status') {
-        var sel = document.createElement('select');
-        sel.className = 'edit-select-cell';
-        PS_STATUS_OPTS.forEach(function(v) {
-          var o = document.createElement('option');
-          o.value = v; o.textContent = v;
-          if (v === row.status) o.selected = true;
-          sel.appendChild(o);
-        });
-        sel.onchange = function() { row.status = sel.value; psMarkRowDirty(idx, tr); };
-        td.innerHTML = ''; td.appendChild(sel);
-      }
 
-      if (col === 'state' || col === 'risks' || col === 'next' || col === 'impact') {
-        var current = (row[col] || []).join('\n');
-        var ta = document.createElement('textarea');
-        ta.value = current;
-        ta.className = 'editable-cell';
-        ta.style.cssText = 'width:100%;min-height:60px;border:none;font-size:12px;font-family:inherit;resize:vertical;padding:4px';
-        ta.oninput = function() {
-          row[col] = ta.value.split('\n').map(function(s) { return s.trim(); }).filter(function(s) { return s; });
-          psMarkRowDirty(idx, tr);
-        };
-        td.innerHTML = ''; td.appendChild(ta);
-      }
-    });
-  });
-}
 
-function psDeactivateEditMode() {
-  psBuildTable(PS_ROWS);
-  PS_DIRTY_ROWS = {};
-  psRefreshChangeCount();
-}
 
-function psMarkRowDirty(idx, tr) {
-  PS_DIRTY_ROWS[idx] = true;
-  tr.classList.add('row-dirty');
-  psRefreshChangeCount();
-}
-
-function psRefreshChangeCount() {
-  var n = Object.keys(PS_DIRTY_ROWS).length;
-  var bar = document.getElementById('ps-save-bar');
-  bar.style.display = n > 0 ? 'flex' : 'none';
-  document.getElementById('ps-change-count').textContent = n + ' unsaved change' + (n !== 1 ? 's' : '');
-}
-
-function psSaveEditChanges() {
-  var n = Object.keys(PS_DIRTY_ROWS).length;
-  psShowEditBanner('Saving ' + n + ' change' + (n !== 1 ? 's' : '') + '\u2026', '#1e3a5f');
-
-  // Persist to offline cache immediately (works even without network)
-  var iterSel = document.getElementById('ps-iteration');
-  var iterVal = iterSel ? iterSel.value : 'jun23';
-  ALL_ITER[iterVal] = PS_ROWS;
-  psSaveOfflineCache();
-
-  // Also save to GitHub if connector is loaded (includes ROWS for Roadmap)
-  if (typeof GitHubDB !== 'undefined') {
-    // Sync ROWS back to window so GitHubDB picks it up
-    window.ROWS = ROWS;
-    window.ALL_ITER = ALL_ITER;
-    GitHubDB.save();
-    return;
-  }
-
-  // Live API not configured — local cache only
-  if (false) {
-    fetch(API_BASE + '/api/milestones/bulk', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        iteration: iterVal,
-        replace: true,
-        milestones: PS_ROWS.map(function(r) {
-          return {
-            name: r.name, section: r.section, iteration: iterVal,
-            health: r.health, status: r.status, team: r.team, owner: r.owner,
-            current_state: (r.state || []).join('|'),
-            risks_issues: (r.risks || []).join('|'),
-            next_steps: (r.next || []).join('|'),
-            business_impact: (r.impact || []).join('|'),
-            link: r.link || ''
-          };
-        })
-      })
-    }).catch(function(err) { console.error('API save error:', err); });
-  }
-
-  setTimeout(function() {
-    PS_DIRTY_ROWS = {};
-    document.querySelectorAll('#ps-tbody tr.row-dirty').forEach(function(tr) { tr.classList.remove('row-dirty'); });
-    psRefreshChangeCount();
-    psShowEditBanner('\u2713 ' + n + ' change' + (n !== 1 ? 's' : '') + ' saved to local cache', '#166534');
-    setTimeout(psHideEditBanner, 3000);
-  }, 600);
-}
-
-function psDiscardEditChanges() {
-  PS_EDIT_MODE = true; // force deactivate path to redraw clean
-  psToggleEditMode();
-  psShowEditBanner('Changes discarded', '#64748b');
-  setTimeout(psHideEditBanner, 2000);
-}
-
-function psShowEditBanner(msg, bg) {
-  var b = document.getElementById('ps-edit-banner');
-  b.style.background = bg; b.style.display = 'block'; b.style.opacity = '1'; b.textContent = msg;
-}
-function psHideEditBanner() {
-  var b = document.getElementById('ps-edit-banner');
-  b.style.opacity = '0';
-  setTimeout(function() { b.style.display = 'none'; }, 300);
-}
 
 document.addEventListener('DOMContentLoaded', function() {
-  var editBtn = document.getElementById('ps-edit-toggle');
-  if (editBtn) editBtn.onclick = psToggleEditMode;
-  var saveBtn = document.getElementById('ps-save-btn-main');
-  if (saveBtn) saveBtn.onclick = psSaveEditChanges;
-  var discardBtn = document.getElementById('ps-discard-btn');
-  if (discardBtn) discardBtn.onclick = psDiscardEditChanges;
   psLoadOfflineCache();
 });
 
@@ -2090,97 +1928,15 @@ function psPptxDownload(){
   });
 }
 
-function psCancelEdit() {
-  if(PS_EDIT_MODE) {
-    PS_EDIT_MODE = true; // force deactivate
-    psToggleEditMode();
-  }
-  PS_DIRTY_ROWS = {};
-  psRefreshChangeCount();
-}
 
 // ── ROADMAP EDIT MODE ─────────────────────────────────────────────────────────
 var RM_STATUS_OPTS = [{v:'done',l:'Completed'},{v:'prog',l:'In Progress'},{v:'plan',l:'Planned'}];
 
-function rmActivateEdit() {
-  document.querySelectorAll('#rm-body tr[id^="rm-row-"]').forEach(function(tr) {
-    var id = parseInt(tr.id.replace('rm-row-',''));
-    var row = ROWS.find(function(r){return r.id===id;});
-    if(!row) return;
-    var cells = tr.querySelectorAll('td');
-    // col 2=title, 3=date, 4=owner, 5=status, 7=notes
-    // Date (col 3)
-    if(cells[3] && !cells[3].dataset.rmEditing) {
-      cells[3].dataset.rmEditing='1';
-      cells[3].contentEditable='true';
-      cells[3].classList.add('editable-cell');
-      cells[3].oninput=function(){row.d=cells[3].textContent.trim();rmMarkDirty(id,tr);};
-    }
-    // Owner (col 4)
-    if(cells[4] && !cells[4].dataset.rmEditing) {
-      cells[4].dataset.rmEditing='1';
-      cells[4].contentEditable='true';
-      cells[4].classList.add('editable-cell');
-      cells[4].oninput=function(){row.o=cells[4].textContent.trim();rmMarkDirty(id,tr);};
-    }
-    // Status (col 5)
-    if(cells[5] && !cells[5].dataset.rmEditing) {
-      cells[5].dataset.rmEditing='1';
-      var sel=document.createElement('select');
-      sel.className='edit-select-cell';
-      RM_STATUS_OPTS.forEach(function(o){
-        var opt=document.createElement('option');
-        opt.value=o.v;opt.textContent=o.l;
-        if(o.v===row.s)opt.selected=true;
-        sel.appendChild(opt);
-      });
-      sel.onchange=function(){row.s=sel.value;rmMarkDirty(id,tr);};
-      cells[5].innerHTML='';cells[5].appendChild(sel);
-    }
-    // Notes (col 7)
-    if(cells[7] && !cells[7].dataset.rmEditing) {
-      cells[7].dataset.rmEditing='1';
-      cells[7].contentEditable='true';
-      cells[7].classList.add('editable-cell');
-      cells[7].oninput=function(){row.n=cells[7].textContent.trim();rmMarkDirty(id,tr);};
-    }
-  });
-}
 
-function rmDeactivateEdit() {
-  buildRm();
-}
 
-function rmMarkDirty(id, tr) {
-  PS_DIRTY_ROWS['rm_'+id]=true;
-  tr.classList.add('row-dirty');
-  psRefreshChangeCount();
-}
 
 // ── RISKS & ISSUES EDIT MODE ──────────────────────────────────────────────────
-function risksActivateEdit() {
-  // Make card titles and blocker content editable
-  document.querySelectorAll('#tab-risks .card-title, #tab-risks .blocker, #tab-risks .card-meta').forEach(function(el,i) {
-    if(!el.dataset.risksEditing) {
-      el.dataset.risksEditing='1';
-      el.dataset.risksIdx=i;
-      el.contentEditable='true';
-      el.classList.add('editable-cell');
-      el.oninput=function(){
-        PS_DIRTY_ROWS['risks_'+i]=true;
-        psRefreshChangeCount();
-      };
-    }
-  });
-}
 
-function risksDeactivateEdit() {
-  document.querySelectorAll('#tab-risks .card-title, #tab-risks .blocker, #tab-risks .card-meta').forEach(function(el) {
-    el.contentEditable='false';
-    el.classList.remove('editable-cell');
-    delete el.dataset.risksEditing;
-  });
-}
 
 // ── PS EDIT PANEL ─────────────────────────────────────────────────────────────
 var PEP_IDX = -1;
@@ -2551,11 +2307,7 @@ function psCheckLockBeforeSave() {
 window.addEventListener('beforeunload', function() { psReleaseLock(); });
 buildOv();buildRm();buildGantt();psLoadOfflineCache();psBuildTable(PS_ROWS);
 psInitUserName();
-// Hide floating edit button on initial load (default tab is summary)
-(function(){
-  var et=document.getElementById('ps-edit-toggle');
-  if(et) et.style.display='none';
-})();
+
 // Load latest data from GitHub on startup
 if (typeof GitHubDB !== 'undefined') {
   GitHubDB.load().then(function(){
@@ -2565,14 +2317,6 @@ if (typeof GitHubDB !== 'undefined') {
 // Set initial iteration label in toolbar
 (function(){var iterSel=document.getElementById('ps-iteration');if(iterSel){iterSel.value='jun23';var il=document.getElementById('ps-iter-label');if(il)il.textContent=iterSel.options[iterSel.selectedIndex].text;}})();
 </script>
-<button id="ps-edit-toggle" class="off">&#9999; Edit</button>
-<button id="ps-cancel-edit" onclick="psCancelEdit()" style="display:none;position:fixed;bottom:24px;right:110px;z-index:9000;padding:10px 16px;border-radius:8px;border:1.5px solid #64748b;background:#fff;color:#374151;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.15)">&#x2715; Cancel</button>
-<div id="ps-save-bar">
-  <span id="ps-change-count">0 unsaved changes</span>
-  <button class="ps-discard-btn" id="ps-discard-btn">Discard</button>
-  <button class="ps-save-btn-main" id="ps-save-btn-main">Save</button>
-</div>
-<div id="ps-edit-banner"></div>
 <script>
 // Override github-connector.js UI injection — we use our own edit button
 // Allow GitHubDB read/write but suppress duplicate button injection
