@@ -1399,7 +1399,7 @@ function psBuildTable(data){
       +'<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px">'
       +'<span style="display:flex;align-items:center;gap:6px;font-size:10px;font-weight:700;color:rgba(255,255,255,.9);letter-spacing:.5px;text-transform:uppercase">'+sec+'<span style="font-weight:400;opacity:.65;font-size:10px">('+secRows.length+' item'+(secRows.length!==1?'s':'')+')</span>'+secBadge+'</span>'
       +'<span style="display:flex;align-items:center;gap:8px">'
-      +''
+      +'<button class="ps-sec-add" onclick="event.stopPropagation();pepOpenNewInSection(\''+sec+'\')">+ Add</button>'
       +'<span class="ps-sec-chev" style="color:rgba(255,255,255,.5);font-size:11px;transition:transform .2s">&#9660;</span>'
       +'</span>'
       +'</div>'
@@ -1940,6 +1940,7 @@ var RM_STATUS_OPTS = [{v:'done',l:'Completed'},{v:'prog',l:'In Progress'},{v:'pl
 
 // ── PS EDIT PANEL ─────────────────────────────────────────────────────────────
 var PEP_IDX = -1;
+var PEP_NEW_SECTION = 'Person Authority Build';
 
 
 function pepHealthColor(sel) {
@@ -1949,7 +1950,13 @@ function pepHealthColor(sel) {
   sel.style.background = bgs[sel.value] || '#fff';
 }
 
+function pepOpenNewInSection(sec) {
+  PEP_NEW_SECTION = sec || 'Person Authority Build';
+  pepOpenNew();
+}
+
 function pepOpenNew() {
+  PEP_NEW_SECTION = PEP_NEW_SECTION || 'Person Authority Build';
   PEP_IDX = -1; // -1 means new row
 
   // Clear all fields
@@ -1973,7 +1980,13 @@ function pepOpenNew() {
   var iterLabel = iterSel ? iterSel.options[iterSel.selectedIndex].text : '';
   document.getElementById('pep-iter-label').textContent = iterLabel;
 
-  document.getElementById('pep-title').textContent = 'New Milestone';
+  // Pre-select the section in pillar dropdown
+  var pillarSel2 = document.getElementById('pep-pillar');
+  if (pillarSel2 && PEP_NEW_SECTION) {
+    pillarSel2.value = PEP_NEW_SECTION;
+    if (!pillarSel2.value) pillarSel2.selectedIndex = 0;
+  }
+  document.getElementById('pep-title').textContent = 'New Milestone — ' + (PEP_NEW_SECTION || '');
   if (!PS_USER_NAME) { psPromptNameIfNeeded(); return; }
   document.getElementById('ps-edit-panel').classList.add('open');
   psShowEditingBanner('adding a new milestone');
@@ -2062,12 +2075,22 @@ function pepSave() {
   row.next    = document.getElementById('pep-next').value.split('\n').map(function(s){return s.trim();}).filter(function(s){return s;});
   row.impact  = document.getElementById('pep-impact').value.split('\n').map(function(s){return s.trim();}).filter(function(s){return s;});
 
-  // Add to PS_ROWS if new
+  // Add to PS_ROWS if new — insert after last row of same section
   if (isNew) {
     var iterSel2 = document.getElementById('ps-iteration');
     row.iterLabel = iterSel2 ? iterSel2.options[iterSel2.selectedIndex].text : '';
     row.sub = '';
-    PS_ROWS.push(row);
+    row.section = row.section || PEP_NEW_SECTION || 'Person Authority Build';
+    // Find last index of same section
+    var lastSecIdx = -1;
+    for (var i = 0; i < PS_ROWS.length; i++) {
+      if (PS_ROWS[i].section === row.section) lastSecIdx = i;
+    }
+    if (lastSecIdx >= 0) {
+      PS_ROWS.splice(lastSecIdx + 1, 0, row); // insert after last in section
+    } else {
+      PS_ROWS.push(row); // section not found, append
+    }
   }
 
   // Rebuild table and save
