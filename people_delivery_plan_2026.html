@@ -1394,7 +1394,7 @@ function psBuildTable(data){
     var addFn=isPast?'':'psAddTemplateToSection(\''+sec+'\')';
     var secBg=sec==='Basis Content Loading'?'#123121':'#1e3a5f';
     var secBadge=sec==='Basis Content Loading'?'<span class="badge-completed-glow" style="background:#D64000;color:#fff;font-size:9px;font-weight:700;padding:2px 8px;border-radius:3px;letter-spacing:.3px;text-transform:uppercase;margin-left:8px">Completed</span>':'';
-    html+='<tr id="'+secId+'-hdr" data-section="'+sec+'" onclick="psSectionClick(event,\''+secId+'\')" style="cursor:pointer;user-select:none">'
+    html+='<tr id="'+secId+'-hdr" data-section="'+sec+'" draggable="true" onclick="psSectionClick(event,\''+secId+'\')" style="cursor:pointer;user-select:none">'
       +'<td colspan="7" style="background:'+secBg+';padding:0">'
       +'<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px">'
       +'<span style="display:flex;align-items:center;gap:6px;font-size:10px;font-weight:700;color:rgba(255,255,255,.9);letter-spacing:.5px;text-transform:uppercase">'
@@ -1455,7 +1455,7 @@ function psBuildTable(data){
       var nameHtml='<span class="ps-drag-handle" title="Drag to reorder">&#8942;&#8942;</span><div class="ps-name" style="display:inline-block">'+(isPast?'&#128274; ':'')+row.name+'</div>';
       if(row.sub)nameHtml+='<div class="ps-sub">'+row.sub+'</div>';
       nameHtml+='<span class="ps-iter">'+(row.iterLabel||iterLabel)+'</span>';
-      html+='<tr draggable="true" data-sec="'+secId+'" data-row-idx="'+idx+'" style="'+'">'
+      html+='<tr draggable="true" data-sec="'+secId+'" data-section="'+sec+'" data-row-idx="'+idx+'" style="'+'">'
         +'<td>'+nameHtml+'<div class="ps-row-actions" style="margin-top:6px">'
         +'<button class="ps-row-edit-btn" data-edit-idx="'+idx+'">&#9999; Edit</button>'
         +'<button class="ps-row-remove-btn" data-remove-idx="'+idx+'">&#128465; Remove</button>'
@@ -2247,13 +2247,14 @@ function psInitDrag() {
     e.preventDefault();
 
     if (PS_DRAG_TYPE === 'section' && PS_DRAG_SECTION) {
+      // Section drag: find nearest section header target
       var hdr = e.target.closest('tr[data-section]');
       if (!hdr || hdr.dataset.section === PS_DRAG_SECTION) { PS_DRAG_TYPE=null; return; }
       var tSec = hdr.dataset.section;
       var src  = PS_ROWS.filter(function(r){ return r.section===PS_DRAG_SECTION; });
       var rest = PS_ROWS.filter(function(r){ return r.section!==PS_DRAG_SECTION; });
-      var ins  = rest.findIndex ? rest.findIndex(function(r){ return r.section===tSec; }) : -1;
-      if (ins < 0) { for(var i=0;i<rest.length;i++){ if(rest[i].section===tSec){ins=i;break;} } }
+      var ins = -1;
+      for(var i=0;i<rest.length;i++){ if(rest[i].section===tSec){ins=i;break;} }
       if (ins < 0) ins = rest.length;
       rest.splice.apply(rest, [ins,0].concat(src));
       PS_ROWS = rest;
@@ -2263,7 +2264,13 @@ function psInitDrag() {
       if (!tr) { PS_DRAG_TYPE=null; return; }
       var tIdx = parseInt(tr.dataset.rowIdx, 10);
       if (PS_DRAG_ROW_IDX === tIdx) { PS_DRAG_TYPE=null; return; }
+      // Get target section from the target row's data-section attribute
+      var targetSection = tr.dataset.section;
       var moved = PS_ROWS.splice(PS_DRAG_ROW_IDX, 1)[0];
+      // ── KEY FIX: update row.section if dropped into a different section ──
+      if (targetSection && moved.section !== targetSection) {
+        moved.section = targetSection;
+      }
       var ni = tIdx > PS_DRAG_ROW_IDX ? tIdx-1 : tIdx;
       PS_ROWS.splice(ni, 0, moved);
     }
