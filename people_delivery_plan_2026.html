@@ -247,6 +247,13 @@ tr.row-dirty td{background:#fffbeb!important}
 .pep-toggle-btn.selected{background:#1e3a5f;color:#fff;border-color:#1e3a5f}
 .pep-toggle-btn:hover:not(.selected){border-color:#1e3a5f;color:#1e3a5f}
 .pep-footer{flex-wrap:wrap;gap:6px}
+
+.ps-drag-handle{display:inline-flex;align-items:center;justify-content:center;width:18px;height:32px;cursor:grab;color:#cbd5e1;font-size:14px;margin-right:6px;vertical-align:middle;flex-shrink:0;user-select:none}
+.ps-drag-handle:hover{color:#64748b}
+.ps-drag-handle:active{cursor:grabbing}
+tr.ps-dragging{opacity:.4;background:#eff6ff!important}
+tr.ps-drag-over{border-top:2px solid #D64000!important}
+tr[draggable="true"]{transition:opacity .15s}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
 </head>
@@ -1433,10 +1440,10 @@ function psBuildTable(data){
     }
     secRows.forEach(function(row){
       var idx=PS_ROWS.indexOf(row);
-      var nameHtml='<div class="ps-name">'+(isPast?'&#128274; ':'')+row.name+'</div>';
+      var nameHtml='<span class="ps-drag-handle" title="Drag to reorder">&#8942;&#8942;</span><div class="ps-name" style="display:inline-block">'+(isPast?'&#128274; ':'')+row.name+'</div>';
       if(row.sub)nameHtml+='<div class="ps-sub">'+row.sub+'</div>';
       nameHtml+='<span class="ps-iter">'+(row.iterLabel||iterLabel)+'</span>';
-      html+='<tr data-sec="'+secId+'" data-row-idx="'+idx+'" style="'+'">'
+      html+='<tr draggable="true" data-sec="'+secId+'" data-row-idx="'+idx+'" style="'+'">'
         +'<td>'+nameHtml+'<div class="ps-row-actions" style="margin-top:6px">'
         +'<button class="ps-row-edit-btn" onclick="pepOpen('+idx+')">&#9999; Edit</button>'
         +'<button class="ps-row-remove-btn" onclick="pepRemove('+idx+')">&#128465; Remove</button>'
@@ -1453,6 +1460,7 @@ function psBuildTable(data){
   tbody.innerHTML=html;
   var rc=document.getElementById('ps-row-count');
   if(rc)rc.textContent=data.length+' milestone'+(data.length!==1?'s':'');
+  psInitDrag();
 }
 function togglePsSec(id){
   var hdr=document.getElementById(id+'-hdr');
@@ -2344,6 +2352,69 @@ function pepRewriteAI(fieldId) {
     el.value = original;
     el.disabled = false;
     psShowBanner('AI rewrite failed. Please try again.', '#D64000', 3000);
+  });
+}
+
+// ── PS ROW DRAG & DROP ────────────────────────────────────────────────────────
+var psDragSrcIdx = null;
+
+function psInitDrag() {
+  var tbody = document.getElementById('ps-tbody');
+  if (!tbody) return;
+
+  tbody.addEventListener('dragstart', function(e) {
+    var tr = e.target.closest('tr[draggable]');
+    if (!tr) return;
+    psDragSrcIdx = parseInt(tr.dataset.rowIdx, 10);
+    tr.classList.add('ps-dragging');
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', psDragSrcIdx);
+  });
+
+  tbody.addEventListener('dragend', function(e) {
+    var tr = e.target.closest('tr[draggable]');
+    if (tr) tr.classList.remove('ps-dragging');
+    tbody.querySelectorAll('tr.ps-drag-over').forEach(function(r) {
+      r.classList.remove('ps-drag-over');
+    });
+  });
+
+  tbody.addEventListener('dragover', function(e) {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    var tr = e.target.closest('tr[draggable]');
+    tbody.querySelectorAll('tr.ps-drag-over').forEach(function(r) {
+      r.classList.remove('ps-drag-over');
+    });
+    if (tr) tr.classList.add('ps-drag-over');
+  });
+
+  tbody.addEventListener('drop', function(e) {
+    e.preventDefault();
+    var tr = e.target.closest('tr[draggable]');
+    if (!tr) return;
+    var targetIdx = parseInt(tr.dataset.rowIdx, 10);
+    if (psDragSrcIdx === null || psDragSrcIdx === targetIdx) return;
+
+    // Reorder PS_ROWS
+    var moved = PS_ROWS.splice(psDragSrcIdx, 1)[0];
+    var newTarget = targetIdx > psDragSrcIdx ? targetIdx - 1 : targetIdx;
+    PS_ROWS.splice(newTarget, 0, moved);
+
+    // Save and rebuild
+    var iterSel = document.getElementById('ps-iteration');
+    var iterVal = iterSel ? iterSel.value : 'jun23';
+    ALL_ITER[iterVal] = PS_ROWS;
+    psSaveOfflineCache();
+    psBuildTable(PS_ROWS);
+
+    // Save to GitHub silently
+    if (typeof GitHubDB !== 'undefined') {
+      window.ALL_ITER = ALL_ITER;
+      GitHubDB.save();
+    }
+
+    psDragSrcIdx = null;
   });
 }
 buildOv();buildRm();buildGantt();psLoadOfflineCache();psBuildTable(PS_ROWS);
