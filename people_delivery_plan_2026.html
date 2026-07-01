@@ -254,6 +254,21 @@ tr.row-dirty td{background:#fffbeb!important}
 tr.ps-dragging{opacity:.4;background:#eff6ff!important}
 tr.ps-drag-over{border-top:2px solid #D64000!important}
 tr[draggable="true"]{transition:opacity .15s}
+
+#ps-name-prompt{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:99999;display:flex;align-items:center;justify-content:center}
+#ps-name-prompt.hidden{display:none}
+.psnp-box{background:#fff;border-radius:10px;padding:28px 32px;width:340px;box-shadow:0 8px 32px rgba(0,0,0,.2);text-align:center}
+.psnp-box h3{font-size:16px;font-weight:700;color:#1e3a5f;margin-bottom:6px}
+.psnp-box p{font-size:12px;color:#64748b;margin-bottom:16px;line-height:1.5}
+.psnp-box input{width:100%;border:1.5px solid #e2e8f0;border-radius:6px;padding:9px 12px;font-size:13px;outline:none;box-sizing:border-box;margin-bottom:12px}
+.psnp-box input:focus{border-color:#1e3a5f}
+.psnp-box button{width:100%;background:#1e3a5f;color:#fff;border:none;border-radius:6px;padding:10px;font-size:13px;font-weight:700;cursor:pointer}
+.psnp-box button:hover{background:#162d4a}
+.psnp-skip{font-size:11px;color:#94a3b8;cursor:pointer;margin-top:10px;display:block;text-decoration:underline}
+#ps-editing-banner{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#1e3a5f;color:#fff;padding:8px 20px;border-radius:20px;font-size:12px;font-weight:600;z-index:8500;display:none;align-items:center;gap:8px;box-shadow:0 2px 12px rgba(0,0,0,.2);white-space:nowrap}
+#ps-editing-banner.show{display:flex}
+.pseb-dot{width:8px;height:8px;border-radius:50%;background:#4ade80;animation:pulseDot 1.2s ease-in-out infinite}
+@keyframes pulseDot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.7)}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
 </head>
@@ -2204,6 +2219,7 @@ function pepOpenNew() {
 
   document.getElementById('pep-title').textContent = 'New Milestone';
   document.getElementById('ps-edit-panel').classList.add('open');
+  psShowEditingBanner('adding a new milestone');
 }
 function pepOpen(idx) {
   var row = PS_ROWS[idx];
@@ -2257,6 +2273,7 @@ function pepDeleteProject() {
 function pepClose() {
   document.getElementById('ps-edit-panel').classList.remove('open');
   PEP_IDX = -1;
+  psHideEditingBanner();
 }
 
 
@@ -2297,6 +2314,7 @@ function pepSave() {
   // Rebuild table and save
   psBuildTable(PS_ROWS);
   pepClose();
+  setTimeout(function(){ var n=PS_USER_NAME||'Someone'; psShowBanner('\u2705 Saved by '+n,'#123121',3000); psHideEditingBanner(); },300);
 
   // Save to GitHub
   var iterSel = document.getElementById('ps-iteration');
@@ -2417,7 +2435,53 @@ function psInitDrag() {
     psDragSrcIdx = null;
   });
 }
+
+// ── USER IDENTITY ─────────────────────────────────────────────────────────────
+var PS_USER_NAME = localStorage.getItem('pab_user_name') || '';
+
+function psInitUserName() {
+  if (!PS_USER_NAME) {
+    // Show prompt after a short delay so dashboard loads first
+    setTimeout(function() {
+      document.getElementById('ps-name-prompt').classList.remove('hidden');
+      document.getElementById('ps-user-name-input').focus();
+    }, 800);
+  }
+  // Enter key support
+  var inp = document.getElementById('ps-user-name-input');
+  if (inp) inp.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') psSetUserName();
+  });
+}
+
+function psSetUserName() {
+  var val = document.getElementById('ps-user-name-input').value.trim();
+  if (!val) { psSkipName(); return; }
+  PS_USER_NAME = val;
+  localStorage.setItem('pab_user_name', val);
+  document.getElementById('ps-name-prompt').classList.add('hidden');
+}
+
+function psSkipName() {
+  PS_USER_NAME = 'Anonymous';
+  document.getElementById('ps-name-prompt').classList.add('hidden');
+}
+
+function psShowEditingBanner(action) {
+  var name = PS_USER_NAME || 'Someone';
+  var banner = document.getElementById('ps-editing-banner');
+  var text = document.getElementById('ps-editing-text');
+  if (!banner || !text) return;
+  text.textContent = name + ' is ' + (action || 'editing') + '...';
+  banner.classList.add('show');
+}
+
+function psHideEditingBanner() {
+  var banner = document.getElementById('ps-editing-banner');
+  if (banner) banner.classList.remove('show');
+}
 buildOv();buildRm();buildGantt();psLoadOfflineCache();psBuildTable(PS_ROWS);
+psInitUserName();
 // Hide floating edit button on initial load (default tab is summary)
 (function(){
   var et=document.getElementById('ps-edit-toggle');
@@ -2540,6 +2604,21 @@ window._ghConnectorNoUI = true;
     <button class="pep-cancel-btn" onclick="pepClose()">Cancel</button>
     <button class="pep-save-btn" onclick="pepSave()">Save</button>
   </div>
+</div>
+
+
+<div id="ps-name-prompt" class="hidden">
+  <div class="psnp-box">
+    <h3>&#128075; Welcome to the Dashboard</h3>
+    <p>Enter your name so others can see who is making edits.</p>
+    <input id="ps-user-name-input" type="text" placeholder="Your name (e.g. Sarah Roy)" maxlength="40">
+    <button onclick="psSetUserName()">Continue</button>
+    <span class="psnp-skip" onclick="psSkipName()">Skip for now</span>
+  </div>
+</div>
+<div id="ps-editing-banner">
+  <span class="pseb-dot"></span>
+  <span id="ps-editing-text">Editing...</span>
 </div>
 
 <script src="github-connector.js"></script>
