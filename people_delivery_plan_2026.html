@@ -1457,8 +1457,8 @@ function psBuildTable(data){
       nameHtml+='<span class="ps-iter">'+(row.iterLabel||iterLabel)+'</span>';
       html+='<tr draggable="true" data-sec="'+secId+'" data-row-idx="'+idx+'" style="'+'">'
         +'<td>'+nameHtml+'<div class="ps-row-actions" style="margin-top:6px">'
-        +'<button class="ps-row-edit-btn" onclick="pepOpen('+idx+')">&#9999; Edit</button>'
-        +'<button class="ps-row-remove-btn" onclick="pepRemove('+idx+')">&#128465; Remove</button>'
+        +'<button class="ps-row-edit-btn" data-edit-idx="'+idx+'">&#9999; Edit</button>'
+        +'<button class="ps-row-remove-btn" data-remove-idx="'+idx+'">&#128465; Remove</button>'
         +'</div></td>'
         +'<td data-pcol="health" style="text-align:center">'+psHealthDot(row.health)+'</td>'
         +'<td data-pcol="status">'+psStatusBadge(row.status)+'</td>'
@@ -2204,6 +2204,19 @@ function psInitDrag() {
   var clone = tbody.cloneNode(true);
   tbody.parentNode.replaceChild(clone, tbody);
   tbody = document.getElementById('ps-tbody');
+
+  // Delegated click handlers for Edit and Remove (survive tbody clone)
+  tbody.addEventListener('click', function(e) {
+    var removeBtn = e.target.closest('[data-remove-idx]');
+    var editBtn = e.target.closest('[data-edit-idx]');
+    if (removeBtn) {
+      var idx = parseInt(removeBtn.dataset.removeIdx, 10);
+      pepRemove(idx);
+    } else if (editBtn) {
+      var idx = parseInt(editBtn.dataset.editIdx, 10);
+      pepOpen(idx);
+    }
+  });
 
   // Row dragstart (NOT section — section uses psSectionDragStart above)
   tbody.addEventListener('dragstart', function(e) {
