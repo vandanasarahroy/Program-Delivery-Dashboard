@@ -1394,10 +1394,12 @@ function psBuildTable(data){
     var addFn=isPast?'':'psAddTemplateToSection(\''+sec+'\')';
     var secBg=sec==='Basis Content Loading'?'#123121':'#1e3a5f';
     var secBadge=sec==='Basis Content Loading'?'<span class="badge-completed-glow" style="background:#D64000;color:#fff;font-size:9px;font-weight:700;padding:2px 8px;border-radius:3px;letter-spacing:.3px;text-transform:uppercase;margin-left:8px">Completed</span>':'';
-    html+='<tr id="'+secId+'-hdr" onclick="togglePsSec(\''+secId+'\')" style="cursor:pointer;user-select:none">'
+    html+='<tr id="'+secId+'-hdr" draggable="true" data-section="'+sec+'" onclick="togglePsSec(\''+secId+'\')" style="cursor:pointer;user-select:none">'
       +'<td colspan="7" style="background:'+secBg+';padding:0">'
       +'<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px">'
-      +'<span style="display:flex;align-items:center;gap:6px;font-size:10px;font-weight:700;color:rgba(255,255,255,.9);letter-spacing:.5px;text-transform:uppercase">'+sec+'<span style="font-weight:400;opacity:.65;font-size:10px">('+secRows.length+' item'+(secRows.length!==1?'s':'')+')</span>'+secBadge+'</span>'
+      +'<span style="display:flex;align-items:center;gap:6px;font-size:10px;font-weight:700;color:rgba(255,255,255,.9);letter-spacing:.5px;text-transform:uppercase">'
+      +'<span style="cursor:grab;opacity:.6;font-size:16px;color:#fff;margin-right:2px" title="Drag to reorder section">&#8942;&#8942;</span>'
+      +sec+'<span style="font-weight:400;opacity:.65;font-size:10px">('+secRows.length+' item'+(secRows.length!==1?'s':'')+')</span>'+secBadge+'</span>'
       +'<span style="display:flex;align-items:center;gap:8px">'
       +'<button class="ps-sec-add" onclick="event.stopPropagation();pepOpenNewInSection(\''+sec+'\')">+ Add</button>'
       +'<span class="ps-sec-chev" style="color:rgba(255,255,255,.5);font-size:11px;transition:transform .2s">&#9660;</span>'
@@ -2282,6 +2284,7 @@ function psPromptNameIfNeeded() {
   }
 }
 
+function psSkipName() { psSetUserName(); }
 function psSetUserName() {
   var val = document.getElementById('ps-user-name-input').value.trim();
   if (!val) { psSkipName(); return; }
