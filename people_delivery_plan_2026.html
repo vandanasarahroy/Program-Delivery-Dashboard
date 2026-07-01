@@ -1455,8 +1455,17 @@ function psBuildTable(data){
         +'</td>';
       html+='</tr>';
     }
+    var rowCounter = 0;
     secRows.forEach(function(row){
-      var idx=PS_ROWS.indexOf(row);
+      // Find actual index in PS_ROWS by counter within this section
+      var idx = PS_ROWS.indexOf(row);
+      if (idx < 0) {
+        // Fallback: find by name+section match
+        for (var fi = 0; fi < PS_ROWS.length; fi++) {
+          if (PS_ROWS[fi].name === row.name && PS_ROWS[fi].section === row.section) { idx = fi; break; }
+        }
+      }
+      rowCounter++;
       var nameHtml='<span class="ps-drag-handle" onmousedown="psDragRowStart(event,'+idx+')">&#8942;&#8942;</span><div class="ps-name" style="display:inline-block">'+(isPast?'&#128274; ':'')+row.name+'</div>';
       if(row.sub)nameHtml+='<div class="ps-sub">'+row.sub+'</div>';
       nameHtml+='<span class="ps-iter">'+(row.iterLabel||iterLabel)+'</span>';
