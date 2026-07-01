@@ -2110,15 +2110,23 @@ function pepSave() {
 function pepRemove(idx) {
   var row = PS_ROWS[idx];
   if (!row) return;
-  if (!confirm('Remove "' + row.name + '" from this iteration?')) return;
-  PS_ROWS.splice(idx, 1);
-  psBuildTable(PS_ROWS);
+  var name = row.name || 'this milestone';
+  // Use a non-blocking confirmation
+  if (!window.confirm('Remove "' + name + '" from this iteration?')) return;
+  // Re-find by name in case index shifted
+  var actualIdx = -1;
+  for (var i = 0; i < PS_ROWS.length; i++) {
+    if (PS_ROWS[i] === row) { actualIdx = i; break; }
+  }
+  if (actualIdx < 0) actualIdx = idx;
+  PS_ROWS.splice(actualIdx, 1);
   var iterSel = document.getElementById('ps-iteration');
   var iterVal = iterSel ? iterSel.value : 'jun23';
   ALL_ITER[iterVal] = PS_ROWS;
   psSaveOfflineCache();
+  psBuildTable(PS_ROWS);
   if (typeof GitHubDB !== 'undefined') { window.ALL_ITER = ALL_ITER; GitHubDB.save(); }
-  psShowBanner('Row removed', '#64748b', 2000);
+  psShowBanner('\u2705 Row removed', '#64748b', 2000);
 }
 
 function pepDelete() {
