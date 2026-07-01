@@ -1399,7 +1399,7 @@ function psBuildTable(data){
     var addFn=isPast?'':'psAddTemplateToSection(\''+sec+'\')';
     var secBg=sec==='Basis Content Loading'?'#123121':'#1e3a5f';
     var secBadge=sec==='Basis Content Loading'?'<span class="badge-completed-glow" style="background:#D64000;color:#fff;font-size:9px;font-weight:700;padding:2px 8px;border-radius:3px;letter-spacing:.3px;text-transform:uppercase;margin-left:8px">Completed</span>':'';
-    html+='<tr id="'+secId+'-hdr" data-section="'+sec+'" draggable="true" onclick="psSectionClick(event,\''+secId+'\')" style="cursor:pointer;user-select:none">'
+    html+='<tr id="'+secId+'-hdr" data-section="'+sec+'" onclick="psSectionClick(event,\''+secId+'\')" style="cursor:pointer;user-select:none">'
       +'<td colspan="7" style="background:'+secBg+';padding:0">'
       +'<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px">'
       +'<span style="display:flex;align-items:center;gap:6px;font-size:10px;font-weight:700;color:rgba(255,255,255,.9);letter-spacing:.5px;text-transform:uppercase">'
@@ -2177,9 +2177,6 @@ function pepRewriteAI(fieldId) {
     psShowBanner('AI rewrite failed. Please try again.', '#D64000', 3000);
   });
 }
-
-// ── PS ROW DRAG & DROP ────────────────────────────────────────────────────────
-var psDragSrcIdx = null;
 
 function psSectionClick(e, secId) {
   if (e.target.closest('.ps-sec-drag-handle,.ps-sec-add,button')) return;
