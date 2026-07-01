@@ -1726,10 +1726,19 @@ function psExportAndOpenSP(){
 
 function psShowBanner(msg,bg,dur){
   var b=document.createElement('div');
-  b.style.cssText='position:fixed;bottom:20px;right:20px;background:'+bg+';color:#fff;padding:14px 20px;border-radius:6px;font-size:13px;font-weight:600;z-index:9999;box-shadow:0 4px 16px rgba(0,0,0,.3);max-width:400px;line-height:1.6';
+  b.id='ps-banner-main';
+  b.style.cssText='position:fixed;bottom:20px;right:20px;background:'+bg+';color:#fff;padding:14px 20px;border-radius:6px;font-size:13px;font-weight:600;z-index:9999;box-shadow:0 4px 16px rgba(0,0,0,.3);max-width:440px;line-height:1.6';
   b.innerHTML=msg+'<span onclick="this.parentNode.remove()" style="float:right;cursor:pointer;margin-left:12px;opacity:.7">&#x2715;</span>';
+  // Remove any existing banner
+  var old=document.getElementById('ps-banner-main');
+  if(old) old.remove();
   document.body.appendChild(b);
-  setTimeout(function(){if(b.parentNode)b.parentNode.removeChild(b);},dur||5000);
+  if(dur>0) setTimeout(function(){if(b.parentNode)b.parentNode.removeChild(b);},dur||5000);
+}
+
+function psHideBanner(){
+  var b=document.getElementById('ps-banner-main');
+  if(b) b.remove();
 }
 
 
@@ -2132,8 +2141,20 @@ function pepSave() {
 
 function pepRemove(idx) {
   var row = PS_ROWS[idx];
-  if (!row) { console.error('pepRemove: no row at idx', idx); return; }
-  if (!window.confirm('Remove "' + (row.name||'this milestone') + '"?')) return;
+  if (!row) return;
+  // Use inline confirm banner instead of window.confirm (blocked in some browsers on GitHub Pages)
+  psShowBanner(
+    '\u26A0\uFE0F Remove "' + (row.name||'this milestone').substring(0,30) + '"? ' +
+    '<button onclick="pepRemoveConfirm('+idx+')" style="margin-left:8px;background:#dc2626;color:#fff;border:none;border-radius:4px;padding:3px 10px;font-size:11px;font-weight:700;cursor:pointer">Yes, Remove</button>' +
+    '<button onclick="psHideBanner()" style="margin-left:4px;background:#f1f5f9;color:#374151;border:none;border-radius:4px;padding:3px 10px;font-size:11px;font-weight:700;cursor:pointer">Cancel</button>',
+    '#92400e', 0
+  );
+}
+
+function pepRemoveConfirm(idx) {
+  psHideBanner();
+  var row = PS_ROWS[idx];
+  if (!row) return;
   PS_ROWS.splice(idx, 1);
   var iterSel = document.getElementById('ps-iteration');
   var iterVal = iterSel ? iterSel.value : 'jun23';
