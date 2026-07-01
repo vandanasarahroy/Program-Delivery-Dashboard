@@ -2162,6 +2162,65 @@ function psInitDrag() {
   var tbody = document.getElementById('ps-tbody');
   if (!tbody) return;
 
+  var dragSrcSection = null;
+
+  // ── Section-level drag ──────────────────────────────────────────────────────
+  tbody.addEventListener('dragstart', function(e) {
+    var hdr = e.target.closest('tr[data-section]');
+    if (!hdr) return;
+    e.stopPropagation();
+    dragSrcSection = hdr.dataset.section;
+    hdr.style.opacity = '0.4';
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/section', dragSrcSection);
+  }, true);
+
+  tbody.addEventListener('dragend', function(e) {
+    var hdr = e.target.closest('tr[data-section]');
+    if (hdr) hdr.style.opacity = '1';
+    tbody.querySelectorAll('tr[data-section].ps-drag-over').forEach(function(r) {
+      r.classList.remove('ps-drag-over');
+    });
+    dragSrcSection = null;
+  }, true);
+
+  tbody.addEventListener('dragover', function(e) {
+    if (!dragSrcSection) return;
+    e.preventDefault();
+    var hdr = e.target.closest('tr[data-section]');
+    tbody.querySelectorAll('tr[data-section].ps-drag-over').forEach(function(r) {
+      r.classList.remove('ps-drag-over');
+    });
+    if (hdr && hdr.dataset.section !== dragSrcSection) hdr.classList.add('ps-drag-over');
+  }, true);
+
+  tbody.addEventListener('drop', function(e) {
+    if (!dragSrcSection) return;
+    var hdr = e.target.closest('tr[data-section]');
+    if (!hdr || hdr.dataset.section === dragSrcSection) return;
+    e.stopPropagation();
+    var targetSection = hdr.dataset.section;
+
+    // Reorder PS_ROWS by moving all rows of dragSrcSection before targetSection rows
+    var srcRows = PS_ROWS.filter(function(r) { return r.section === dragSrcSection; });
+    var remaining = PS_ROWS.filter(function(r) { return r.section !== dragSrcSection; });
+    var insertIdx = remaining.findIndex(function(r) { return r.section === targetSection; });
+    if (insertIdx < 0) insertIdx = remaining.length;
+    remaining.splice.apply(remaining, [insertIdx, 0].concat(srcRows));
+    PS_ROWS = remaining;
+
+    // Save and rebuild
+    var iterSel = document.getElementById('ps-iteration');
+    var iterVal = iterSel ? iterSel.value : 'jun23';
+    ALL_ITER[iterVal] = PS_ROWS;
+    psSaveOfflineCache();
+    psBuildTable(PS_ROWS);
+    if (typeof GitHubDB !== 'undefined') { window.ALL_ITER = ALL_ITER; GitHubDB.save(); }
+    dragSrcSection = null;
+  }, true);
+
+  // ── Row-level drag (existing) ───────────────────────────────────────────────
+
   tbody.addEventListener('dragstart', function(e) {
     var tr = e.target.closest('tr[draggable]');
     if (!tr) return;
