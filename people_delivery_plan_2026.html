@@ -1952,6 +1952,19 @@ function pepHealthColor(sel) {
   sel.style.background = bgs[sel.value] || '#fff';
 }
 
+
+function pepDeleteSection(sec) {
+  var count = PS_ROWS.filter(function(r) { return r.section === sec; }).length;
+  if (!window.confirm('Delete all ' + count + ' milestone(s) in "' + sec + '"? This cannot be undone.')) return;
+  PS_ROWS = PS_ROWS.filter(function(r) { return r.section !== sec; });
+  var iterSel = document.getElementById('ps-iteration');
+  var iterVal = iterSel ? iterSel.value : 'jun23';
+  ALL_ITER[iterVal] = PS_ROWS;
+  psSaveOfflineCache();
+  psBuildTable(PS_ROWS);
+  if (typeof GitHubDB !== 'undefined') { window.ALL_ITER = ALL_ITER; GitHubDB.save(); }
+  psShowBanner('\u2705 Section "' + sec + '" deleted', '#64748b', 3000);
+}
 function pepOpenNewInSection(sec) {
   PEP_NEW_SECTION = sec || 'Person Authority Build';
   pepOpenNew();
