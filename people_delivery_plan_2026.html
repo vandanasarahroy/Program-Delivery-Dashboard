@@ -2168,6 +2168,12 @@ function pepRewriteAI(fieldId) {
 // ── PS ROW DRAG & DROP ────────────────────────────────────────────────────────
 var psDragSrcIdx = null;
 
+function psSectionClick(e, secId) {
+  // Don't toggle if clicking the drag handle or + Add button
+  if (e.target.closest('.ps-sec-drag-handle') || e.target.closest('.ps-sec-add')) return;
+  togglePsSec(secId);
+}
+
 function psInitDrag() {
   var tbody = document.getElementById('ps-tbody');
   if (!tbody) return;
@@ -2181,18 +2187,20 @@ function psInitDrag() {
   var dragSrcSection = null;
   var dragSrcRowIdx = null;
 
-  // ── dragstart — determine if section or row ──────────────────────────────────
+  // ── dragstart — determine if section handle or row ──────────────────────────
   tbody.addEventListener('dragstart', function(e) {
-    var hdr = e.target.closest('tr[data-section]');
+    var handle = e.target.closest('[data-section-drag]');
     var row = e.target.closest('tr[data-row-idx]');
 
-    if (hdr) {
+    if (handle) {
       dragType = 'section';
-      dragSrcSection = hdr.dataset.section;
-      hdr.style.opacity = '0.4';
+      dragSrcSection = handle.dataset.sectionDrag;
+      var hdr = handle.closest('tr[data-section]');
+      if (hdr) hdr.style.opacity = '0.4';
       e.dataTransfer.effectAllowed = 'move';
       e.dataTransfer.setData('text/plain', 'section:' + dragSrcSection);
-    } else if (row) {
+      e.stopPropagation();
+    } else if (row && !e.target.closest('[data-section-drag]')) {
       dragType = 'row';
       dragSrcRowIdx = parseInt(row.dataset.rowIdx, 10);
       row.classList.add('ps-dragging');
@@ -2203,7 +2211,7 @@ function psInitDrag() {
 
   // ── dragend ──────────────────────────────────────────────────────────────────
   tbody.addEventListener('dragend', function(e) {
-    tbody.querySelectorAll('tr[data-section]').forEach(function(r) { r.style.opacity = '1'; });
+    tbody.querySelectorAll('tr[data-section]').forEach(function(r) { r.style.opacity = ''; });
     tbody.querySelectorAll('tr.ps-dragging').forEach(function(r) { r.classList.remove('ps-dragging'); });
     tbody.querySelectorAll('tr.ps-drag-over').forEach(function(r) { r.classList.remove('ps-drag-over'); });
     dragType = null; dragSrcSection = null; dragSrcRowIdx = null;
