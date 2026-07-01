@@ -2218,8 +2218,10 @@ function pepOpenNew() {
   document.getElementById('pep-iter-label').textContent = iterLabel;
 
   document.getElementById('pep-title').textContent = 'New Milestone';
+  if (!PS_USER_NAME) { psPromptNameIfNeeded(); return; }
   document.getElementById('ps-edit-panel').classList.add('open');
   psShowEditingBanner('adding a new milestone');
+  psAcquireLock();
 }
 function pepOpen(idx) {
   var row = PS_ROWS[idx];
@@ -2274,6 +2276,7 @@ function pepClose() {
   document.getElementById('ps-edit-panel').classList.remove('open');
   PEP_IDX = -1;
   psHideEditingBanner();
+  psReleaseLock();
 }
 
 
@@ -2440,18 +2443,22 @@ function psInitDrag() {
 var PS_USER_NAME = localStorage.getItem('pab_user_name') || '';
 
 function psInitUserName() {
-  if (!PS_USER_NAME) {
-    // Show prompt after a short delay so dashboard loads first
-    setTimeout(function() {
-      document.getElementById('ps-name-prompt').classList.remove('hidden');
-      document.getElementById('ps-user-name-input').focus();
-    }, 800);
-  }
   // Enter key support
   var inp = document.getElementById('ps-user-name-input');
   if (inp) inp.addEventListener('keydown', function(e) {
     if (e.key === 'Enter') psSetUserName();
   });
+}
+
+function psPromptNameIfNeeded() {
+  // Only prompt on Project Summary tab
+  if (!PS_USER_NAME) {
+    document.getElementById('ps-name-prompt').classList.remove('hidden');
+    setTimeout(function(){
+      var inp = document.getElementById('ps-user-name-input');
+      if(inp) inp.focus();
+    }, 100);
+  }
 }
 
 function psSetUserName() {
@@ -2462,10 +2469,6 @@ function psSetUserName() {
   document.getElementById('ps-name-prompt').classList.add('hidden');
 }
 
-function psSkipName() {
-  PS_USER_NAME = 'Anonymous';
-  document.getElementById('ps-name-prompt').classList.add('hidden');
-}
 
 function psShowEditingBanner(action) {
   var name = PS_USER_NAME || 'Someone';
@@ -2480,6 +2483,73 @@ function psHideEditingBanner() {
   var banner = document.getElementById('ps-editing-banner');
   if (banner) banner.classList.remove('show');
 }
+
+// ── EDIT LOCKING ──────────────────────────────────────────────────────────────
+var PS_LOCK_KEY = 'pab_edit_lock';
+var PS_LOCK_TIMEOUT = 120000; // 2 min auto-expire
+var PS_LOCK_INTERVAL = null;
+
+function psGetLock() {
+  try {
+    var raw = localStorage.getItem(PS_LOCK_KEY);
+    if (!raw) return null;
+    var lock = JSON.parse(raw);
+    // Check if lock expired
+    if (Date.now() - lock.ts > PS_LOCK_TIMEOUT) {
+      localStorage.removeItem(PS_LOCK_KEY);
+      return null;
+    }
+    return lock;
+  } catch(e) { return null; }
+}
+
+function psAcquireLock() {
+  var existing = psGetLock();
+  if (existing && existing.name !== PS_USER_NAME) {
+    // Someone else has the lock
+    pepClose();
+    psShowBanner('\uD83D\uDD12 ' + existing.name + ' is currently editing. Please try again in a few minutes.', '#D64000', 6000);
+    return false;
+  }
+  // Set/renew lock
+  localStorage.setItem(PS_LOCK_KEY, JSON.stringify({
+    name: PS_USER_NAME,
+    ts: Date.now()
+  }));
+  // Keep lock alive while editing
+  PS_LOCK_INTERVAL = setInterval(function() {
+    localStorage.setItem(PS_LOCK_KEY, JSON.stringify({
+      name: PS_USER_NAME,
+      ts: Date.now()
+    }));
+  }, 30000);
+  return true;
+}
+
+function psReleaseLock() {
+  var lock = psGetLock();
+  if (lock && lock.name === PS_USER_NAME) {
+    localStorage.removeItem(PS_LOCK_KEY);
+  }
+  if (PS_LOCK_INTERVAL) {
+    clearInterval(PS_LOCK_INTERVAL);
+    PS_LOCK_INTERVAL = null;
+  }
+}
+
+function psCheckLockBeforeSave() {
+  var lock = psGetLock();
+  if (lock && lock.name !== PS_USER_NAME) {
+    psShowBanner('\uD83D\uDD12 ' + lock.name + ' is currently editing. Cannot save right now. Please try again in a few minutes.', '#D64000', 6000);
+    return false;
+  }
+  return true;
+}
+
+// Release lock if user closes/leaves the page
+window.addEventListener('beforeunload', function() {
+  psReleaseLock();
+});
 buildOv();buildRm();buildGantt();psLoadOfflineCache();psBuildTable(PS_ROWS);
 psInitUserName();
 // Hide floating edit button on initial load (default tab is summary)
@@ -2613,7 +2683,6 @@ window._ghConnectorNoUI = true;
     <p>Enter your name so others can see who is making edits.</p>
     <input id="ps-user-name-input" type="text" placeholder="Your name (e.g. Sarah Roy)" maxlength="40">
     <button onclick="psSetUserName()">Continue</button>
-    <span class="psnp-skip" onclick="psSkipName()">Skip for now</span>
   </div>
 </div>
 <div id="ps-editing-banner">
