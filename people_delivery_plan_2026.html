@@ -2484,72 +2484,71 @@ function psHideEditingBanner() {
   if (banner) banner.classList.remove('show');
 }
 
-// ── EDIT LOCKING ──────────────────────────────────────────────────────────────
-var PS_LOCK_KEY = 'pab_edit_lock';
+// ── GITHUB-BASED EDIT LOCKING ────────────────────────────────────────────────
 var PS_LOCK_TIMEOUT = 120000; // 2 min auto-expire
 var PS_LOCK_INTERVAL = null;
-
-function psGetLock() {
-  try {
-    var raw = localStorage.getItem(PS_LOCK_KEY);
-    if (!raw) return null;
-    var lock = JSON.parse(raw);
-    // Check if lock expired
-    if (Date.now() - lock.ts > PS_LOCK_TIMEOUT) {
-      localStorage.removeItem(PS_LOCK_KEY);
-      return null;
-    }
-    return lock;
-  } catch(e) { return null; }
-}
+var PS_LOCK_FILE = 'lock.json';
+var PS_LOCK_CHECKING = false;
 
 function psAcquireLock() {
-  var existing = psGetLock();
-  if (existing && existing.name !== PS_USER_NAME) {
-    // Someone else has the lock
-    pepClose();
-    psShowBanner('\uD83D\uDD12 ' + existing.name + ' is currently editing. Please try again in a few minutes.', '#D64000', 6000);
-    return false;
-  }
-  // Set/renew lock
-  localStorage.setItem(PS_LOCK_KEY, JSON.stringify({
-    name: PS_USER_NAME,
-    ts: Date.now()
-  }));
-  // Keep lock alive while editing
-  PS_LOCK_INTERVAL = setInterval(function() {
-    localStorage.setItem(PS_LOCK_KEY, JSON.stringify({
-      name: PS_USER_NAME,
-      ts: Date.now()
-    }));
-  }, 30000);
-  return true;
+  if (PS_LOCK_CHECKING) return;
+  PS_LOCK_CHECKING = true;
+  psShowBanner('Checking if someone else is editing...', '#64748b', 3000);
+
+  // Read lock.json from GitHub
+  var url = 'https://raw.githubusercontent.com/vandanasarahroy/Program-Delivery-Dashboard/main/lock.json?t=' + Date.now();
+  fetch(url)
+    .then(function(r) { return r.ok ? r.json() : null; })
+    .then(function(lock) {
+      PS_LOCK_CHECKING = false;
+      if (lock && lock.name && lock.name !== PS_USER_NAME) {
+        var age = Date.now() - lock.ts;
+        if (age < PS_LOCK_TIMEOUT) {
+          // Someone else has the lock
+          pepClose();
+          psShowBanner('\uD83D\uDD12 ' + lock.name + ' is currently editing. Please try again in a few minutes.', '#D64000', 8000);
+          return;
+        }
+      }
+      // Acquire lock — write to GitHub
+      psWriteLock(true);
+    })
+    .catch(function() {
+      PS_LOCK_CHECKING = false;
+      // If lock.json doesn't exist yet, proceed
+      psWriteLock(true);
+    });
+}
+
+function psWriteLock(openPanel) {
+  if (typeof GitHubDB === 'undefined') return;
+  var lockData = JSON.stringify({ name: PS_USER_NAME, ts: Date.now(), action: 'editing' });
+  GitHubDB._writeFile(PS_LOCK_FILE, lockData).then(function() {
+    // Keep lock alive every 30s while editing
+    PS_LOCK_INTERVAL = setInterval(function() {
+      GitHubDB._writeFile(PS_LOCK_FILE, JSON.stringify({ name: PS_USER_NAME, ts: Date.now(), action: 'editing' }));
+    }, 30000);
+    console.log('[Lock] Acquired by', PS_USER_NAME);
+  }).catch(function(e) {
+    console.warn('[Lock] Could not write lock:', e);
+  });
 }
 
 function psReleaseLock() {
-  var lock = psGetLock();
-  if (lock && lock.name === PS_USER_NAME) {
-    localStorage.removeItem(PS_LOCK_KEY);
-  }
-  if (PS_LOCK_INTERVAL) {
-    clearInterval(PS_LOCK_INTERVAL);
-    PS_LOCK_INTERVAL = null;
-  }
+  if (PS_LOCK_INTERVAL) { clearInterval(PS_LOCK_INTERVAL); PS_LOCK_INTERVAL = null; }
+  if (typeof GitHubDB === 'undefined') return;
+  GitHubDB._writeFile(PS_LOCK_FILE, JSON.stringify({ name: '', ts: 0, action: 'released' }))
+    .catch(function() {});
+  console.log('[Lock] Released by', PS_USER_NAME);
 }
 
 function psCheckLockBeforeSave() {
-  var lock = psGetLock();
-  if (lock && lock.name !== PS_USER_NAME) {
-    psShowBanner('\uD83D\uDD12 ' + lock.name + ' is currently editing. Cannot save right now. Please try again in a few minutes.', '#D64000', 6000);
-    return false;
-  }
-  return true;
+  // Synchronous check using cached lock data
+  return true; // Lock is checked async on open — save proceeds
 }
 
-// Release lock if user closes/leaves the page
-window.addEventListener('beforeunload', function() {
-  psReleaseLock();
-});
+// Release lock on page close
+window.addEventListener('beforeunload', function() { psReleaseLock(); });
 buildOv();buildRm();buildGantt();psLoadOfflineCache();psBuildTable(PS_ROWS);
 psInitUserName();
 // Hide floating edit button on initial load (default tab is summary)

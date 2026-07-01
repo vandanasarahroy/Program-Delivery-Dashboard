@@ -91,6 +91,32 @@ const GitHubDB = {
 
   _data: null,  // in-memory cache of the full data.json
 
+  // Write any file to GitHub repo
+  async _writeFile(filename, content) {
+    const token = _getToken();
+    const apiUrl = `https://api.github.com/repos/${GH_CONFIG.owner}/${GH_CONFIG.repo}/contents/${filename}`;
+
+    // Get current SHA if file exists
+    let sha = undefined;
+    try {
+      const res = await fetch(apiUrl, {
+        headers: { Authorization: `Bearer ${token}`, Accept: 'application/vnd.github+json' }
+      });
+      if (res.ok) { const d = await res.json(); sha = d.sha; }
+    } catch(e) {}
+
+    const body = { message: `Update ${filename}`, content: btoa(unescape(encodeURIComponent(content))) };
+    if (sha) body.sha = sha;
+
+    const writeRes = await fetch(apiUrl, {
+      method: 'PUT',
+      headers: { Authorization: `Bearer ${token}`, Accept: 'application/vnd.github+json', 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    if (!writeRes.ok) throw new Error('Write failed: ' + writeRes.status);
+    return writeRes.json();
+  },
+
   // Load data from GitHub — SAFE OVERRIDE
   // Hardcoded data always renders first; data.json silently overrides in background
   // Falls back silently on any error — dashboard always works
