@@ -1044,11 +1044,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
   <rect x="74" y="742" width="185" height="24" rx="4" fill="#C62828" opacity="0.92"/>
   <text x="84" y="754" dominant-baseline="central" font-size="11" font-weight="700" fill="#fff">&#9650; Critical Path (steps 1&#8211;12)</text>
 
-<polygon points="847,287 884,255 921,287 884,319" fill="none" stroke="#C62828" stroke-width="2.5" stroke-dasharray="6,3" class="cp-gate-border"/>
-<polygon points="1095,287 1130,255 1165,287 1130,319" fill="none" stroke="#C62828" stroke-width="2.5" stroke-dasharray="6,3" class="cp-gate-border"/>
-<polygon points="443,579 480,547 517,579 480,611" fill="none" stroke="#C62828" stroke-width="2.5" stroke-dasharray="6,3" class="cp-gate-border"/>
-<polygon points="873,629 920,587 967,629 920,671" fill="none" stroke="#C62828" stroke-width="2.5" stroke-dasharray="6,3" class="cp-gate-border"/>
-<polygon points="1148,629 1185,597 1222,629 1185,661" fill="none" stroke="#C62828" stroke-width="2.5" stroke-dasharray="6,3" class="cp-gate-border"/>
+
+<polygon points="409,287 446,255 483,287 446,319" fill="none" stroke="#C62828" stroke-width="2.5" stroke-dasharray="6,3" class="cp-gate-border" style="pointer-events:none"/>
+<polygon points="847,287 884,255 921,287 884,319" fill="none" stroke="#C62828" stroke-width="2.5" stroke-dasharray="6,3" class="cp-gate-border" style="pointer-events:none"/>
+<polygon points="1095,287 1130,255 1165,287 1130,319" fill="none" stroke="#C62828" stroke-width="2.5" stroke-dasharray="6,3" class="cp-gate-border" style="pointer-events:none"/>
+<polygon points="443,579 480,547 517,579 480,611" fill="none" stroke="#C62828" stroke-width="2.5" stroke-dasharray="6,3" class="cp-gate-border" style="pointer-events:none"/>
+<polygon points="873,629 920,587 967,629 920,671" fill="none" stroke="#C62828" stroke-width="2.5" stroke-dasharray="6,3" class="cp-gate-border" style="pointer-events:none"/>
+<polygon points="1148,629 1185,597 1222,629 1185,661" fill="none" stroke="#C62828" stroke-width="2.5" stroke-dasharray="6,3" class="cp-gate-border" style="pointer-events:none"/>
 </g>
 
 <!-- ─── HAPPY PATH OVERLAY ─────────────────────────────────────────────────── -->
@@ -1127,11 +1129,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
   <rect x="270" y="742" width="185" height="24" rx="4" fill="#2E7D32" opacity="0.92"/>
   <text x="280" y="754" dominant-baseline="central" font-size="11" font-weight="700" fill="#fff">&#10003; Happy / Nominal Path</text>
 
-<polygon points="847,287 884,255 921,287 884,319" fill="none" stroke="#2E7D32" stroke-width="2.5" class="hp-gate-border"/>
-<polygon points="1095,287 1130,255 1165,287 1130,319" fill="none" stroke="#2E7D32" stroke-width="2.5" class="hp-gate-border"/>
-<polygon points="443,579 480,547 517,579 480,611" fill="none" stroke="#2E7D32" stroke-width="2.5" class="hp-gate-border"/>
-<polygon points="873,629 920,587 967,629 920,671" fill="none" stroke="#2E7D32" stroke-width="2.5" class="hp-gate-border"/>
-<polygon points="1148,629 1185,597 1222,629 1185,661" fill="none" stroke="#2E7D32" stroke-width="2.5" class="hp-gate-border"/>
+
+<polygon points="409,287 446,255 483,287 446,319" fill="none" stroke="#2E7D32" stroke-width="2.5" class="hp-gate-border" style="pointer-events:none"/>
+<polygon points="847,287 884,255 921,287 884,319" fill="none" stroke="#2E7D32" stroke-width="2.5" class="hp-gate-border" style="pointer-events:none"/>
+<polygon points="1095,287 1130,255 1165,287 1130,319" fill="none" stroke="#2E7D32" stroke-width="2.5" class="hp-gate-border" style="pointer-events:none"/>
+<polygon points="443,579 480,547 517,579 480,611" fill="none" stroke="#2E7D32" stroke-width="2.5" class="hp-gate-border" style="pointer-events:none"/>
+<polygon points="873,629 920,587 967,629 920,671" fill="none" stroke="#2E7D32" stroke-width="2.5" class="hp-gate-border" style="pointer-events:none"/>
+<polygon points="1148,629 1185,597 1222,629 1185,661" fill="none" stroke="#2E7D32" stroke-width="2.5" class="hp-gate-border" style="pointer-events:none"/>
 </g>
 
 </svg>
@@ -2812,7 +2816,8 @@ var SB_NODES = [
   {id:'sbn17', x:1010, y:555, w:120, h:48, title:'Cutover pause+update+WH',         team:'Warehouse',     ms:41},
   {id:'sbn18', x:1140, y:690, w:110, h:44, title:'Rollback ERD restored',           team:'All',           ms:null},
 // ── Gate / diamond nodes ─────────────────────────────────────────────
-{id:'g-qg1',         x:854,  y:262, w:60, h:50, title:'V6.2 pass?',   type:'gate', team:'NER',       ms:null},
+{id:'g-qg1',         x:416,  y:262, w:60, h:50, title:'V4.8 pass?',   type:'gate', team:'NER',       ms:null},
+{id:'g-qg2',         x:854,  y:262, w:60, h:50, title:'V6.2 pass?',   type:'gate', team:'NER',       ms:null},
 {id:'g-appgate',     x:1102, y:262, w:56, h:50, title:'App ok?',       type:'gate', team:'NPD',       ms:null},
 {id:'g-whgate',      x:450,  y:554, w:60, h:50, title:'WH pass?',      type:'gate', team:'Warehouse', ms:null},
 {id:'g-gonogo',      x:880,  y:594, w:80, h:70, title:'Go/No-go',      type:'gate', team:'All',       ms:null},
