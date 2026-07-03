@@ -3923,14 +3923,8 @@ function _makeDraggable(g) {
     var tr=g.getAttribute('transform')||'translate(0,0)';
     var m=tr.match(/translate\(([-\d.]+),([-\d.]+)\)/);
     DRAW.dragging=true; DRAW.dragStart=pt;
-    // For lines, store original endpoints
-    if (hit.hasAttribute && hit.hasAttribute('x1')) {
-      DRAW.dragOrigin={x1:parseFloat(hit.getAttribute('x1')),y1:parseFloat(hit.getAttribute('y1')),
-                       x2:parseFloat(hit.getAttribute('x2')),y2:parseFloat(hit.getAttribute('y2'))};
-    } else {
-      var m=hit.getAttribute('transform')&&hit.getAttribute('transform').match(/translate\(([-\d.]+),([-\d.]+)\)/);
-      DRAW.dragOrigin={x:m?parseFloat(m[1]):0,y:m?parseFloat(m[2]):0};
-    }
+    // Store drag origin from the element itself (g is the parameter)
+    DRAW.dragOrigin={x:m?parseFloat(m[1]):0,y:m?parseFloat(m[2]):0};
     e.stopPropagation();
   });
 }
