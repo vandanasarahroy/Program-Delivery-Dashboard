@@ -2131,7 +2131,9 @@ function addHighlightBorder(id, color) {
     hb2.setAttribute('stroke-dasharray','6,3');
     hb2.setAttribute('class','sc-hi-border');
     hb2.style.pointerEvents='none';
-    el.appendChild(hb2);
+    // Append to SVG root so border sits above all layers, not inside the gate group
+    var _svg = document.getElementById('sbsvg');
+    (_svg || el).appendChild(hb2);
     return;
   }
   // Node box (rect)
