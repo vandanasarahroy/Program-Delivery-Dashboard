@@ -3428,6 +3428,7 @@ function _drawMD(e) {
     if (!DRAW.lineStart) {
       DRAW.lineStart = pt;
       DRAW.linePreview = _mkLineEl(pt,pt,DRAW.tool);
+      _pushUndo();
       layer.appendChild(DRAW.linePreview);
     } else {
       _finalizeLine(pt);
@@ -3439,6 +3440,7 @@ function _drawMD(e) {
   DRAW.drawStart = pt;
   DRAW.preview = _mkShapeG(DRAW.tool, pt, pt, 0.6);
   DRAW.preview.style.pointerEvents='none';
+  _pushUndo();
   layer.appendChild(DRAW.preview);
   e.stopPropagation();
 }
@@ -3604,7 +3606,7 @@ function _finalizeShape(g, type, s, e2) {
     t.setAttribute('font-weight','600'); t.setAttribute('font-size','10');
   }
 
-  _pushUndo(); _makeDraggable(g); _select(g); _autoSave();
+  _makeDraggable(g); _select(g); _autoSave();
   // Auto-open text editor; switch to Select mode when done
   setTimeout(function(){
     _openTextEdit(g, function(){
@@ -3707,7 +3709,7 @@ function _finalizeLine(pt) {
   DRAW.linePreview=null; DRAW.lineStart=null;
 
   // Endpoint handles
-  _pushUndo(); _addLineHandles(ln, id); _autoSave();
+  _addLineHandles(ln, id); _autoSave();
   ln.addEventListener('click',function(){ _select(ln); });
   _select(ln);
   // Auto-return to Select so next click doesn't draw another line
@@ -3746,9 +3748,9 @@ function _placeText(pt) {
   t.setAttribute('class','usr-txt'); t.textContent='Text';
   g.appendChild(t);
   g.style.cursor='move';
+  _pushUndo();
   document.getElementById('user-layer').appendChild(g);
   _makeDraggable(g); _select(g);
-  _pushUndo();
   // Open text editor; switch to Select after done
   setTimeout(function(){
     _openTextEdit(g, function afterEdit(){
