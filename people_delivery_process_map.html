@@ -2798,6 +2798,12 @@ var SB_NODES = [
   {id:'sbn16', x:700,  y:555, w:120, h:48, title:'Snap files load to WH',           team:'Warehouse',     ms:44},
   {id:'sbn17', x:1010, y:555, w:120, h:48, title:'Cutover pause+update+WH',         team:'Warehouse',     ms:41},
   {id:'sbn18', x:1140, y:690, w:110, h:44, title:'Rollback ERD restored',           team:'All',           ms:null},
+// ── Gate / diamond nodes ─────────────────────────────────────────────
+{id:'g-qg1',         x:854,  y:262, w:60, h:50, title:'V6.2 pass?',   type:'gate', team:'NER',       ms:null},
+{id:'g-appgate',     x:1102, y:262, w:56, h:50, title:'App ok?',       type:'gate', team:'NPD',       ms:null},
+{id:'g-whgate',      x:450,  y:554, w:60, h:50, title:'WH pass?',      type:'gate', team:'Warehouse', ms:null},
+{id:'g-gonogo',      x:880,  y:594, w:80, h:70, title:'Go/No-go',      type:'gate', team:'All',       ms:null},
+{id:'g-postcutover', x:1155, y:604, w:60, h:50, title:'Issues found?', type:'gate', team:'All',       ms:null},
 ];
 
 function initSBInteractive() {
