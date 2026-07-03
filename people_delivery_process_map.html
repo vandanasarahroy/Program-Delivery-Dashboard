@@ -434,7 +434,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
         <div class="sli"><div class="sld" style="background:#E9B045"></div>Decision point</div>
         <div class="sli"><svg width="38" height="12" style="flex-shrink:0;display:block"><line x1="1" y1="6" x2="37" y2="6" stroke="#E24B4A" stroke-width="2.5" stroke-dasharray="8,4"/></svg>Delay / rollback</div>
         <div class="sli"><svg width="38" height="12" style="flex-shrink:0;display:block"><line x1="1" y1="6" x2="37" y2="6" stroke="#3B6D11" stroke-width="2.5"/></svg>Nominal path</div>
-        
+        <div class="sli" style="margin-left:8px;padding-left:8px;border-left:1px solid rgba(0,0,0,.12)">
+          <svg width="38" height="12" style="flex-shrink:0;display:block"><line x1="1" y1="6" x2="37" y2="6" stroke="#1DB954" stroke-width="4.5"/></svg>
+          <span style="color:#1DB954;font-weight:600">&#10003; Happy&nbsp;/&nbsp;Nominal&nbsp;Path</span>
+        </div>
+        <div class="sli">
+          <svg width="38" height="12" style="flex-shrink:0;display:block"><line x1="1" y1="6" x2="37" y2="6" stroke="#C62828" stroke-width="3" stroke-dasharray="5,3"/></svg>
+          <span style="color:#C62828;font-weight:600">&#9650;&nbsp;Critical&nbsp;Path&nbsp;(steps&nbsp;1&#8211;12)</span>
+        </div>
       </div>
       <div class="sb-canvas">
 <svg id="sbsvg" width="1320" height="920" viewBox="0 0 1320 920">
@@ -1220,14 +1227,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
   <line x1="1010" y1="823" x2="1045" y2="823" stroke="#1DB954" stroke-width="5" marker-end="url(#arr-hp-glow)"/>
 >
       </div>
-      <div style="display:flex;gap:8px;padding:8px 16px;background:rgba(0,0,0,0.04);border-top:1px solid rgba(0,0,0,0.08)">
-        <button class="pfb" id="pfb-hp" onclick="togglePath('hp')" title="Click to focus Happy Path">
+      <div style="display:flex;gap:10px;padding:8px 16px;background:rgba(0,0,0,0.04);border-top:1px solid rgba(0,0,0,0.08);align-items:center">
+        <span style="font-size:11px;color:#888;font-weight:500">Click to focus:</span>
+        <button class="pfb" id="pfb-hp" onclick="togglePath('hp')" title="Click to highlight Happy / Nominal Path">
           <svg width="38" height="12" style="flex-shrink:0;display:block"><line x1="1" y1="6" x2="37" y2="6" stroke="#1DB954" stroke-width="4.5"/></svg>
           <strong style="color:#1DB954">&#10003; Happy / Nominal Path</strong>
         </button>
-        <button class="pfb" id="pfb-cp" onclick="togglePath('cp')" title="Click to focus Critical Path">
+        <button class="pfb" id="pfb-cp" onclick="togglePath('cp')" title="Click to highlight Critical Path">
           <svg width="38" height="12" style="flex-shrink:0;display:block"><line x1="1" y1="6" x2="37" y2="6" stroke="#C62828" stroke-width="3" stroke-dasharray="5,3"/></svg>
-          <strong style="color:#C62828">&#9650; Critical Path (steps 1–12)</strong>
+          <strong style="color:#C62828">&#9650; Critical Path (steps 1&#8211;12)</strong>
         </button>
       </div>
       <div id="impact-panel" style="display:none"></div>
