@@ -302,7 +302,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
   </div>
 </div>
 
-<div class="toolbar">
+<div class="toolbar" id="sw-toolbar">
   <span class="fl">Phase:</span>
   <div class="fg" id="ph-f">
     <button class="fb active" data-ph="all">All</button>
@@ -330,7 +330,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
   <div class="leg-bar" style="margin-left:8px">
     <div class="li"><div class="ld" style="background:#4DB299"></div>Completed</div>
     <div class="li"><div class="ld" style="background:#E9B045"></div>In Progress</div>
-    <div class="li"><div class="ld" style="background:#0874E3"></div>Planned (QA)</div>
+    <div class="li"><div id="sw-legend" class="ld" style="background:#0874E3"></div>Planned (QA)</div>
     <div class="li"><div class="ld" style="background:#D4792A"></div>Planned (Prod)</div>
     <div class="li"><div class="ld" style="background:#D64000"></div>Cutover</div>
   </div>
@@ -1679,6 +1679,12 @@ function switchView(v){
     var btn=document.getElementById('btn-'+id);
     if(el){el.style.display='none';el.classList.remove('on');}
     if(btn)btn.classList.toggle('active',id===v);
+  });
+  // Hide/show the swimlane-specific toolbar and legend when not on swimlane
+  var swOnly=['sw-toolbar','sw-legend'];
+  swOnly.forEach(function(sid){
+    var el=document.getElementById(sid);
+    if(el) el.style.display=(v==='sw')?'':'none';
   });
   var target=document.getElementById(v+'-view');
   if(target){
