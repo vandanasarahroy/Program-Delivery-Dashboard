@@ -443,6 +443,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
           <span style="color:#C62828;font-weight:600">&#9650;&nbsp;Critical&nbsp;Path&nbsp;(steps&nbsp;1&#8211;12)</span>
         </div>
       </div>
+
+      <div style="display:flex;gap:10px;padding:6px 14px;background:#f8f8f8;border-top:1px solid rgba(0,0,0,.07);border-bottom:1px solid rgba(0,0,0,.07);align-items:center;flex-wrap:wrap">
+        <span style="font-size:11px;color:#888;font-weight:500">Click to focus:</span>
+        <button class="pfb" id="pfb-hp" onclick="togglePath('hp')" title="Highlight Happy / Nominal Path">
+          <svg width="38" height="12" style="flex-shrink:0;display:block"><line x1="1" y1="6" x2="37" y2="6" stroke="#1DB954" stroke-width="4.5"/></svg>
+          <strong style="color:#1DB954">&#10003; Happy / Nominal Path</strong>
+        </button>
+        <button class="pfb" id="pfb-cp" onclick="togglePath('cp')" title="Highlight Critical Path">
+          <svg width="38" height="12" style="flex-shrink:0;display:block"><line x1="1" y1="6" x2="37" y2="6" stroke="#C62828" stroke-width="3" stroke-dasharray="5,3"/></svg>
+          <strong style="color:#C62828">&#9650; Critical Path (steps 1&#8211;12)</strong>
+        </button>
+      </div>
       <div class="sb-canvas">
 <svg id="sbsvg" width="1320" height="920" viewBox="0 0 1320 920">
 <title>People Authority cutover storyboard</title>
@@ -1227,17 +1239,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
   <line x1="1010" y1="823" x2="1045" y2="823" stroke="#1DB954" stroke-width="5" marker-end="url(#arr-hp-glow)"/>
 >
       </div>
-      <div style="display:flex;gap:10px;padding:8px 16px;background:rgba(0,0,0,0.04);border-top:1px solid rgba(0,0,0,0.08);align-items:center">
-        <span style="font-size:11px;color:#888;font-weight:500">Click to focus:</span>
-        <button class="pfb" id="pfb-hp" onclick="togglePath('hp')" title="Click to highlight Happy / Nominal Path">
-          <svg width="38" height="12" style="flex-shrink:0;display:block"><line x1="1" y1="6" x2="37" y2="6" stroke="#1DB954" stroke-width="4.5"/></svg>
-          <strong style="color:#1DB954">&#10003; Happy / Nominal Path</strong>
-        </button>
-        <button class="pfb" id="pfb-cp" onclick="togglePath('cp')" title="Click to highlight Critical Path">
-          <svg width="38" height="12" style="flex-shrink:0;display:block"><line x1="1" y1="6" x2="37" y2="6" stroke="#C62828" stroke-width="3" stroke-dasharray="5,3"/></svg>
-          <strong style="color:#C62828">&#9650; Critical Path (steps 1&#8211;12)</strong>
-        </button>
-      </div>
+      
       <div id="impact-panel" style="display:none"></div>
     </div>
   </div>
