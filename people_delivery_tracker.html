@@ -763,8 +763,8 @@ function adoLink(s){
   }).join(', ');
 }
 function showTab(id,el){
-  document.querySelectorAll('#vb-view .pane').forEach(function(p){p.style.display='none';p.classList.remove('active');});
-  document.querySelectorAll('#vb-view .tab').forEach(function(t){t.classList.remove('active');});
+  document.querySelectorAll('.pane').forEach(function(p){p.style.display='none';p.classList.remove('active');});
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
   var pane=document.getElementById('pane-'+id);
   if(pane){pane.style.display='block';pane.classList.add('active');}
   if(el)el.classList.add('active');
@@ -794,9 +794,9 @@ function showDetail(ms){
 
 // ── FLOW VIEW ───────────────────────────────────────────────────────────
 function filterTeam(t,el){
-  document.querySelectorAll('#vb-view .leg-item').forEach(function(i){i.classList.remove('active');});
+  document.querySelectorAll('.leg-item').forEach(function(i){i.classList.remove('active');});
   if(el)el.classList.add('active');
-  document.querySelectorAll('#vb-view .node-card').forEach(function(c){
+  document.querySelectorAll('.node-card').forEach(function(c){
     if(t==='all'){c.style.opacity='1';c.style.pointerEvents='auto';}
     else{var teams=(c.dataset.teams||'').split(' ');var show=teams.indexOf(t)!==-1;c.style.opacity=show?'1':'0.2';c.style.pointerEvents=show?'auto':'none';}
   });
