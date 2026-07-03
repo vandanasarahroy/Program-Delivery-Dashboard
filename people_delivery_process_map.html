@@ -487,13 +487,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 <rect x="0" y="367" width="68" height="155" fill="#854F0B" rx="0"/>
 <text x="34" y="444" text-anchor="middle" font-size="11" font-weight="600" fill="#fff" transform="rotate(-90,34,444)">RA / GCO</text>
 <!-- Lane 4: Warehouse -->
-<rect x="0" y="524" width="1320" height="396" fill="#E8F8F3" rx="0"/>
-<!-- Production operations divider within WH lane -->
-<line x1="6" y1="736" x2="1320" y2="736" stroke="#4DB299" stroke-width="0.5" stroke-dasharray="6,4" opacity="0.5"/>
-<text x="8" y="746" font-size="8" fill="#2E7D32" font-weight="600" opacity="0.7">↳ Post-Cutover Operations</text>
+<rect x="0" y="524" width="1320" height="210" fill="#E8F8F3" rx="0"/>
 <rect x="0" y="524" width="68" height="210" fill="#0F6E56" rx="0"/>
 <text x="34" y="629" text-anchor="middle" font-size="11" font-weight="600" fill="#fff" transform="rotate(-90,34,629)">Warehouse</text>
 
+
+<!-- Lane 5: Post-Cutover / Production Ops -->
+<rect x="0" y="736" width="1320" height="174" fill="#F3F0FF" rx="0"/>
+<rect x="0" y="736" width="68" height="174" fill="#4F46E5" rx="0"/>
+<text x="34" y="823" text-anchor="middle" font-size="10" font-weight="600" fill="#fff" transform="rotate(-90,34,823)">Post-Cutover Ops</text>
+<line x1="68" y1="736" x2="1320" y2="736" stroke="#6D6D6D" stroke-width="1.5" opacity="0.4"/>
 <!-- ── LANE DIVIDERS ── -->
 <line x1="0" y1="208" x2="1320" y2="208" stroke="var(--border-strong)" stroke-width="1"/>
 <line x1="0" y1="365" x2="1320" y2="365" stroke="var(--border-strong)" stroke-width="1"/>
@@ -860,59 +863,59 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 
 <!-- Production Workflow Setup -->
 <g id="sbn-prodwf" class="node" onclick="sendPrompt('Production workflow setup: configure non-basis prospective, retro, rematch and docket workflows in production. Owner: Tech/NER.')">
-  <rect x="560" y="752" width="130" height="46" rx="6" fill="#0874E3"/>
-  <rect x="562" y="754" width="126" height="42" rx="4" fill="rgba(0,0,0,0.15)"/>
-  <text x="625" y="769" text-anchor="middle" dominant-baseline="central" font-size="9" font-weight="700" fill="#fff">Production</text>
-  <text x="625" y="783" text-anchor="middle" dominant-baseline="central" font-size="9" font-weight="700" fill="#fff">Workflow Setup</text>
-  <text x="625" y="793" text-anchor="middle" dominant-baseline="central" font-size="7" fill="rgba(255,255,255,0.75)">Tech / NER</text>
+  <rect x="560" y="800" width="130" height="46" rx="6" fill="#0874E3"/>
+  <rect x="562" y="802" width="126" height="42" rx="4" fill="rgba(0,0,0,0.15)"/>
+  <text x="625" y="817" text-anchor="middle" dominant-baseline="central" font-size="9" font-weight="700" fill="#fff">Production</text>
+  <text x="625" y="831" text-anchor="middle" dominant-baseline="central" font-size="9" font-weight="700" fill="#fff">Workflow Setup</text>
+  <text x="625" y="841" text-anchor="middle" dominant-baseline="central" font-size="7" fill="rgba(255,255,255,0.75)">Tech / NER</text>
 </g>
 
 <!-- NEDs & Datamarts Update -->
 <g id="sbn-neds" class="node" onclick="sendPrompt('NEDs &amp; Datamarts Update: post-cutover update of NEDs, Datamarts and entity forwarding tables from ERD to NER. Owner: Warehouse.')">
-  <rect x="720" y="752" width="130" height="46" rx="6" fill="#4DB299"/>
-  <rect x="722" y="754" width="126" height="42" rx="4" fill="rgba(0,0,0,0.15)"/>
-  <text x="785" y="769" text-anchor="middle" dominant-baseline="central" font-size="9" font-weight="700" fill="#fff">NEDs &amp; Datamarts</text>
-  <text x="785" y="783" text-anchor="middle" dominant-baseline="central" font-size="9" font-weight="700" fill="#fff">Update</text>
-  <text x="785" y="793" text-anchor="middle" dominant-baseline="central" font-size="7" fill="rgba(255,255,255,0.75)">Warehouse</text>
+  <rect x="720" y="800" width="130" height="46" rx="6" fill="#4DB299"/>
+  <rect x="722" y="802" width="126" height="42" rx="4" fill="rgba(0,0,0,0.15)"/>
+  <text x="785" y="817" text-anchor="middle" dominant-baseline="central" font-size="9" font-weight="700" fill="#fff">NEDs &amp; Datamarts</text>
+  <text x="785" y="831" text-anchor="middle" dominant-baseline="central" font-size="9" font-weight="700" fill="#fff">Update</text>
+  <text x="785" y="841" text-anchor="middle" dominant-baseline="central" font-size="7" fill="rgba(255,255,255,0.75)">Warehouse</text>
 </g>
 
 <!-- Burn-In Validation -->
 <g id="sbn-burnin" class="node" onclick="sendPrompt('Burn-In Validation: post-cutover monitoring period — entity quality, application behaviour, match rates and downstream stability. Duration &amp; criteria TBD.')">
-  <rect x="880" y="752" width="130" height="46" rx="6" fill="#E9B045"/>
-  <rect x="882" y="754" width="126" height="42" rx="4" fill="rgba(0,0,0,0.12)"/>
-  <text x="945" y="769" text-anchor="middle" dominant-baseline="central" font-size="9" font-weight="700" fill="#fff">Burn-In</text>
-  <text x="945" y="783" text-anchor="middle" dominant-baseline="central" font-size="9" font-weight="700" fill="#fff">Validation (TBD)</text>
-  <text x="945" y="793" text-anchor="middle" dominant-baseline="central" font-size="7" fill="rgba(0,0,0,0.5)">Duration TBD</text>
+  <rect x="880" y="800" width="130" height="46" rx="6" fill="#E9B045"/>
+  <rect x="882" y="802" width="126" height="42" rx="4" fill="rgba(0,0,0,0.12)"/>
+  <text x="945" y="817" text-anchor="middle" dominant-baseline="central" font-size="9" font-weight="700" fill="#fff">Burn-In</text>
+  <text x="945" y="831" text-anchor="middle" dominant-baseline="central" font-size="9" font-weight="700" fill="#fff">Validation (TBD)</text>
+  <text x="945" y="841" text-anchor="middle" dominant-baseline="central" font-size="7" fill="rgba(0,0,0,0.5)">Duration TBD</text>
 </g>
 
 <!-- Steady-State Operations -->
 <g id="sbn-steady" class="node" onclick="sendPrompt('Steady-State Operations: TRPA fully live, ERD decommissioned, all workflows on NER. Monitoring, alerting and SLA baselines confirmed. Timeline TBD.')">
-  <rect x="1045" y="752" width="130" height="46" rx="6" fill="#123121"/>
-  <rect x="1047" y="754" width="126" height="42" rx="4" fill="rgba(0,0,0,0.25)"/>
-  <text x="1110" y="769" text-anchor="middle" dominant-baseline="central" font-size="9" font-weight="700" fill="#D64000">Steady-State</text>
-  <text x="1110" y="783" text-anchor="middle" dominant-baseline="central" font-size="9" font-weight="700" fill="#fff">Operations (TBD)</text>
-  <text x="1110" y="793" text-anchor="middle" dominant-baseline="central" font-size="7" fill="rgba(255,255,255,0.55)">ERD decommissioned</text>
+  <rect x="1045" y="800" width="130" height="46" rx="6" fill="#123121"/>
+  <rect x="1047" y="802" width="126" height="42" rx="4" fill="rgba(0,0,0,0.25)"/>
+  <text x="1110" y="817" text-anchor="middle" dominant-baseline="central" font-size="9" font-weight="700" fill="#D64000">Steady-State</text>
+  <text x="1110" y="831" text-anchor="middle" dominant-baseline="central" font-size="9" font-weight="700" fill="#fff">Operations (TBD)</text>
+  <text x="1110" y="841" text-anchor="middle" dominant-baseline="central" font-size="7" fill="rgba(255,255,255,0.55)">ERD decommissioned</text>
 </g>
 
 <!-- ── 5th LANE CONNECTORS ── -->
 <!-- Prod auth build → Production Workflow Setup -->
-<path d="M1253,148 L1253,736 L625,736 L625,752" stroke="#0874E3" stroke-width="1.5" fill="none" marker-end="url(#arr-fwd)" stroke-dasharray="5,3"/>
+<path d="M1253,148 L1253,782 L625,782 L625,800" stroke="#0874E3" stroke-width="1.5" fill="none" marker-end="url(#arr-fwd)" stroke-dasharray="5,3"/>
 
 <!-- Production Workflow Setup → NEDs & Datamarts -->
-<line x1="690" y1="775" x2="720" y2="775" stroke="#3B6D11" stroke-width="1.5" fill="none" marker-end="url(#arr-fwd)"/>
+<line x1="690" y1="823" x2="720" y2="823" stroke="#3B6D11" stroke-width="1.5" fill="none" marker-end="url(#arr-fwd)"/>
 
 <!-- Cutover → NEDs & Datamarts -->
-<path d="M1070,603 L1070,736 L785,736 L785,752" stroke="#3B6D11" stroke-width="2" fill="none" marker-end="url(#arr-fwd)"/>
+<path d="M1070,603 L1070,782 L785,782 L785,800" stroke="#3B6D11" stroke-width="2" fill="none" marker-end="url(#arr-fwd)"/>
 
 <!-- NEDs & Datamarts → Burn-In -->
-<line x1="850" y1="775" x2="880" y2="775" stroke="#3B6D11" stroke-width="1.5" fill="none" marker-end="url(#arr-fwd)"/>
+<line x1="850" y1="823" x2="880" y2="823" stroke="#3B6D11" stroke-width="1.5" fill="none" marker-end="url(#arr-fwd)"/>
 
 <!-- Live → Burn-In (post go-live) -->
-<path d="M1285,647 L1285,736 L945,736 L945,752" stroke="#3B6D11" stroke-width="1.5" fill="none" marker-end="url(#arr-fwd)"/>
-<text x="1115" y="731" font-size="8" fill="#3B6D11" text-anchor="middle">Post go-live</text>
+<path d="M1285,647 L1285,782 L945,782 L945,800" stroke="#3B6D11" stroke-width="1.5" fill="none" marker-end="url(#arr-fwd)"/>
+<text x="1115" y="731" font-size="8" fill="#3B6D11" text-anchor="middle" y="778">Post go-live</text>
 
 <!-- Burn-In → Steady State -->
-<line x1="1010" y1="775" x2="1045" y2="775" stroke="#3B6D11" stroke-width="2" fill="none" marker-end="url(#arr-fwd)"/>
+<line x1="1010" y1="823" x2="1045" y2="823" stroke="#3B6D11" stroke-width="2" fill="none" marker-end="url(#arr-fwd)"/>
 
 <!-- CP badge on Privacy Deletes (sbn13) -->
 <circle cx="976" cy="420" r="9" fill="#C62828"/>
@@ -1120,9 +1123,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 <polygon points="1161,629 1185,610 1209,629 1185,648" fill="none" stroke="#C62828" stroke-width="2" stroke-dasharray="5,3" class="cp-gate-border" style="pointer-events:none"/>
 
   <!-- CP glow: Cutover → NEDs/Datamarts → Burn-In → Steady State -->
-  <path d="M1070,603 L1070,736 L915,736 L915,752" stroke="#C62828" stroke-width="5" stroke-dasharray="8,4" fill="none"/>
-  <line x1="980" y1="775" x2="1010" y2="775" stroke="#C62828" stroke-width="5" stroke-dasharray="8,4"/>
-  <line x1="1140" y1="775" x2="1155" y2="775" stroke="#C62828" stroke-width="5" stroke-dasharray="8,4" marker-end="url(#arr-cp-glow)"/>
+  <path d="M1070,603 L1070,782 L823,782 L823,800" stroke="#C62828" stroke-width="5" stroke-dasharray="8,4" fill="none"/>
+  <line x1="850" y1="823" x2="880" y2="823" stroke="#C62828" stroke-width="5" stroke-dasharray="8,4"/>
+  <line x1="1010" y1="823" x2="1045" y2="823" stroke="#C62828" stroke-width="5" stroke-dasharray="8,4" marker-end="url(#arr-cp-glow)"/>
 
 </g>
 
@@ -1219,9 +1222,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 
 </svg
   <!-- HP glow: Cutover → NEDs/Datamarts → Burn-In → Steady State -->
-  <path d="M1070,603 L1070,736 L915,736 L915,752" stroke="#1DB954" stroke-width="5" fill="none"/>
-  <line x1="980" y1="775" x2="1010" y2="775" stroke="#1DB954" stroke-width="5"/>
-  <line x1="1140" y1="775" x2="1155" y2="775" stroke="#1DB954" stroke-width="5" marker-end="url(#arr-hp-glow)"/>
+  <path d="M1070,603 L1070,782 L823,782 L823,800" stroke="#1DB954" stroke-width="5" fill="none"/>
+  <line x1="850" y1="823" x2="880" y2="823" stroke="#1DB954" stroke-width="5"/>
+  <line x1="1010" y1="823" x2="1045" y2="823" stroke="#1DB954" stroke-width="5" marker-end="url(#arr-hp-glow)"/>
 >
       </div>
       <div id="impact-panel" style="display:none"></div>
@@ -3028,10 +3031,10 @@ var SB_NODES = [
 {id:'g-gonogo',      x:880,  y:594, w:80, h:70, title:'Go/No-go',      type:'gate', team:'All',       ms:null},
 {id:'g-postcutover', x:1155, y:604, w:60, h:50, title:'Issues found?', type:'gate', team:'All',       ms:null},
 // ── 5th Lane: Production / Tech Team ─────────────────────────────────
-{id:'sbn-prodwf',  x:560,  y:752, w:130, h:46, title:'Production Workflow Setup',  team:'Tech',      ms:null},
-{id:'sbn-neds',    x:720,  y:752, w:130, h:46, title:'NEDs & Datamarts Update',    team:'Warehouse', ms:null},
-{id:'sbn-burnin',  x:880,  y:752, w:130, h:46, title:'Burn-In Validation (TBD)',   team:'All',       ms:null},
-{id:'sbn-steady',  x:1045, y:752, w:130, h:46, title:'Steady-State Operations',    team:'All',       ms:null},
+{id:'sbn-prodwf',  x:560,  y:800, w:130, h:46, title:'Production Workflow Setup',  team:'Tech',      ms:null},
+{id:'sbn-neds',    x:720,  y:800, w:130, h:46, title:'NEDs & Datamarts Update',    team:'Warehouse', ms:null},
+{id:'sbn-burnin',  x:880,  y:800, w:130, h:46, title:'Burn-In Validation (TBD)',   team:'All',       ms:null},
+{id:'sbn-steady',  x:1045, y:800, w:130, h:46, title:'Steady-State Operations',    team:'All',       ms:null},
 ];
 
 function initSBInteractive() {
