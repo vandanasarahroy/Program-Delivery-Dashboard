@@ -444,7 +444,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
         </button>
       </div>
       <div class="sb-canvas">
-<svg id="sbsvg" width="1320" height="760" viewBox="0 0 1320 760">
+<svg id="sbsvg" width="1320" height="920" viewBox="0 0 1320 920">
 <title>People Authority cutover storyboard</title>
 
 
@@ -469,10 +469,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
   </marker>
 </defs>
 
+
+<!-- ── LANE 5: PRODUCTION / TECH TEAM ── -->
+<rect x="0" y="735" width="1320" height="175" fill="#F0F4FF" rx="0"/>
+<rect x="0" y="735" width="6" height="175" fill="#6366F1"/>
+<line x1="0" y1="735" x2="1320" y2="735" stroke="#818CF8" stroke-width="1.5"/>
+<text x="3" y="822" text-anchor="middle" font-size="9" font-weight="700" fill="#4338CA"
+  writing-mode="vertical-rl" transform="rotate(180,3,822)">PRODUCTION / TECH</text>
 <g id="sb-base">
 
 <!-- ── SWIM LANE BACKGROUNDS ── -->
-<rect x="0" y="0" width="1320" height="760" fill="var(--surface-1)"/>
+<rect x="0" y="0" width="1320" height="920" fill="var(--surface-1)"/>
 <!-- Lane 1: NER/Labs -->
 <rect x="0" y="40" width="1320" height="168" fill="#EDF4FF" rx="0"/>
 <rect x="0" y="40" width="68" height="168" fill="#0874E3" rx="0"/>
@@ -852,11 +859,73 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 
 <!-- ═══ SCENARIO HIGHLIGHT OVERLAYS (hidden by default, shown via JS) ═══ -->
 
+<!-- ── PRODUCTION / TECH TEAM NODES ── -->
+
+<!-- Production Workflow Setup -->
+<g id="sbn-prodwf" class="node" onclick="sendPrompt('Production workflow setup: configure non-basis prospective, retro, rematch and docket workflows in production. Owner: Tech/NER.')">
+  <rect x="560" y="752" width="130" height="46" rx="6" fill="#6366F1"/>
+  <rect x="562" y="754" width="126" height="42" rx="4" fill="rgba(0,0,0,0.18)"/>
+  <text x="625" y="769" text-anchor="middle" dominant-baseline="central" font-size="9" font-weight="700" fill="#fff">Production</text>
+  <text x="625" y="783" text-anchor="middle" dominant-baseline="central" font-size="9" font-weight="700" fill="#fff">Workflow Setup</text>
+  <text x="625" y="793" text-anchor="middle" dominant-baseline="central" font-size="7" fill="rgba(255,255,255,0.75)">Tech / NER</text>
+</g>
+
+<!-- NEDs & Datamarts Update -->
+<g id="sbn-neds" class="node" onclick="sendPrompt('NEDs &amp; Datamarts Update: post-cutover update of NEDs, Datamarts and entity forwarding tables from ERD to NER. Owner: Warehouse.')">
+  <rect x="720" y="752" width="130" height="46" rx="6" fill="#4DB299"/>
+  <rect x="722" y="754" width="126" height="42" rx="4" fill="rgba(0,0,0,0.15)"/>
+  <text x="785" y="769" text-anchor="middle" dominant-baseline="central" font-size="9" font-weight="700" fill="#fff">NEDs &amp; Datamarts</text>
+  <text x="785" y="783" text-anchor="middle" dominant-baseline="central" font-size="9" font-weight="700" fill="#fff">Update</text>
+  <text x="785" y="793" text-anchor="middle" dominant-baseline="central" font-size="7" fill="rgba(255,255,255,0.75)">Warehouse</text>
+</g>
+
+<!-- Burn-In Validation -->
+<g id="sbn-burnin" class="node" onclick="sendPrompt('Burn-In Validation: post-cutover monitoring period — entity quality, application behaviour, match rates and downstream stability. Duration &amp; criteria TBD.')">
+  <rect x="880" y="752" width="130" height="46" rx="6" fill="#E9B045"/>
+  <rect x="882" y="754" width="126" height="42" rx="4" fill="rgba(0,0,0,0.12)"/>
+  <text x="945" y="769" text-anchor="middle" dominant-baseline="central" font-size="9" font-weight="700" fill="#fff">Burn-In</text>
+  <text x="945" y="783" text-anchor="middle" dominant-baseline="central" font-size="9" font-weight="700" fill="#fff">Validation (TBD)</text>
+  <text x="945" y="793" text-anchor="middle" dominant-baseline="central" font-size="7" fill="rgba(0,0,0,0.5)">Duration TBD</text>
+</g>
+
+<!-- Steady-State Operations -->
+<g id="sbn-steady" class="node" onclick="sendPrompt('Steady-State Operations: TRPA fully live, ERD decommissioned, all workflows on NER. Monitoring, alerting and SLA baselines confirmed. Timeline TBD.')">
+  <rect x="1045" y="752" width="130" height="46" rx="6" fill="#123121"/>
+  <rect x="1047" y="754" width="126" height="42" rx="4" fill="rgba(0,0,0,0.25)"/>
+  <text x="1110" y="769" text-anchor="middle" dominant-baseline="central" font-size="9" font-weight="700" fill="#D64000">Steady-State</text>
+  <text x="1110" y="783" text-anchor="middle" dominant-baseline="central" font-size="9" font-weight="700" fill="#fff">Operations (TBD)</text>
+  <text x="1110" y="793" text-anchor="middle" dominant-baseline="central" font-size="7" fill="rgba(255,255,255,0.55)">ERD decommissioned</text>
+</g>
+
+<!-- ── 5th LANE CONNECTORS ── -->
+<!-- Prod auth build → Production Workflow Setup -->
+<path d="M1253,148 L1253,736 L625,736 L625,752" stroke="#6366F1" stroke-width="1.5" fill="none" marker-end="url(#arr-fwd)" stroke-dasharray="5,3"/>
+
+<!-- Production Workflow Setup → NEDs & Datamarts -->
+<line x1="690" y1="775" x2="720" y2="775" stroke="#3B6D11" stroke-width="1.5" fill="none" marker-end="url(#arr-fwd)"/>
+
+<!-- Cutover → NEDs & Datamarts -->
+<path d="M1070,603 L1070,736 L785,736 L785,752" stroke="#3B6D11" stroke-width="2" fill="none" marker-end="url(#arr-fwd)"/>
+
+<!-- NEDs & Datamarts → Burn-In -->
+<line x1="850" y1="775" x2="880" y2="775" stroke="#3B6D11" stroke-width="1.5" fill="none" marker-end="url(#arr-fwd)"/>
+
+<!-- Live → Burn-In (post go-live) -->
+<path d="M1285,647 L1285,736 L945,736 L945,752" stroke="#3B6D11" stroke-width="1.5" fill="none" marker-end="url(#arr-fwd)"/>
+<text x="1115" y="731" font-size="8" fill="#3B6D11" text-anchor="middle">Post go-live</text>
+
+<!-- Burn-In → Steady State -->
+<line x1="1010" y1="775" x2="1045" y2="775" stroke="#3B6D11" stroke-width="2" fill="none" marker-end="url(#arr-fwd)"/>
+
+<!-- CP badge on Privacy Deletes (sbn13) -->
+<circle cx="976" cy="420" r="9" fill="#C62828"/>
+<text x="976" y="420" text-anchor="middle" dominant-baseline="central" font-size="8" font-weight="700" fill="#fff">CP</text>
+
 <g id="sb-base-close-sentinel"/>
 </g><!-- /sb-base -->
 
 <!-- ─── DIM OVERLAY ──────────────────────────────────────────────────────── -->
-<rect id="dim-overlay" x="0" y="0" width="1320" height="760" fill="#f5f5f5" opacity="0" style="pointer-events:none"/>
+<rect id="dim-overlay" x="0" y="0" width="1320" height="920" fill="#f5f5f5" opacity="0" style="pointer-events:none"/>
 
 <!-- ─── SCENARIO OVERLAYS ─────────────────────────────────────────────────── -->
 <g id="ov-delay" opacity="0" pointer-events="none">
@@ -1052,6 +1121,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 <polygon points="456,579 480,560 504,579 480,598" fill="none" stroke="#C62828" stroke-width="2" stroke-dasharray="5,3" class="cp-gate-border" style="pointer-events:none"/>
 <polygon points="886,629 920,600 954,629 920,658" fill="none" stroke="#C62828" stroke-width="2" stroke-dasharray="5,3" class="cp-gate-border" style="pointer-events:none"/>
 <polygon points="1161,629 1185,610 1209,629 1185,648" fill="none" stroke="#C62828" stroke-width="2" stroke-dasharray="5,3" class="cp-gate-border" style="pointer-events:none"/>
+
+  <!-- CP glow: Cutover → NEDs/Datamarts → Burn-In → Steady State -->
+  <path d="M1070,603 L1070,736 L915,736 L915,752" stroke="#C62828" stroke-width="5" stroke-dasharray="8,4" fill="none"/>
+  <line x1="980" y1="775" x2="1010" y2="775" stroke="#C62828" stroke-width="5" stroke-dasharray="8,4"/>
+  <line x1="1140" y1="775" x2="1155" y2="775" stroke="#C62828" stroke-width="5" stroke-dasharray="8,4" marker-end="url(#arr-cp-glow)"/>
+
 </g>
 
 <!-- ─── HAPPY PATH OVERLAY ─────────────────────────────────────────────────── -->
@@ -1145,7 +1220,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 <text x="1070" y="587" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="400" fill="rgba(255,255,255,0.88)">pause+update+WH</text>
 </g>
 
-</svg>
+</svg
+  <!-- HP glow: Cutover → NEDs/Datamarts → Burn-In → Steady State -->
+  <path d="M1070,603 L1070,736 L915,736 L915,752" stroke="#1DB954" stroke-width="5" fill="none"/>
+  <line x1="980" y1="775" x2="1010" y2="775" stroke="#1DB954" stroke-width="5"/>
+  <line x1="1140" y1="775" x2="1155" y2="775" stroke="#1DB954" stroke-width="5" marker-end="url(#arr-hp-glow)"/>
+>
       </div>
       <div id="impact-panel" style="display:none"></div>
     </div>
@@ -1345,26 +1425,39 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 <div class="connector"><div class="conn-line"></div><span class="conn-arrow">↓</span><div class="conn-line"></div></div>
 
 <div class="phase-row">
-  <div class="phase-label">Phase 6 — Production Build & Go-Live (All Teams)</div>
+  <div class="phase-label">Phase 6 — Production Build, Cutover & Go-Live (All Teams)
+  </div>
   <div class="phase-nodes" id="ph6">
-    <div class="node-card tc-ner" data-teams="ner ra" onclick="showDetail('V6.2 Code to Production','V6.2 and all related code promoted to production. Dev Team.','Dev Team','Oct 2026','Planned','FEATURE 1478100')">
+    <div class="node-card tc-ner" data-teams="ner" onclick="showDetail('V6.2 Code → Production','V6.2 and all related code deployed to production environment. Pre-requisite for production authority build.','Dev Team','Oct 2026','Planned','')">
       <div class="node-title">V6.2 code → production</div>
       <div class="node-owner">Dev Team</div>
       <div class="node-date"><span class="badge badge-plan">Planned</span> Oct 2026</div>
     </div>
-    <div class="node-card tc-ner" data-teams="ner ra" onclick="showDetail('Production Person Authority Build','Build out full production Person Authority — all 4 basis content sets reprocessed via RA, NER, PA.','NER / RA / PA','Nov 2026','Planned','FEATURE 1512011')">
-      <div class="node-title">Prod authority build (V6.2)</div>
-      <div class="node-owner">NER / RA / PA</div>
+    <div class="node-card tc-ner" data-teams="ner ra" onclick="showDetail('Production Authority Build (V6.2)','Full production Person Authority built from all 4 basis content sets. Runs AFTER app validation passes. Prerequisite for Go/No-Go gate. Owner: Tech/NER.','Tech / NER / RA','Nov 2026','Planned','FEATURE 1512011')">
+      <div class="node-title">⭐ Prod authority build (V6.2)</div>
+      <div class="node-owner">Tech / NER / RA</div>
       <div class="node-date"><span class="badge badge-plan">Planned</span> Nov 2026</div>
+      <div style="font-size:10px;color:#D64000;margin-top:2px">↳ After App ok? gate passes</div>
     </div>
-    <div class="node-card tc-npd" data-teams="npd" onclick="showDetail('Cutover — Start: Pause, Update, Go','Three-step cutover: (1) Update Person Authority, (2) Pause content processing, (3) Update Warehouse/NEDs/Marts.','All Teams','Nov–Dec 2026','Planned','')">
+    <div class="node-card tc-ner" data-teams="ner" onclick="showDetail('Go/No-Go Decision','Go/No-Go quality gate. Pass criteria TBD. Draft: all P0/P1 tests pass, confidence score delta in tolerance, zero P1 ID breaks, FedRAMP cleared, warehouse stable. Rollback trigger criteria also TBD.','Program Leadership','Nov 2026','Planned','')">
+      <div class="node-title">🔴 Go / No-Go Decision</div>
+      <div class="node-owner">Program Leadership</div>
+      <div class="node-date"><span class="badge badge-plan">Planned</span> Nov 2026</div>
+      <div style="font-size:10px;color:#888;margin-top:2px">Criteria TBD — tracking as open item</div>
+    </div>
+    <div class="node-card tc-npd" data-teams="npd all" onclick="showDetail('Cutover — Start: Pause, Update, Go','Three-step cutover: (1) Update Person Authority, (2) Pause content processing, (3) Update Warehouse/NEDs/Marts.','All Teams','Nov–Dec 2026','Planned','')">
       <div class="node-title">Cutover sequence begins</div>
       <div class="node-owner">All Teams</div>
       <div class="node-date"><span class="badge badge-plan">Planned</span> Nov–Dec</div>
     </div>
-    <div class="node-card tc-wh" data-teams="wh" onclick="showDetail('Warehouse ERD → NER Cutover','Final warehouse cutover from ERD-based entity relationships to NER. NEDs, Datamarts updated.','Warehouse / NER','Dec 2026','Planned','')">
+    <div class="node-card tc-wh" data-teams="wh" onclick="showDetail('Warehouse ERD → NER Cutover','Final warehouse cutover from ERD to NER. NEDs republished. Datamart entity forwarding tables updated. Non-basis relationships migrated.','Warehouse / NER','Dec 2026','Planned','')">
       <div class="node-title">Warehouse ERD→NER cutover</div>
       <div class="node-owner">Warehouse / NER</div>
+      <div class="node-date"><span class="badge badge-plan">Planned</span> Dec 2026</div>
+    </div>
+    <div class="node-card tc-wh" data-teams="wh all" onclick="showDetail('NEDs & Datamarts Update','Post-cutover: NEDs republished, entity forwarding tables updated, Datamart relationships migrated from ERD to NER entity IDs. Owner: Warehouse.','Warehouse / Assembly','Dec 2026','Planned','')">
+      <div class="node-title">NEDs &amp; Datamarts Update</div>
+      <div class="node-owner">Warehouse / Assembly</div>
       <div class="node-date"><span class="badge badge-plan">Planned</span> Dec 2026</div>
     </div>
     <div class="node-card" style="border-left:3px solid var(--tr-orange);background:#FFF3EE" data-teams="all" onclick="showDetail('Go Live — Dec 31, 2026','Cutover complete. ERD retired. Person Authority fully on NER/TRPA. 637M entities active.','All Teams','Dec 31, 2026','Planned','')">
@@ -1374,6 +1467,31 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
     </div>
   </div>
 </div>
+
+<div class="connector"><div class="conn-line"></div><span class="conn-arrow">↓</span><div class="conn-line"></div></div>
+
+<div class="phase-row">
+  <div class="phase-label">Phase 7 — Burn-In Validation &amp; Steady-State Operations (TBD)</div>
+  <div class="phase-nodes" id="ph7">
+    <div class="node-card" style="border-left:3px solid #E9B045" data-teams="all" onclick="showDetail('Burn-In Validation','Post go-live monitoring period. Monitor entity quality, match rates, application behaviour and downstream system stability. Duration and formal criteria TBD — to be defined before cutover.','TBD','TBD','Planned','')">
+      <div class="node-title">🔥 Burn-In Validation</div>
+      <div class="node-owner">TBD</div>
+      <div class="node-date"><span class="badge badge-plan">Planned</span> TBD</div>
+      <div style="font-size:10px;color:#888;margin-top:2px">Duration &amp; exit criteria TBD</div>
+    </div>
+    <div class="node-card" style="border-left:3px solid #4DB299" data-teams="all" onclick="showDetail('Post-Rollback Validation','If rollback triggered during cutover: validate Warehouse, NEDs, Datamarts and all application systems restored to ERD baseline. Side-by-side comparison run.','Kurt / Warehouse / NER','TBD','Planned','')">
+      <div class="node-title">Post-Rollback Validation</div>
+      <div class="node-owner">Kurt / Warehouse / NER</div>
+      <div class="node-date"><span class="badge badge-plan">Planned</span> TBD if triggered</div>
+    </div>
+    <div class="node-card" style="border-left:3px solid #123121;background:#EDF4FF" data-teams="all" onclick="showDetail('Steady-State Operations','TRPA/NER fully live, ERD decommissioned, all content workflows running on NER. Monitoring, alerting and SLA baselines established. ERD infrastructure retired.','All Teams','TBD','Planned','')">
+      <div class="node-title">✅ Steady-State Operations</div>
+      <div class="node-owner">All Teams</div>
+      <div class="node-date"><span class="badge badge-plan">Planned</span> TBD</div>
+      <div style="font-size:10px;color:#3B6D11;margin-top:2px">ERD infrastructure decommissioned</div>
+    </div>
+  </div>
+</div
 
 <div id="flow-detail" class="detail">
   <div class="detail-title" id="dt"></div>
@@ -1494,7 +1612,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
       <div class="co-teams"><span class="co-team badge-plan badge">Program leadership</span><span class="co-team badge-plan badge">Warehouse</span><span class="co-team badge-plan badge">NER</span></div>
     </div>
   </div>
-  <div class="co-step" style="border-bottom:none">
+  <div class="co-step">
     <div class="co-num" style="background:var(--tr-orange)">8</div>
     <div class="co-content">
       <div class="co-title" style="color:var(--tr-orange)">Cutover Done — Dec 31, 2026 11:59pm</div>
@@ -1502,6 +1620,43 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
       <div class="co-teams"><span class="co-team" style="background:#FFF3EE;color:var(--tr-orange)">All Teams</span></div>
     </div>
   </div>
+  <div class="co-step">
+    <div class="co-num" style="background:#4DB299">9</div>
+    <div class="co-content">
+      <div class="co-title">NEDs &amp; Datamarts Update</div>
+      <div class="co-body">Post-cutover: NEDs republished with NER entity IDs. Entity forwarding tables in Datamarts updated. Non-basis relationships migrated. Owner: Warehouse / Assembly.</div>
+      <div class="co-teams"><span class="co-team badge-plan badge">Warehouse</span><span class="co-team badge-plan badge">Assembly</span></div>
+    </div>
+  </div>
+  <div class="co-step">
+    <div class="co-num" style="background:#E9B045">10</div>
+    <div class="co-content">
+      <div class="co-title">Burn-In Validation <span style="color:#888;font-size:10px">(TBD)</span></div>
+      <div class="co-body">Post go-live monitoring period. Track entity quality, application behaviour, match rates and downstream stability. Exit criteria and duration to be defined before cutover. Owner TBD.</div>
+      <div class="co-teams"><span class="co-team badge-plan badge">All Teams</span><span class="co-team badge-plan badge">TBD</span></div>
+    </div>
+  </div>
+  <div class="co-step">
+    <div class="co-num" style="background:#6B7280">11</div>
+    <div class="co-content">
+      <div class="co-title">🔁 Rollback: Post-Rollback Validation <span style="color:#888;font-size:10px">(if triggered)</span></div>
+      <div class="co-body">If Go/No-Go fails or post-cutover issues exceed rollback threshold: restore ERD baseline, validate Warehouse + NEDs + Datamarts + all application systems are back to pre-cutover state. Side-by-side comparison run. Rollback trigger criteria TBD.</div>
+      <div class="co-teams"><span class="co-team badge-plan badge">Kurt</span><span class="co-team badge-plan badge">Warehouse</span><span class="co-team badge-plan badge">NER</span></div>
+    </div>
+  </div>
+  <div class="co-step" style="border-bottom:none">
+    <div class="co-num" style="background:#123121">12</div>
+    <div class="co-content">
+      <div class="co-title" style="color:#4DB299">Steady-State Operations <span style="color:#888;font-size:10px">(TBD)</span></div>
+      <div class="co-body">ERD infrastructure decommissioned. TRPA/NER is primary entity authority. All workflows, monitoring and SLA baselines confirmed operational. Timeline TBD — to be set once burn-in window is defined.</div>
+      <div class="co-teams"><span class="co-team" style="background:#EDF9F4;color:#3B6D11">All Teams</span></div>
+    </div>
+  </div>
+</div>
+
+<div style="margin-top:1rem;padding:.75rem;background:#FFF8EE;border-left:3px solid #E9B045;border-radius:4px;font-size:11px">
+  <strong>⚠ Open items:</strong> Go/No-Go pass criteria, Rollback trigger thresholds, Burn-In duration and exit criteria — all TBD. To be defined and confirmed before cutover window opens.
+</div>
 </div>
 </div>
 
@@ -1547,6 +1702,36 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
     <div class="risk-sev sev-low">Low</div>
     <div class="risk-title">Warehouse mixed entity IDs post-cutover</div>
     <div class="risk-body">Delta approach leaves WH with mix of ERD-origin IDs and TRPA-generated IDs. Planned to resolve when WH migrates to Snowflake.</div>
+  </div>
+  <div class="risk-card">
+    <div class="risk-sev sev-high">High</div>
+    <div class="risk-title">Authority / model readiness delays</div>
+    <div class="risk-body">V6.x model delivery or NER authority rebuild delays push the cutover window. Any slip past Sep 2026 compresses the Dec 31 deadline. Labs delivery schedule is on critical path.</div>
+  </div>
+  <div class="risk-card">
+    <div class="risk-sev sev-high">High</div>
+    <div class="risk-title">Recall &amp; orphan quality issues</div>
+    <div class="risk-body">Non-basis recall issues (name tokenization, real property, DMV, Dockets) could fail NPD sign-off. Orphaned entities post-cutover create downstream application failures. No fallback if recall gap is material.</div>
+  </div>
+  <div class="risk-card">
+    <div class="risk-sev sev-high">High</div>
+    <div class="risk-title">Privacy Delete Readiness — CRITICAL PATH</div>
+    <div class="risk-body">Non-basis privacy deletes are a legally obligated hard dependency. Confirmed as a Critical Path blocker. Must be complete and validated before cutover proceeds. Owner: RA / Assembly.</div>
+  </div>
+  <div class="risk-card">
+    <div class="risk-sev sev-med">Medium</div>
+    <div class="risk-title">Historical relationship quality</div>
+    <div class="risk-body">Historical entity-to-entity relationships (basis record realignment) may degrade under TRPA vs ERD. Scenario 3 edge cases not fully tested. Could surface post-cutover in Westlaw PR and search.</div>
+  </div>
+  <div class="risk-card">
+    <div class="risk-sev sev-med">Medium</div>
+    <div class="risk-title">Disaster recovery readiness</div>
+    <div class="risk-body">No confirmed DR plan for post-cutover failure scenario. Backup/standby strategy, restore/replay capability and post-rollback validation approach not yet documented. Must be in place before Go/No-Go gate. Criteria TBD.</div>
+  </div>
+  <div class="risk-card">
+    <div class="risk-sev sev-med">Medium</div>
+    <div class="risk-title">Burn-In &amp; Steady-State criteria undefined</div>
+    <div class="risk-body">No defined exit criteria for burn-in validation or formal definition of steady-state. Without these, there is no objective signal to declare cutover complete. Needs to be defined before cutover window.</div>
   </div>
 </div>
 </div>
@@ -1641,6 +1826,17 @@ var MS=[
   {id:50,env:'QA',title:'Match Score Analysis — ERD vs TRPA Comparison',status:'Planned',team:'NER',month:7,adoId:null,ado:'',owner:'Ranjit Sahu / Claudia / NER',notes:'Open questions: (1) ERD hardcoded score config — where? (Tom/Claudia/Ranjit). (2) TRPA scoring — defined output ranges? (Ranjit/NER). (3) Basis content propagation decision (Sunitha+Tom+Ranjit). Review Bryon Content Threshold.dat.'},
   {id:51,env:'Prod',title:'E2E Application Testing — CLEAR, S2S/API, Batch, WL PR',status:'Planned',team:'NPD',month:10,adoId:null,ado:'',owner:'Patricia / Product / NPD',notes:"Patricia key scenarios: Confidence score distribution ERD vs TRPA. Customer-facing entity ID continuity (P1/P2). Alerts date filter logic. Snapping rules (Slide 8). Reprocessing triggers. Match rate monitoring signals."},
   {id:52,env:'Prod',title:'Rollback Plan Validation + Go/No-Go Decision',status:'Planned',team:'All',month:11,adoId:null,ado:'',owner:'Kurt / Patricia / Tom',notes:'Quality gate before cutover. Define rollback criteria. Side-by-side window duration. Rollback options: isPostgresqlActive=false; CWH 1-month data replay; ORACLE restore.'},
+  // ── New milestones from gap analysis ──────────────────────────────────
+  {id:53,env:'QA',  title:'QA Baseline Validation',             status:'Completed',team:'NER',      month:1,  adoId:null,ado:'',owner:'NER / Labs',         notes:'Baseline QA validation of ERD authority before V4.8 model build. Confirms starting state.'},
+  {id:54,env:'Prod',title:'Prod Authority Build (V6.2) — Tech', status:'Planned',  team:'Tech',     month:11, adoId:null,ado:'',owner:'Tech / NER / RA',     notes:'Final production authority build. Runs after App ok? gate passes. Prerequisite for Go/No-Go. Criteria TBD.'},
+  {id:55,env:'Prod',title:'NEDs & Datamarts Update',            status:'Planned',  team:'Warehouse',month:12, adoId:null,ado:'',owner:'Warehouse / Assembly', notes:'Post-cutover update of NEDs, entity forwarding tables and Datamarts from ERD to NER entity IDs.'},
+  {id:56,env:'Prod',title:'Burn-In Validation',                 status:'Planned',  team:'All',      month:12, adoId:null,ado:'',owner:'TBD',                  notes:'Post go-live validation window. Monitor entity quality, match rates, application behaviour and downstream stability. Duration TBD.'},
+  {id:57,env:'Prod',title:'Steady-State Operations',            status:'Planned',  team:'All',      month:1,  adoId:null,ado:'',owner:'TBD',                  notes:'ERD fully decommissioned. TRPA/NER is primary entity authority. All workflows, monitoring and SLAs established. Timeline TBD.'},
+  {id:58,env:'Prod',title:'Post-Rollback Validation',           status:'Planned',  team:'All',      month:12, adoId:null,ado:'',owner:'Kurt / Warehouse / NER',notes:'If rollback triggered: validate ERD-side vs NER-side. Check Warehouse, NEDs, Datamarts and all application systems are back to baseline.'},
+  {id:59,env:'Prod',title:'Disaster Recovery Readiness',        status:'Planned',  team:'All',      month:10, adoId:null,ado:'',owner:'TBD',                  notes:'Confirm DR plan for post-cutover failure scenario. Backup/standby strategy. Restore/replay capability tested. Criteria TBD.'},
+  {id:60,env:'QA',  title:'Privacy Delete Readiness — CRITICAL',status:'Planned',  team:'RA',       month:10, adoId:null,ado:'',owner:'RA / Assembly',         notes:'Hard Critical Path dependency. Non-basis privacy deletes legally obligated. Must complete before cutover proceeds. Tracking as CP blocker.'},
+  {id:61,env:'Prod',title:'Go/No-Go Criteria — TBD',           status:'Planned',  team:'All',      month:11, adoId:null,ado:'',owner:'Kurt / Patricia / Tom', notes:'Pass conditions TBD. Draft: all P0/P1 tests pass, confidence score delta within tolerance, zero P1 entity ID breaks, FedRAMP cleared, warehouse stable.'},
+  {id:62,env:'Prod',title:'Rollback Trigger Criteria — TBD',   status:'Planned',  team:'All',      month:11, adoId:null,ado:'',owner:'Kurt / Patricia / Tom', notes:'Trigger conditions TBD. Draft: match rate drop >5%, P0 application failure, entity ID continuity break, Warehouse instability post-cutover.'},
 ];
 var CUTOVER_SCENARIOS=[
   {id:1,title:'Scenario 1: Exact Entity Match',sub:'~300M+ entities — No Downstream Change',col:'#4DB299',bg:'#E3F3EE',
@@ -2838,6 +3034,11 @@ var SB_NODES = [
 {id:'g-whgate',      x:450,  y:554, w:60, h:50, title:'WH pass?',      type:'gate', team:'Warehouse', ms:null},
 {id:'g-gonogo',      x:880,  y:594, w:80, h:70, title:'Go/No-go',      type:'gate', team:'All',       ms:null},
 {id:'g-postcutover', x:1155, y:604, w:60, h:50, title:'Issues found?', type:'gate', team:'All',       ms:null},
+// ── 5th Lane: Production / Tech Team ─────────────────────────────────
+{id:'sbn-prodwf',  x:560,  y:752, w:130, h:46, title:'Production Workflow Setup',  team:'Tech',      ms:null},
+{id:'sbn-neds',    x:720,  y:752, w:130, h:46, title:'NEDs & Datamarts Update',    team:'Warehouse', ms:null},
+{id:'sbn-burnin',  x:880,  y:752, w:130, h:46, title:'Burn-In Validation (TBD)',   team:'All',       ms:null},
+{id:'sbn-steady',  x:1045, y:752, w:130, h:46, title:'Steady-State Operations',    team:'All',       ms:null},
 ];
 
 function initSBInteractive() {
