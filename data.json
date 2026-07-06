@@ -800,7 +800,7 @@
         "owner": "Krishanu Bhattacharya",
         "health": "Green",
         "status": "In Progress",
-        "iterLabel": "Jun 23, 2026 (current)",
+        "iterLabel": "Jun 23, 2026",
         "state": [
           "Execution of the Basis/Authority build-up on V4.8 is underway. CCH and EQCH runs have been completed and successfully merged.",
           "BAHR workflow is currently under investigation due to a performance issue encountered during the merge process."
@@ -824,7 +824,7 @@
         "owner": "NA",
         "health": "Green",
         "status": "In Progress",
-        "iterLabel": "Jun 23, 2026 (current)",
+        "iterLabel": "Jun 23, 2026",
         "state": [
           "NER–LTC integration is functionally complete, with NER successfully receiving load and promote notifications."
         ],
@@ -844,7 +844,7 @@
         "owner": "",
         "health": "Green",
         "status": "In Progress",
-        "iterLabel": "Jun 23, 2026 (current)",
+        "iterLabel": "Jun 23, 2026",
         "state": [
           "Document Facet initial development for file creation completed. Testing of file creation in progress. Working with Distribution Service and Warehouse team on design for delivering files to on-Prem for ingestion.",
           "Transit Files development in progress. Identification of certain fields usage still being determined. Design for distribution of files to downstream consumers still in progress.",
@@ -868,7 +868,7 @@
         "owner": "Claudia Schulz",
         "health": "Green",
         "status": "In Progress",
-        "iterLabel": "Jun 23, 2026 (current)",
+        "iterLabel": "Jun 23, 2026",
         "state": [
           "Finalised merge logic for PA build-up and provided ongoing support for unforeseen build-up issues."
         ],
@@ -890,7 +890,7 @@
         "owner": "Mohan Janakiraman",
         "health": "Green",
         "status": "In Progress",
-        "iterLabel": "Jun 23, 2026 (current)",
+        "iterLabel": "Jun 23, 2026",
         "state": [
           "Working on setting up regression using Verification service along with Dana & Tom",
           "Following up (live discussions) with TransUnion on the duplicate legacy id issue",
@@ -917,7 +917,7 @@
         "owner": "Jim Votel",
         "health": "Green",
         "status": "In Progress",
-        "iterLabel": "Jun 23, 2026 (current)",
+        "iterLabel": "Jun 23, 2026",
         "state": [
           "Basis Content – formalized testing plan for 4.8 and 6.0 Models, including Precision Tasks with anomalous entities and conflicting data elements.",
           "Basis Content – Labs implemented Conflicting Data rules.",
@@ -952,7 +952,7 @@
         "owner": "Krishanu Bhattacharya",
         "health": "Green",
         "status": "In Progress",
-        "iterLabel": "Jul 7, 2026 (upcoming)",
+        "iterLabel": "Jul 7, 2026 (current)",
         "state": [
           "Execution of the Basis/Authority build-up on V4.8 has completed with all 4 Basis Content being successfully merged. All issues identified during the process were resolved. NPD validations look promising"
         ],
@@ -975,7 +975,7 @@
         "owner": "Krishanu Bhattacharya",
         "health": "Green",
         "status": "In Progress",
-        "iterLabel": "Jul 7, 2026 (upcoming)",
+        "iterLabel": "Jul 7, 2026 (current)",
         "state": [
           "NER–LTC integration is functionally complete with integration to QA underway. Product validation for annotations from samples results look satisfactory."
         ],
@@ -998,7 +998,7 @@
         "owner": "Tom Klein",
         "health": "Green",
         "status": "In Progress",
-        "iterLabel": "Jul 7, 2026 (upcoming)",
+        "iterLabel": "Jul 7, 2026 (current)",
         "state": [
           "Document Facet development to deliver load file to storage is complete. Testing for Basis/Non-Basis against onPrem is underway. Working with Distribution Service on delivering files to on-Prem for ingestion.",
           "Development to create Transit files is wrapping up. Design for Distribution of files to downstream consumers will be finalized this week. Next-up is comparison with onPrem generated Transit files.",
@@ -1024,7 +1024,7 @@
         "owner": "Jim Votel",
         "health": "Green",
         "status": "In Progress",
-        "iterLabel": "Jul 7, 2026 (upcoming)",
+        "iterLabel": "Jul 7, 2026 (current)",
         "state": [
           "Basis Content – Review of 4.8 in progress, Precision and Recall.",
           "Non-Basis Content - Recall, continued discussions on name and address parsing issues (Tokenization)."
@@ -1053,7 +1053,7 @@
         "owner": "Mohan Janakiraman",
         "health": "Green",
         "status": "In Progress",
-        "iterLabel": "Jul 7, 2026 (upcoming)",
+        "iterLabel": "Jul 7, 2026 (current)",
         "state": [],
         "risks": [],
         "next": [],
@@ -1068,7 +1068,7 @@
         "owner": "Claudia Schulz",
         "health": "Green",
         "status": "In Progress",
-        "iterLabel": "Jul 7, 2026 (upcoming)",
+        "iterLabel": "Jul 7, 2026 (current)",
         "state": [
           "Successfully delivered V6 matching model for non-basis content matching, which includes handling of associated addresses and estimated DOB, enabling more accurate matching."
         ],
@@ -1091,7 +1091,7 @@
         "owner": "Claudia Schulz",
         "health": "Green",
         "status": "In Progress",
-        "iterLabel": "Jul 7, 2026 (upcoming)",
+        "iterLabel": "Jul 7, 2026 (current)",
         "state": [
           "Ongoing PoC to move model training from AWS SageMaker to Snowflake"
         ],
