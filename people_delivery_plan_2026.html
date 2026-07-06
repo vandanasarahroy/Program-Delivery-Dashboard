@@ -673,10 +673,9 @@ tr.ps-drag-over{border-top:2px solid #D64000!important}
       <label style="font-size:10px;font-weight:600;color:#64748b;white-space:nowrap">Iteration</label>
       <select id="ps-iteration" onchange="psChangeIteration(this.value)" style="border:0.5px solid #1e3a5f;border-radius:3px;padding:5px 10px;font-size:12px;color:#1e293b;background:#fff;outline:none;min-width:180px;font-weight:500">
         <optgroup label="-- Current --" style="color:#16a34a;font-weight:700">
-          <option value="jun23" selected>Jun 23, 2026</option>
+          <option value="jul07" selected>Jul 7, 2026 (current)</option>
         </optgroup>
         <optgroup label="-- Upcoming --" style="color:#94a3b8;font-style:italic">
-          <option value="jul07">Jul 7, 2026 (current)</option>
           <option value="jul21">Jul 21, 2026</option>
           <option value="aug04">Aug 4, 2026</option>
           <option value="aug18">Aug 18, 2026</option>
@@ -691,6 +690,7 @@ tr.ps-drag-over{border-top:2px solid #D64000!important}
           <option value="dec22">Dec 22, 2026</option>
         </optgroup>
         <optgroup label="-- Past --" style="color:#64748b">
+          <option value="jun23">Jun 23, 2026</option>
           <option value="may12">May 12&ndash;26, 2026</option>
           <option value="apr27">Apr 27&ndash;May 12, 2026</option>
           <option value="apr14">Apr 14&ndash;27, 2026</option>
@@ -1291,7 +1291,7 @@ var ALL_ITER={
   ]
 };
 
-var PS_ROWS=ALL_ITER['jun23']||ALL_ITER['may12'];
+var PS_ROWS=ALL_ITER['jul07']||ALL_ITER['jun23']||ALL_ITER['may12'];
 
 function psChangeIteration(val){
   if(!ALL_ITER[val])ALL_ITER[val]=[];
@@ -2485,7 +2485,7 @@ if (typeof GitHubDB !== 'undefined') {
   });
 }
 // Set initial iteration label in toolbar
-(function(){var iterSel=document.getElementById('ps-iteration');if(iterSel){iterSel.value='jun23';var il=document.getElementById('ps-iter-label');if(il)il.textContent=iterSel.options[iterSel.selectedIndex].text;}})();
+(function(){var iterSel=document.getElementById('ps-iteration');if(iterSel){iterSel.value='jul07';var il=document.getElementById('ps-iter-label');if(il)il.textContent=iterSel.options[iterSel.selectedIndex].text;}})();
 </script>
 <script>
 // Override github-connector.js UI injection — we use our own edit button
