@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "lastRefreshed": "2026-07-06 16:48 UTC",
+    "lastRefreshed": "2026-07-06",
     "updatedBy": "Sarah Roy",
     "iteration": "jun23",
     "autoRefresh": true
@@ -946,13 +946,155 @@
     "jul07": [
       {
         "section": "Person Authority Build",
-        "name": "People Re-Match Basis Content Development",
+        "name": "Basis Person Authority Build Up",
+        "sub": "",
+        "team": "NER",
+        "owner": "Krishanu Bhattacharya",
+        "health": "Green",
+        "status": "In Progress",
+        "iterLabel": "Jul 7, 2026 (upcoming)",
+        "state": [
+          "Execution of the Basis/Authority build-up on V4.8 has completed with all 4 Basis Content being successfully merged. All issues identified during the process were resolved. NPD validations look promising"
+        ],
+        "risks": [
+          "Although authority quality looks good, there are a few extra entities in authority that are being investigated"
+        ],
+        "next": [
+          "NER working with Labs to tighten/loosen few more rules for merge before the next round of basis publishing. Meanwhile the PA will be used for ongoing content matching testing."
+        ],
+        "impact": [
+          "Not at the moment"
+        ],
+        "link": ""
+      },
+      {
+        "section": "Person Authority Build",
+        "name": "Non-Basis People Matching/Grading",
+        "sub": "",
+        "team": "NER",
+        "owner": "Krishanu Bhattacharya",
+        "health": "Green",
+        "status": "In Progress",
+        "iterLabel": "Jul 7, 2026 (upcoming)",
+        "state": [
+          "NER–LTC integration is functionally complete with integration to QA underway. Product validation for annotations from samples results look satisfactory."
+        ],
+        "risks": [
+          "Dependency on Active MQ migration Aug 1 for Prod LTC. Nothing at this point. There is a dependency when NER-LTC goes to Prod, for LTC to be migrated to ActiveMQ."
+        ],
+        "next": [
+          "Edge cases of NER–LTC integration will be tested. New 6.0 model will be integrated for matching."
+        ],
+        "impact": [
+          "Not at the moment"
+        ],
+        "link": ""
+      },
+      {
+        "section": "Person Authority Build",
+        "name": "People Warehouse Integration & Transit Pipeline Readiness",
+        "sub": "",
         "team": "NA",
-        "owner": "NA",
+        "owner": "Tom Klein",
+        "health": "Green",
+        "status": "In Progress",
+        "iterLabel": "Jul 7, 2026 (upcoming)",
+        "state": [
+          "Document Facet development to deliver load file to storage is complete. Testing for Basis/Non-Basis against onPrem is underway. Working with Distribution Service on delivering files to on-Prem for ingestion.",
+          "Development to create Transit files is wrapping up. Design for Distribution of files to downstream consumers will be finalized this week. Next-up is comparison with onPrem generated Transit files.",
+          "Entity Snapping POC - Initial process has been executed and verified in lower environments. Large scale Testing of process set to start this week to determine throughput and time needed for cutover."
+        ],
+        "risks": [
+          "People Warehouse Exadata availability for testing. Utilizing PR22 for testing 7/6 thru 7/17. Coordinating with Postgres dev team."
+        ],
+        "next": [
+          "Validation of DocFacet and Transit File output as compared to legacy outputted files.",
+          "POC to determine throughput to inform cutover timeline."
+        ],
+        "impact": [
+          "Not at the moment"
+        ],
+        "link": ""
+      },
+      {
+        "section": "NPD",
+        "name": "NPD – Annotating Updates",
+        "sub": "",
+        "team": "NPD/NER",
+        "owner": "Jim Votel",
+        "health": "Green",
+        "status": "In Progress",
+        "iterLabel": "Jul 7, 2026 (upcoming)",
+        "state": [
+          "Basis Content – Review of 4.8 in progress, Precision and Recall.",
+          "Non-Basis Content - Recall, continued discussions on name and address parsing issues (Tokenization)."
+        ],
+        "risks": [
+          "Recall – Continued Review of Issues noted above, Tokenization and Missed Matches."
+        ],
+        "next": [
+          "Basis Content – 4.8 Model Precision Annotating Tasks to completion.",
+          "Basis Content – 4.8 Model Recall Annotating Tasks to completion.",
+          "Delta Comparison – In progress, ERD vs. Current Model, False Positives and new Matches.",
+          "Non-Basis Precision and Recall Annotating – 6.0 Model Review Tasks.",
+          "Review of Checklist for conversion to new pathway.",
+          "Opt-Out Annotating and Review as needed."
+        ],
+        "impact": [
+          "Not at the moment"
+        ],
+        "link": ""
+      },
+      {
+        "section": "GCO",
+        "name": "GCO",
+        "sub": "",
+        "team": "GCO",
+        "owner": "Mohan Janakiraman",
         "health": "Green",
         "status": "In Progress",
         "iterLabel": "Jul 7, 2026 (upcoming)",
         "state": [],
+        "risks": [],
+        "next": [],
+        "impact": [],
+        "link": ""
+      },
+      {
+        "section": "Labs",
+        "name": "Labs – Model V6",
+        "sub": "",
+        "team": "Labs",
+        "owner": "Claudia Schulz",
+        "health": "Green",
+        "status": "In Progress",
+        "iterLabel": "Jul 7, 2026 (upcoming)",
+        "state": [
+          "Successfully delivered V6 matching model for non-basis content matching, which includes handling of associated addresses and estimated DOB, enabling more accurate matching."
+        ],
+        "risks": [
+          "V6.1/6.2 delivery remains sensitive due to dependencies on authority build-up and annotation readiness, with emerging model refinement needs indicating timelines may be insufficient to achieve target quality."
+        ],
+        "next": [
+          "Deliver revised name tokenizer (improved multi-person splitting and tokenization for ambiguous FN/LN). Improve name normalization (ensure only real AKAs are returned as normalized names), revisit address handling (post boxes and military addresses), and investigate FN/LN flips."
+        ],
+        "impact": [
+          "Not at the moment"
+        ],
+        "link": ""
+      },
+      {
+        "section": "Labs",
+        "name": "Labs – Retraining Pipeline",
+        "sub": "",
+        "team": "Labs",
+        "owner": "Claudia Schulz",
+        "health": "Green",
+        "status": "In Progress",
+        "iterLabel": "Jul 7, 2026 (upcoming)",
+        "state": [
+          "Ongoing PoC to move model training from AWS SageMaker to Snowflake"
+        ],
         "risks": [],
         "next": [],
         "impact": [],
