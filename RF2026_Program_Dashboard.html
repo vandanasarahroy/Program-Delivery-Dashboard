@@ -38392,6 +38392,36 @@
       "PE-RF-PR CLEAR App. Opt. Content-DA": { sow_fc: 96457, sow_cc: 69980, fte_fc: 218848, fte_cc: 180869 },
       "PE-CE-Content SHA-ND": { sow_fc: 130494, sow_cc: 120771, fte_fc: 26307, fte_cc: 43658 }
     };
+    const coreRows = CORE_PROJECTS.map((p) => {
+      const ac = ytdActCapex(p), fc = ytdFcCapex(p), b = BUDGET[p];
+      const rr = ac / 6 * 12, varB = b - ac, varF = fc - ac, varRR = b - rr, spentPct = ac / b * 100;
+      return {
+        p,
+        b,
+        fc,
+        fo: ytdFcOpex(p),
+        ac,
+        ao: ytdActOpex(p),
+        cc: ytdCalCapex(p),
+        co: ytdCalOpex(p),
+        rr,
+        varB,
+        varF,
+        varRR,
+        spentPct,
+        overage: varB < 0 ? Math.abs(varB) : 0,
+        underspend: varRR > 0 ? varRR : 0
+      };
+    });
+    const sha = {
+      ac: ytdActCapex(SHA),
+      ao: ytdActOpex(SHA),
+      fc: ytdFcCapex(SHA),
+      fo: ytdFcOpex(SHA),
+      cc: ytdCalCapex(SHA),
+      co: ytdCalOpex(SHA),
+      b: BUDGET[SHA]
+    };
     sha.rr = sha.ac / 6 * 12;
     sha.varB = sha.b - sha.ac;
     sha.varF = sha.fc - sha.ac;
@@ -38739,7 +38769,7 @@
     ] });
   }
   function YTDOverview() {
-    const coreRows2 = CORE_PROJECTS.map((p) => {
+    const coreRows = CORE_PROJECTS.map((p) => {
       const ac = ytdActCapex(p), fc = ytdFcCapex(p), cc = ytdCalCapex(p);
       const b = BUDGET[p], rr = ac / 6 * 12;
       const fullFc = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"].reduce((s2, m) => s2 + (MD[p][m]?.fc || 0), 0);
@@ -38760,16 +38790,16 @@
         underspend: varRR > 0 ? varRR : 0
       };
     });
-    const sha2 = { ac: ytdActCapex(SHA), fc: ytdFcCapex(SHA), cc: ytdCalCapex(SHA), b: BUDGET[SHA] };
-    sha2.rr = sha2.ac / 6 * 12;
-    sha2.varB = sha2.b - sha2.ac;
-    sha2.varF = sha2.fc - sha2.ac;
-    sha2.varRR = sha2.b - sha2.rr;
-    sha2.spentPct = sha2.ac / sha2.b * 100;
-    sha2.overage = sha2.varB < 0 ? Math.abs(sha2.varB) : 0;
-    sha2.underspend = sha2.varRR > 0 ? sha2.varRR : 0;
-    const CT = coreRows2.reduce((acc, r2) => ({ b: acc.b + r2.b, fullFc: acc.fullFc + r2.fullFc, fc: acc.fc + r2.fc, ac: acc.ac + r2.ac, cc: acc.cc + r2.cc, rr: acc.rr + r2.rr, varB: acc.varB + r2.varB, varF: acc.varF + r2.varF, overage: acc.overage + r2.overage, underspend: acc.underspend + r2.underspend }), { b: 0, fullFc: 0, fc: 0, ac: 0, cc: 0, rr: 0, varB: 0, varF: 0, overage: 0, underspend: 0 });
-    const totB = CT.b + sha2.b;
+    const sha = { ac: ytdActCapex(SHA), fc: ytdFcCapex(SHA), cc: ytdCalCapex(SHA), b: BUDGET[SHA] };
+    sha.rr = sha.ac / 6 * 12;
+    sha.varB = sha.b - sha.ac;
+    sha.varF = sha.fc - sha.ac;
+    sha.varRR = sha.b - sha.rr;
+    sha.spentPct = sha.ac / sha.b * 100;
+    sha.overage = sha.varB < 0 ? Math.abs(sha.varB) : 0;
+    sha.underspend = sha.varRR > 0 ? sha.varRR : 0;
+    const CT = coreRows.reduce((acc, r2) => ({ b: acc.b + r2.b, fullFc: acc.fullFc + r2.fullFc, fc: acc.fc + r2.fc, ac: acc.ac + r2.ac, cc: acc.cc + r2.cc, rr: acc.rr + r2.rr, varB: acc.varB + r2.varB, varF: acc.varF + r2.varF, overage: acc.overage + r2.overage, underspend: acc.underspend + r2.underspend }), { b: 0, fullFc: 0, fc: 0, ac: 0, cc: 0, rr: 0, varB: 0, varF: 0, overage: 0, underspend: 0 });
+    const totB = CT.b + sha.b;
     return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
       /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { marginBottom: 20 }, children: [
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h1", { style: { color: C.text, fontWeight: 700, fontSize: 22, margin: "0 0 4px" }, children: "YTD Financial Overview" }),
@@ -38803,7 +38833,7 @@
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { children: "Status" })
           ] }) }),
           /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("tbody", { children: [
-            coreRows2.map((r2) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("tr", { style: { borderBottom: `1px solid ${C.surfaceBorder}` }, children: [
+            coreRows.map((r2) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("tr", { style: { borderBottom: `1px solid ${C.surfaceBorder}` }, children: [
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TD, { bold: true, color: C.text, children: PS[r2.p] }),
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TD, { right: true, children: fmt(r2.b) }),
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TD, { right: true, children: fmt(r2.fullFc) }),
@@ -38862,26 +38892,26 @@
           ] }) }),
           /* @__PURE__ */ (0, import_jsx_runtime.jsx)("tbody", { children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("tr", { children: [
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TD, { bold: true, color: C.text, children: "SHA-ND" }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TD, { right: true, children: fmt(sha2.b) }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TD, { right: true, children: fmt(sha.b) }),
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TD, { right: true, children: fmt(["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"].reduce((s2, m) => s2 + (MD[SHA][m]?.fc || 0), 0)) }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TD, { right: true, color: C.blue, children: fmt(sha2.fc) }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TD, { right: true, color: C.purple, bold: true, children: fmt(sha2.ac) }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TD, { right: true, color: C.teal, children: fmt(sha2.cc) }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TD, { right: true, color: sha2.varB < 0 ? C.red : C.green, bold: true, children: fmt(sha2.varB) }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TD, { right: true, color: sha2.varF < 0 ? C.red : C.green, children: fmt(sha2.varF) }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TD, { right: true, color: C.gold, children: fmt(sha2.rr) }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TD, { right: true, color: C.blue, children: fmt(sha.fc) }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TD, { right: true, color: C.purple, bold: true, children: fmt(sha.ac) }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TD, { right: true, color: C.teal, children: fmt(sha.cc) }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TD, { right: true, color: sha.varB < 0 ? C.red : C.green, bold: true, children: fmt(sha.varB) }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TD, { right: true, color: sha.varF < 0 ? C.red : C.green, children: fmt(sha.varF) }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TD, { right: true, color: C.gold, children: fmt(sha.rr) }),
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)("td", { style: { padding: "9px 12px" }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 6, justifyContent: "flex-end" }, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { width: 48, height: 4, background: "#e2e8f0", borderRadius: 2, overflow: "hidden" }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { height: "100%", width: `${Math.min(sha2.spentPct, 100)}%`, background: sha2.spentPct > 100 ? C.red : sha2.spentPct > 80 ? C.gold : C.green } }) }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { color: sha2.spentPct > 100 ? C.red : C.text, minWidth: 40, textAlign: "right", fontWeight: sha2.spentPct > 100 ? 700 : 400 }, children: fmtPct(sha2.spentPct) })
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { width: 48, height: 4, background: "#e2e8f0", borderRadius: 2, overflow: "hidden" }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { height: "100%", width: `${Math.min(sha.spentPct, 100)}%`, background: sha.spentPct > 100 ? C.red : sha.spentPct > 80 ? C.gold : C.green } }) }),
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { color: sha.spentPct > 100 ? C.red : C.text, minWidth: 40, textAlign: "right", fontWeight: sha.spentPct > 100 ? 700 : 400 }, children: fmtPct(sha.spentPct) })
             ] }) }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TD, { right: true, color: sha2.overage > 0 ? C.red : C.textDim, children: fmt(sha2.overage) }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TD, { right: true, color: sha2.underspend > 0 ? C.green : C.textDim, children: sha2.underspend > 0 ? fmt(sha2.underspend) : "\u2014" }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TD, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Bdg, { color: sha2.varRR < 0 || sha2.varB < 0 ? C.red : C.purple, bg: sha2.varRR < 0 || sha2.varB < 0 ? C.redSoft : C.purple + "22", children: sha2.varRR < 0 || sha2.varB < 0 ? "OVERSPEND" : "ON TRACK" }) })
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TD, { right: true, color: sha.overage > 0 ? C.red : C.textDim, children: fmt(sha.overage) }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TD, { right: true, color: sha.underspend > 0 ? C.green : C.textDim, children: sha.underspend > 0 ? fmt(sha.underspend) : "\u2014" }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TD, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Bdg, { color: sha.varRR < 0 || sha.varB < 0 ? C.red : C.purple, bg: sha.varRR < 0 || sha.varB < 0 ? C.redSoft : C.purple + "22", children: sha.varRR < 0 || sha.varB < 0 ? "OVERSPEND" : "ON TRACK" }) })
           ] }) })
         ] }) }),
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { padding: "8px 16px", borderTop: `1px solid ${C.purple}22` }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", { style: { color: C.textDim, fontSize: 11, margin: 0 }, children: [
           "SHA-ND budget (",
-          fmt(sha2.b),
+          fmt(sha.b),
           ") is included in the overall programme budget (",
           fmt(totB),
           ") but its actuals are not counted in core project YTD totals."
