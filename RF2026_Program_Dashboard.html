@@ -38338,6 +38338,52 @@
       Dec: { fc: 6844, fo: 1037, ac: 0, ao: 0, cc: 0, co: 0 }
     }
   };
+  var fmt = (n) => {
+    if (n == null || isNaN(n)) return "$0";
+    const a2 = Math.abs(n), s2 = n < 0 ? "-" : "";
+    if (a2 >= 1e6) return `${s2}$${(a2 / 1e6).toFixed(2)}M`;
+    if (a2 >= 1e3) return `${s2}$${(a2 / 1e3).toFixed(1)}K`;
+    return `${s2}$${Math.round(a2)}`;
+  };
+  var fmtPct = (n) => !isFinite(n) || isNaN(n) ? "\u2014" : `${n.toFixed(1)}%`;
+  var ytdActCapex = (p) => YTD.reduce((s2, m) => s2 + (MD[p][m]?.ac || 0), 0);
+  var ytdActOpex = (p) => YTD.reduce((s2, m) => s2 + (MD[p][m]?.ao || 0), 0);
+  var ytdFcCapex = (p) => YTD.reduce((s2, m) => s2 + (MD[p][m]?.fc || 0), 0);
+  var ytdFcOpex = (p) => YTD.reduce((s2, m) => s2 + (MD[p][m]?.fo || 0), 0);
+  var ytdCalCapex = (p) => YTD.reduce((s2, m) => s2 + (MD[p][m]?.cc || 0), 0);
+  var ytdCalOpex = (p) => YTD.reduce((s2, m) => s2 + (MD[p][m]?.co || 0), 0);
+  var C = { bg: "#0d1117", sidebar: "#161b22", sidebarBorder: "#21262d", surface: "#1c2128", surfaceBorder: "#30363d", text: "#e6edf3", textMuted: "#7d8590", textDim: "#484f58", orange: "#D64000", orangeSoft: "#3d1a0a", green: "#238636", greenSoft: "#0d2a14", blue: "#388bfd", blueSoft: "#0c2d6b", teal: "#2ea99a", tealSoft: "#0d2926", gold: "#d29922", goldSoft: "#2d2208", red: "#f85149", redSoft: "#2d0d0c", purple: "#a371f7", white: "#ffffff" };
+  var TT = ({ active, payload, label }) => {
+    if (!active || !payload?.length) return null;
+    return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { background: C.surface, border: `1px solid ${C.surfaceBorder}`, padding: "10px 14px", borderRadius: 6, fontSize: 12, color: C.text }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { margin: "0 0 6px", fontWeight: 700 }, children: label }),
+      payload.map((p, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", { style: { margin: "2px 0", color: p.color }, children: [
+        p.name,
+        ": ",
+        fmt(p.value)
+      ] }, i))
+    ] });
+  };
+  var KPI = ({ label, value, sub, color: color2, period }) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { background: C.surface, border: `1px solid ${C.surfaceBorder}`, borderRadius: 8, padding: "14px 16px", borderLeft: `3px solid ${color2 || C.blue}` }, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 11, color: C.textMuted, marginBottom: 4, textTransform: "uppercase", letterSpacing: "0.5px" }, children: label }),
+    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 20, fontWeight: 700, color: color2 || C.text }, children: value }),
+    period && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 10, color: C.textDim, marginTop: 2, fontStyle: "italic" }, children: period }),
+    sub && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 11, color: C.textMuted, marginTop: 3 }, children: sub })
+  ] });
+  var Bdg = ({ children, color: color2, bg }) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { display: "inline-block", padding: "2px 8px", borderRadius: 10, fontSize: 10, fontWeight: 600, background: bg || C.blueSoft, color: color2 || C.blue }, children });
+  var TH = ({ children, right, sub }) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("th", { style: { padding: "8px 12px", color: C.textMuted, fontWeight: 600, textAlign: right ? "right" : "left", fontSize: 11, borderBottom: `1px solid ${C.surfaceBorder}`, whiteSpace: "nowrap", background: "#1a1f27" }, children: [
+    children,
+    sub && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 9, fontWeight: 400, color: C.textDim, marginTop: 1 }, children: sub })
+  ] });
+  var TD = ({ children, color: color2, right, bold }) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("td", { style: { padding: "9px 12px", color: color2 || C.textMuted, textAlign: right ? "right" : "left", fontWeight: bold ? 700 : 400, whiteSpace: "nowrap", borderBottom: `1px solid ${C.surfaceBorder}22` }, children });
+  var RADIAN3 = Math.PI / 180;
+  var PieLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent }) => {
+    const r2 = innerRadius + (outerRadius - innerRadius) * 0.5;
+    const x2 = cx + r2 * Math.cos(-midAngle * RADIAN3);
+    const y2 = cy + r2 * Math.sin(-midAngle * RADIAN3);
+    if (percent < 0.04) return null;
+    return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("text", { x: x2, y: y2, fill: "#fff", textAnchor: "middle", dominantBaseline: "central", style: { fontSize: 10, fontWeight: 600 }, children: `${(percent * 100).toFixed(0)}%` });
+  };
   function ProgramHome() {
     const SOW_FTE2 = {
       "PE-RF-NuCLEAR Cont. Modern-DA": { sow_fc: 560903, sow_cc: 517648, fte_fc: 2168864, fte_cc: 2047011 },
