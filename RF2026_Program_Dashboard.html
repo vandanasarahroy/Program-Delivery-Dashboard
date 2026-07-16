@@ -38385,6 +38385,8 @@
     return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("text", { x: x2, y: y2, fill: "#fff", textAnchor: "middle", dominantBaseline: "central", style: { fontSize: 10, fontWeight: 600 }, children: `${(percent * 100).toFixed(0)}%` });
   };
   function ProgramHome() {
+    const [cxShow, setCxShow] = (0, import_react57.useState)(true);
+    const [oxShow, setOxShow] = (0, import_react57.useState)(false);
     const SOW_FTE2 = {
       "PE-RF-NuCLEAR Cont. Modern-DA": { sow_fc: 560903, sow_cc: 517648, fte_fc: 2168864, fte_cc: 2047011 },
       "PE-RF-Public Records Content-DM": { sow_fc: 127735, sow_cc: 44727, fte_fc: 65198, fte_cc: 42737 },
