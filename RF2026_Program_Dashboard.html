@@ -38352,7 +38352,7 @@
   var ytdFcOpex = (p) => YTD.reduce((s2, m) => s2 + (MD[p][m]?.fo || 0), 0);
   var ytdCalCapex = (p) => YTD.reduce((s2, m) => s2 + (MD[p][m]?.cc || 0), 0);
   var ytdCalOpex = (p) => YTD.reduce((s2, m) => s2 + (MD[p][m]?.co || 0), 0);
-  var C = { bg: "#0d1117", sidebar: "#161b22", sidebarBorder: "#21262d", surface: "#1c2128", surfaceBorder: "#30363d", text: "#e6edf3", textMuted: "#7d8590", textDim: "#484f58", orange: "#D64000", orangeSoft: "#3d1a0a", green: "#238636", greenSoft: "#0d2a14", blue: "#388bfd", blueSoft: "#0c2d6b", teal: "#2ea99a", tealSoft: "#0d2926", gold: "#d29922", goldSoft: "#2d2208", red: "#f85149", redSoft: "#2d0d0c", purple: "#a371f7", white: "#ffffff" };
+  var C = { bg: "#f0f2f5", sidebar: "#ffffff", sidebarBorder: "#e2e8f0", surface: "#ffffff", surfaceBorder: "#e2e8f0", text: "#1a202c", textMuted: "#718096", textDim: "#a0aec0", orange: "#D64000", orangeSoft: "#fff0e8", green: "#38a169", greenSoft: "#f0fff4", blue: "#3182ce", blueSoft: "#ebf8ff", teal: "#319795", tealSoft: "#e6fffa", gold: "#d69e2e", goldSoft: "#fffff0", red: "#e53e3e", redSoft: "#fff5f5", purple: "#805ad5", white: "#ffffff" };
   var TT = ({ active, payload, label }) => {
     if (!active || !payload?.length) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { background: C.surface, border: `1px solid ${C.surfaceBorder}`, padding: "10px 14px", borderRadius: 6, fontSize: 12, color: C.text }, children: [
@@ -38371,7 +38371,7 @@
     sub && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 11, color: C.textMuted, marginTop: 3 }, children: sub })
   ] });
   var Bdg = ({ children, color: color2, bg }) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { display: "inline-block", padding: "2px 8px", borderRadius: 10, fontSize: 10, fontWeight: 600, background: bg || C.blueSoft, color: color2 || C.blue }, children });
-  var TH = ({ children, right, sub }) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("th", { style: { padding: "8px 12px", color: C.textMuted, fontWeight: 600, textAlign: right ? "right" : "left", fontSize: 11, borderBottom: `1px solid ${C.surfaceBorder}`, whiteSpace: "nowrap", background: "#1a1f27" }, children: [
+  var TH = ({ children, right, sub }) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("th", { style: { padding: "8px 12px", color: C.textMuted, fontWeight: 600, textAlign: right ? "right" : "left", fontSize: 11, borderBottom: `1px solid ${C.surfaceBorder}`, whiteSpace: "nowrap", background: "#f7fafc" }, children: [
     children,
     sub && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 9, fontWeight: 400, color: C.textDim, marginTop: 1 }, children: sub })
   ] });
