@@ -38384,16 +38384,16 @@
     if (percent < 0.04) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("text", { x: x2, y: y2, fill: "#fff", textAnchor: "middle", dominantBaseline: "central", style: { fontSize: 10, fontWeight: 600 }, children: `${(percent * 100).toFixed(0)}%` });
   };
+  var SOW_FTE = {
+    "PE-RF-NuCLEAR Cont. Modern-DA": { sow_fc: 560903, sow_cc: 517648, fte_fc: 2168864, fte_cc: 2047011 },
+    "PE-RF-Public Records Content-DM": { sow_fc: 127735, sow_cc: 44727, fte_fc: 65198, fte_cc: 42737 },
+    "PE-RF-Public Records Content-ND": { sow_fc: 196184, sow_cc: 71889, fte_fc: 346212, fte_cc: 201377 },
+    "PE-RF-PR CLEAR App. Opt. Content-DA": { sow_fc: 96457, sow_cc: 69980, fte_fc: 218848, fte_cc: 180869 },
+    "PE-CE-Content SHA-ND": { sow_fc: 130494, sow_cc: 120771, fte_fc: 26307, fte_cc: 43658 }
+  };
   function ProgramHome() {
     const [cxShow, setCxShow] = (0, import_react57.useState)(true);
     const [oxShow, setOxShow] = (0, import_react57.useState)(false);
-    const SOW_FTE2 = {
-      "PE-RF-NuCLEAR Cont. Modern-DA": { sow_fc: 560903, sow_cc: 517648, fte_fc: 2168864, fte_cc: 2047011 },
-      "PE-RF-Public Records Content-DM": { sow_fc: 127735, sow_cc: 44727, fte_fc: 65198, fte_cc: 42737 },
-      "PE-RF-Public Records Content-ND": { sow_fc: 196184, sow_cc: 71889, fte_fc: 346212, fte_cc: 201377 },
-      "PE-RF-PR CLEAR App. Opt. Content-DA": { sow_fc: 96457, sow_cc: 69980, fte_fc: 218848, fte_cc: 180869 },
-      "PE-CE-Content SHA-ND": { sow_fc: 130494, sow_cc: 120771, fte_fc: 26307, fte_cc: 43658 }
-    };
     const coreRows = CORE_PROJECTS.map((p) => {
       const ac = ytdActCapex(p), fc = ytdFcCapex(p), b = BUDGET[p];
       const rr = ac / 6 * 12, varB = b - ac, varF = fc - ac, varRR = b - rr, spentPct = ac / b * 100;
