@@ -37,7 +37,7 @@ const BUDGET = {
 };
 
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul'];
-const YTD = ['Jan','Feb','Mar','Apr','May','Jun'];
+const YTD = ['Jan','Feb','Mar','Apr','May','Jun','Jul'];
 
 const MD = {
   'PE-RF-NuCLEAR Cont. Modern-DA':{
@@ -157,7 +157,7 @@ function ProgramHome(){
   const [oxShow,setOxShow]=useState(false);
   const coreRows=CORE_PROJECTS.map(p=>{
     const ac=ytdActCapex(p),fc=ytdFcCapex(p),b=BUDGET[p];
-    const rr=(ac/6)*12,varB=b-ac,varF=fc-ac,varRR=b-rr,spentPct=(ac/b)*100;
+    const rr=(ac/YTD.length)*12,varB=b-ac,varF=fc-ac,varRR=b-rr,spentPct=(ac/b)*100;
     return{p,b,fc,fo:ytdFcOpex(p),ac,ao:ytdActOpex(p),cc:ytdCalCapex(p),co:ytdCalOpex(p),
       rr,varB,varF,varRR,spentPct,
       overage:varB<0?Math.abs(varB):0,underspend:varRR>0?varRR:0};
@@ -168,7 +168,7 @@ function ProgramHome(){
     cc:ytdCalCapex(SHA),co:ytdCalOpex(SHA),
     b:BUDGET[SHA]
   };
-  sha.rr=(sha.ac/6)*12; sha.varB=sha.b-sha.ac; sha.varF=sha.fc-sha.ac;
+  sha.rr=(sha.ac/YTD.length)*12; sha.varB=sha.b-sha.ac; sha.varF=sha.fc-sha.ac;
   sha.varRR=sha.b-sha.rr; sha.spentPct=(sha.ac/sha.b)*100;
   sha.overage=sha.varB<0?Math.abs(sha.varB):0; sha.underspend=sha.varRR>0?sha.varRR:0;
   const totB=PROJECTS.reduce((s,p)=>s+BUDGET[p],0);
@@ -197,7 +197,7 @@ function ProgramHome(){
     <div>
       <div style={{marginBottom:20}}>
         <h1 style={{color:C.text,fontWeight:700,fontSize:22,margin:'0 0 4px'}}>Program Home</h1>
-        <p style={{color:C.textMuted,fontSize:13,margin:0}}>All financial initiatives · Jan–Jun 2026 · Actuals: Jan–Jun</p>
+        <p style={{color:C.textMuted,fontSize:13,margin:0}}>All financial initiatives · Jan–Jul 2026 · Actuals: Jan–Jul</p>
       </div>
 
       <div style={{display:'grid',gridTemplateColumns:'repeat(5,1fr)',gap:12,marginBottom:20}}>
@@ -275,18 +275,18 @@ function ProgramHome(){
               <tr>
                 <TH>Project</TH>
                 <TH right>Budget</TH>
-                {cxShow&&<th style={{padding:'0',background:'#f7fafc',borderBottom:`1px solid ${C.surfaceBorder}`}}><div style={{padding:'8px 12px',textAlign:'right',color:C.blue,fontSize:11,fontWeight:700,borderLeft:`2px solid ${C.blue}22`}}>YTD Fc CapEx<span style={{fontSize:9,fontStyle:"italic",fontWeight:400,color:"#a0aec0",display:"block",marginTop:1}}>Jan–Jun</span></div></th>}
-                {oxShow&&<th style={{padding:'0',background:'#f7fafc',borderBottom:`1px solid ${C.surfaceBorder}`}}><div style={{padding:'8px 12px',textAlign:'right',color:C.gold,fontSize:11,fontWeight:700,borderLeft:`2px solid ${C.gold}22`}}>YTD Fc OpEx<span style={{fontSize:9,fontStyle:"italic",fontWeight:400,color:"#a0aec0",display:"block",marginTop:1}}>Jan–Jun</span></div></th>}
-                {cxShow&&<th style={{padding:'0',background:'#f7fafc',borderBottom:`1px solid ${C.surfaceBorder}`}}><div style={{padding:'8px 12px',textAlign:'right',color:C.orange,fontSize:11,fontWeight:700,borderLeft:`2px solid ${C.orange}33`}}>YTD Act CapEx<span style={{fontSize:9,fontStyle:"italic",fontWeight:400,color:"#a0aec0",display:"block",marginTop:1}}>Jan–Jun</span></div></th>}
-                {oxShow&&<th style={{padding:'0',background:'#f7fafc',borderBottom:`1px solid ${C.surfaceBorder}`}}><div style={{padding:'8px 12px',textAlign:'right',color:C.gold,fontSize:11,fontWeight:700,borderLeft:`2px solid ${C.gold}22`}}>YTD Act OpEx<span style={{fontSize:9,fontStyle:"italic",fontWeight:400,color:"#a0aec0",display:"block",marginTop:1}}>Jan–Jun</span></div></th>}
-                {oxShow&&<th style={{padding:'0',background:'#f7fafc',borderBottom:`1px solid ${C.surfaceBorder}`}}><div style={{padding:'8px 12px',textAlign:'right',color:C.gold,fontSize:11,fontWeight:700,borderLeft:`2px solid ${C.gold}22`}}>YTD Cal OpEx<span style={{fontSize:9,fontStyle:"italic",fontWeight:400,color:"#a0aec0",display:"block",marginTop:1}}>Jan–Jun</span></div></th>}
-                {cxShow&&<TH right sub="Jan–Jun">Var to Budget</TH>}
-                {cxShow&&<TH right sub="Jan–Jun">Actuals Var to YTD Fc</TH>}
+                {cxShow&&<th style={{padding:'0',background:'#f7fafc',borderBottom:`1px solid ${C.surfaceBorder}`}}><div style={{padding:'8px 12px',textAlign:'right',color:C.blue,fontSize:11,fontWeight:700,borderLeft:`2px solid ${C.blue}22`}}>YTD Fc CapEx<span style={{fontSize:9,fontStyle:"italic",fontWeight:400,color:"#a0aec0",display:"block",marginTop:1}}>Jan–Jul</span></div></th>}
+                {oxShow&&<th style={{padding:'0',background:'#f7fafc',borderBottom:`1px solid ${C.surfaceBorder}`}}><div style={{padding:'8px 12px',textAlign:'right',color:C.gold,fontSize:11,fontWeight:700,borderLeft:`2px solid ${C.gold}22`}}>YTD Fc OpEx<span style={{fontSize:9,fontStyle:"italic",fontWeight:400,color:"#a0aec0",display:"block",marginTop:1}}>Jan–Jul</span></div></th>}
+                {cxShow&&<th style={{padding:'0',background:'#f7fafc',borderBottom:`1px solid ${C.surfaceBorder}`}}><div style={{padding:'8px 12px',textAlign:'right',color:C.orange,fontSize:11,fontWeight:700,borderLeft:`2px solid ${C.orange}33`}}>YTD Act CapEx<span style={{fontSize:9,fontStyle:"italic",fontWeight:400,color:"#a0aec0",display:"block",marginTop:1}}>Jan–Jul</span></div></th>}
+                {oxShow&&<th style={{padding:'0',background:'#f7fafc',borderBottom:`1px solid ${C.surfaceBorder}`}}><div style={{padding:'8px 12px',textAlign:'right',color:C.gold,fontSize:11,fontWeight:700,borderLeft:`2px solid ${C.gold}22`}}>YTD Act OpEx<span style={{fontSize:9,fontStyle:"italic",fontWeight:400,color:"#a0aec0",display:"block",marginTop:1}}>Jan–Jul</span></div></th>}
+                {oxShow&&<th style={{padding:'0',background:'#f7fafc',borderBottom:`1px solid ${C.surfaceBorder}`}}><div style={{padding:'8px 12px',textAlign:'right',color:C.gold,fontSize:11,fontWeight:700,borderLeft:`2px solid ${C.gold}22`}}>YTD Cal OpEx<span style={{fontSize:9,fontStyle:"italic",fontWeight:400,color:"#a0aec0",display:"block",marginTop:1}}>Jan–Jul</span></div></th>}
+                {cxShow&&<TH right sub="Jan–Jul">Var to Budget</TH>}
+                {cxShow&&<TH right sub="Jan–Jul">Actuals Var to YTD Fc</TH>}
                 {cxShow&&<TH right sub="Annualised">Run Rate Based on Actuals</TH>}
                 {cxShow&&<TH right sub="Annualised">Var Based on Run Rate</TH>}
-                {cxShow&&<TH right sub="Jan–Jun">% Spent</TH>}
-                {cxShow&&<TH right sub="Jan–Jun">Overage</TH>}
-                {cxShow&&<TH right sub="Jan–Jun">Underspend</TH>}
+                {cxShow&&<TH right sub="Jan–Jul">% Spent</TH>}
+                {cxShow&&<TH right sub="Jan–Jul">Overage</TH>}
+                {cxShow&&<TH right sub="Jan–Jul">Underspend</TH>}
                 <TH>Status</TH>
               </tr>
             </thead>
@@ -354,17 +354,17 @@ function ProgramHome(){
               <tr>
                 <TH>Project</TH>
                 <TH right sub="Full Year">Budget</TH>
-                {cxShow&&<th style={{padding:'0',background:'#f7fafc',borderBottom:`1px solid ${C.surfaceBorder}`}}><div style={{padding:'8px 12px',textAlign:'right',color:C.blue,fontSize:11,fontWeight:700,borderLeft:`2px solid ${C.blue}22`}}>YTD Fc CapEx<span style={{fontSize:9,fontStyle:'italic',fontWeight:400,color:C.textDim,display:'block',marginTop:1}}>Jan–Jun</span></div></th>}
-                {oxShow&&<th style={{padding:'0',background:'#f7fafc',borderBottom:`1px solid ${C.surfaceBorder}`}}><div style={{padding:'8px 12px',textAlign:'right',color:C.gold,fontSize:11,fontWeight:700,borderLeft:`2px solid ${C.gold}22`}}>YTD Fc OpEx<span style={{fontSize:9,fontStyle:'italic',fontWeight:400,color:C.textDim,display:'block',marginTop:1}}>Jan–Jun</span></div></th>}
-                {cxShow&&<th style={{padding:'0',background:'#f7fafc',borderBottom:`1px solid ${C.surfaceBorder}`}}><div style={{padding:'8px 12px',textAlign:'right',color:C.orange,fontSize:11,fontWeight:700,borderLeft:`2px solid ${C.orange}33`}}>YTD Act CapEx<span style={{fontSize:9,fontStyle:'italic',fontWeight:400,color:C.textDim,display:'block',marginTop:1}}>Jan–Jun</span></div></th>}
-                {oxShow&&<th style={{padding:'0',background:'#f7fafc',borderBottom:`1px solid ${C.surfaceBorder}`}}><div style={{padding:'8px 12px',textAlign:'right',color:C.gold,fontSize:11,fontWeight:700,borderLeft:`2px solid ${C.gold}22`}}>YTD Act OpEx<span style={{fontSize:9,fontStyle:'italic',fontWeight:400,color:C.textDim,display:'block',marginTop:1}}>Jan–Jun</span></div></th>}
-                {cxShow&&<TH right sub="Jan–Jun">Var to Budget</TH>}
-                {cxShow&&<TH right sub="Jan–Jun">Actuals Var to YTD Fc</TH>}
+                {cxShow&&<th style={{padding:'0',background:'#f7fafc',borderBottom:`1px solid ${C.surfaceBorder}`}}><div style={{padding:'8px 12px',textAlign:'right',color:C.blue,fontSize:11,fontWeight:700,borderLeft:`2px solid ${C.blue}22`}}>YTD Fc CapEx<span style={{fontSize:9,fontStyle:'italic',fontWeight:400,color:C.textDim,display:'block',marginTop:1}}>Jan–Jul</span></div></th>}
+                {oxShow&&<th style={{padding:'0',background:'#f7fafc',borderBottom:`1px solid ${C.surfaceBorder}`}}><div style={{padding:'8px 12px',textAlign:'right',color:C.gold,fontSize:11,fontWeight:700,borderLeft:`2px solid ${C.gold}22`}}>YTD Fc OpEx<span style={{fontSize:9,fontStyle:'italic',fontWeight:400,color:C.textDim,display:'block',marginTop:1}}>Jan–Jul</span></div></th>}
+                {cxShow&&<th style={{padding:'0',background:'#f7fafc',borderBottom:`1px solid ${C.surfaceBorder}`}}><div style={{padding:'8px 12px',textAlign:'right',color:C.orange,fontSize:11,fontWeight:700,borderLeft:`2px solid ${C.orange}33`}}>YTD Act CapEx<span style={{fontSize:9,fontStyle:'italic',fontWeight:400,color:C.textDim,display:'block',marginTop:1}}>Jan–Jul</span></div></th>}
+                {oxShow&&<th style={{padding:'0',background:'#f7fafc',borderBottom:`1px solid ${C.surfaceBorder}`}}><div style={{padding:'8px 12px',textAlign:'right',color:C.gold,fontSize:11,fontWeight:700,borderLeft:`2px solid ${C.gold}22`}}>YTD Act OpEx<span style={{fontSize:9,fontStyle:'italic',fontWeight:400,color:C.textDim,display:'block',marginTop:1}}>Jan–Jul</span></div></th>}
+                {cxShow&&<TH right sub="Jan–Jul">Var to Budget</TH>}
+                {cxShow&&<TH right sub="Jan–Jul">Actuals Var to YTD Fc</TH>}
                 {cxShow&&<TH right sub="Annualised">Run Rate Based on Actuals</TH>}
                 {cxShow&&<TH right sub="Annualised">Var Based on Run Rate</TH>}
-                {cxShow&&<TH right sub="Jan–Jun">% Spent</TH>}
-                {cxShow&&<TH right sub="Jan–Jun">Overage</TH>}
-                {cxShow&&<TH right sub="Jan–Jun">Underspend</TH>}
+                {cxShow&&<TH right sub="Jan–Jul">% Spent</TH>}
+                {cxShow&&<TH right sub="Jan–Jul">Overage</TH>}
+                {cxShow&&<TH right sub="Jan–Jul">Underspend</TH>}
               </tr>
             </thead>
             <tbody>
@@ -449,9 +449,9 @@ function MonthlyView(){
 
       <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:12,marginBottom:20}}>
         <KPI label="Team Target Budget" value={fmt(b)} color={C.green}/>
-        <KPI label="YTD Forecast CapEx" value={fmt(fc_mv)} period="Jan–Jun" sub={"OpEx: "+fmt(fo_mv)} color={C.blue}/>
-        <KPI label="YTD Actuals CapEx" value={fmt(ac_mv)} period="Jan–Jun" sub={"OpEx: "+fmt(ao_mv)} color={C.orange}/>
-        <KPI label="YTD Cal Actuals CapEx" value={fmt(cc_mv)} period="Jan–Jun" sub={"Cal OpEx: "+fmt(co_mv)} color={C.teal}/>
+        <KPI label="YTD Forecast CapEx" value={fmt(fc_mv)} period="Jan–Jul" sub={"OpEx: "+fmt(fo_mv)} color={C.blue}/>
+        <KPI label="YTD Actuals CapEx" value={fmt(ac_mv)} period="Jan–Jul" sub={"OpEx: "+fmt(ao_mv)} color={C.orange}/>
+        <KPI label="YTD Cal Actuals CapEx" value={fmt(cc_mv)} period="Jan–Jul" sub={"Cal OpEx: "+fmt(co_mv)} color={C.teal}/>
       </div>
 
       <div style={{background:C.surface,border:`1px solid ${isSHA?C.purple+'66':C.surfaceBorder}`,borderRadius:8,padding:16,marginBottom:16}}>
@@ -524,14 +524,14 @@ function MonthlyView(){
 function YTDOverview(){
   const coreRows=CORE_PROJECTS.map(p=>{
     const ac=ytdActCapex(p),fc=ytdFcCapex(p),cc=ytdCalCapex(p);
-    const b=BUDGET[p],rr=(ac/6)*12;
+    const b=BUDGET[p],rr=(ac/YTD.length)*12;
     const fullFc=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'].reduce((s,m)=>s+(MD[p][m]?.fc||0),0);
     const varB=b-ac, varF=fc-ac, varRR=b-rr;
     return{p,b,fullFc,fc,ac,cc,rr,varB,varF,varRR,spentPct:(ac/b)*100,
       overage:varB<0?Math.abs(varB):0, underspend:varRR>0?varRR:0};
   });
   const sha={ac:ytdActCapex(SHA),fc:ytdFcCapex(SHA),cc:ytdCalCapex(SHA),b:BUDGET[SHA]};
-  sha.rr=(sha.ac/6)*12; sha.varB=sha.b-sha.ac; sha.varF=sha.fc-sha.ac;
+  sha.rr=(sha.ac/YTD.length)*12; sha.varB=sha.b-sha.ac; sha.varF=sha.fc-sha.ac;
   sha.varRR=sha.b-sha.rr; sha.spentPct=(sha.ac/sha.b)*100;
   sha.overage=sha.varB<0?Math.abs(sha.varB):0; sha.underspend=sha.varRR>0?sha.varRR:0;
 
@@ -542,7 +542,7 @@ function YTDOverview(){
     <div>
       <div style={{marginBottom:20}}>
         <h1 style={{color:C.text,fontWeight:700,fontSize:22,margin:'0 0 4px'}}>YTD Financial Overview</h1>
-        <p style={{color:C.textMuted,fontSize:13,margin:0}}>Budget · Forecast · Actuals · Variances · Run Rate — Jan–Jun 2026</p>
+        <p style={{color:C.textMuted,fontSize:13,margin:0}}>Budget · Forecast · Actuals · Variances · Run Rate — Jan–Jul 2026</p>
       </div>
 
       <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:12,marginBottom:20}}>
@@ -561,7 +561,7 @@ function YTDOverview(){
         <div style={{overflowX:'auto'}}>
           <table style={{width:'100%',borderCollapse:'collapse',fontSize:11.5}}>
             <thead>
-              <tr><TH>Project</TH><TH right>Budget</TH><TH right sub="Full Year">FY Fc CapEx</TH><TH right sub="Jan–Jun">YTD Fc CapEx</TH><TH right sub="Jan–Jun">YTD Act CapEx</TH><TH right sub="Jan–Jun">YTD Cal CapEx</TH><TH right sub="Jan–Jun">Var to Budget</TH><TH right sub="Jan–Jun">Act vs Fc</TH><TH right sub="Annualised">Run Rate</TH><TH right sub="Jan–Jun">% Spent</TH><TH right sub="Jan–Jun">Overage</TH><TH right sub="Jan–Jun">Underspend</TH><TH>Status</TH></tr>
+              <tr><TH>Project</TH><TH right>Budget</TH><TH right sub="Full Year">FY Fc CapEx</TH><TH right sub="Jan–Jul">YTD Fc CapEx</TH><TH right sub="Jan–Jul">YTD Act CapEx</TH><TH right sub="Jan–Jul">YTD Cal CapEx</TH><TH right sub="Jan–Jul">Var to Budget</TH><TH right sub="Jan–Jul">Act vs Fc</TH><TH right sub="Annualised">Run Rate</TH><TH right sub="Jan–Jul">% Spent</TH><TH right sub="Jan–Jul">Overage</TH><TH right sub="Jan–Jul">Underspend</TH><TH>Status</TH></tr>
             </thead>
             <tbody>
               {coreRows.map((r)=>(
@@ -618,7 +618,7 @@ function YTDOverview(){
         <div style={{overflowX:'auto'}}>
         <table style={{width:'100%',borderCollapse:'collapse',fontSize:11.5}}>
           <thead>
-            <tr><TH>Project</TH><TH right>Budget</TH><TH right sub="Full Year">FY Fc CapEx</TH><TH right sub="Jan–Jun">YTD Fc CapEx</TH><TH right sub="Jan–Jun">YTD Act CapEx</TH><TH right sub="Jan–Jun">YTD Cal CapEx</TH><TH right sub="Jan–Jun">Var to Budget</TH><TH right sub="Jan–Jun">Act vs Fc</TH><TH right sub="Annualised">Run Rate</TH><TH right sub="Jan–Jun">% Spent</TH><TH right sub="Jan–Jun">Overage</TH><TH right sub="Jan–Jun">Underspend</TH><TH>Status</TH></tr>
+            <tr><TH>Project</TH><TH right>Budget</TH><TH right sub="Full Year">FY Fc CapEx</TH><TH right sub="Jan–Jul">YTD Fc CapEx</TH><TH right sub="Jan–Jul">YTD Act CapEx</TH><TH right sub="Jan–Jul">YTD Cal CapEx</TH><TH right sub="Jan–Jul">Var to Budget</TH><TH right sub="Jan–Jul">Act vs Fc</TH><TH right sub="Annualised">Run Rate</TH><TH right sub="Jan–Jul">% Spent</TH><TH right sub="Jan–Jul">Overage</TH><TH right sub="Jan–Jul">Underspend</TH><TH>Status</TH></tr>
           </thead>
           <tbody>
             <tr>
@@ -681,7 +681,7 @@ function SOWFTEView(){
       </div>
       <div style={{background:C.surface,border:`1px solid ${C.surfaceBorder}`,borderRadius:8,overflow:'hidden'}}>
         <table style={{width:'100%',borderCollapse:'collapse',fontSize:12}}>
-          <thead><tr><TH>Project</TH><TH right sub="Jan–Jun">SOW Forecast</TH><TH right sub="Jan–Jun">SOW Cal Act</TH><TH right sub="Jan–Jun">SOW Δ</TH><TH right sub="Jan–Jun">FTE Forecast</TH><TH right sub="Jan–Jun">FTE Cal Act</TH><TH right sub="Jan–Jun">FTE Δ</TH><TH right sub="Jan–Jun">Total Forecast</TH><TH right sub="Jan–Jun">Total Cal</TH></tr></thead>
+          <thead><tr><TH>Project</TH><TH right sub="Jan–Jul">SOW Forecast</TH><TH right sub="Jan–Jul">SOW Cal Act</TH><TH right sub="Jan–Jul">SOW Δ</TH><TH right sub="Jan–Jul">FTE Forecast</TH><TH right sub="Jan–Jul">FTE Cal Act</TH><TH right sub="Jan–Jul">FTE Δ</TH><TH right sub="Jan–Jul">Total Forecast</TH><TH right sub="Jan–Jul">Total Cal</TH></tr></thead>
           <tbody>
             {PROJECTS.map((p,i)=>{
               const s=SOW_FTE[p];
@@ -752,23 +752,23 @@ function CapExOpExView(){
     <div>
       <div style={{marginBottom:20}}>
         <h1 style={{color:C.text,fontWeight:700,fontSize:22,margin:'0 0 4px'}}>CapEx vs OpEx — 2026</h1>
-        <p style={{color:C.textMuted,fontSize:13,margin:0}}>Capital and operating expenditure breakdown across all projects · Jan–Jun</p>
+        <p style={{color:C.textMuted,fontSize:13,margin:0}}>Capital and operating expenditure breakdown across all projects · Jan–Jul</p>
       </div>
 
       {/* KPI rows: Forecast / Actuals / Cal Actuals */}
       <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:12,marginBottom:8}}>
-        <KPI label="Forecast CapEx" value={fmt(tFc)} color={C.teal} sub="Jan–Jun · RM"/>
-        <KPI label="Forecast OpEx" value={fmt(tFo)} color={C.gold} sub="Jan–Jun · RM"/>
+        <KPI label="Forecast CapEx" value={fmt(tFc)} color={C.teal} sub="Jan–Jul · RM"/>
+        <KPI label="Forecast OpEx" value={fmt(tFo)} color={C.gold} sub="Jan–Jul · RM"/>
         <KPI label="CapEx % of Forecast" value={fmtPct(tFc/(tFc+tFo)*100)} color={C.teal}/>
       </div>
       <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:12,marginBottom:8}}>
-        <KPI label="Actuals CapEx" value={fmt(tAc)} color={C.orange} sub="Jan–Jun · Financial System"/>
-        <KPI label="Actuals OpEx" value={fmt(tAo)} color={C.red} sub="Jan–Jun · Financial System"/>
+        <KPI label="Actuals CapEx" value={fmt(tAc)} color={C.orange} sub="Jan–Jul · Financial System"/>
+        <KPI label="Actuals OpEx" value={fmt(tAo)} color={C.red} sub="Jan–Jul · Financial System"/>
         <KPI label="CapEx % of Actuals" value={fmtPct(tAc/(tAc+tAo)*100)} color={C.orange}/>
       </div>
       <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:12,marginBottom:20}}>
-        <KPI label="Cal Actuals CapEx" value={fmt(tCc)} color={C.blue} sub="Jan–Jun · MyTime"/>
-        <KPI label="Cal Actuals OpEx" value={fmt(tCo)} color={C.purple} sub="Jan–Jun · MyTime"/>
+        <KPI label="Cal Actuals CapEx" value={fmt(tCc)} color={C.blue} sub="Jan–Jul · MyTime"/>
+        <KPI label="Cal Actuals OpEx" value={fmt(tCo)} color={C.purple} sub="Jan–Jul · MyTime"/>
         <KPI label="CapEx % of Cal Actuals" value={fmtPct(tCc/(tCc+tCo)*100)} color={C.blue}/>
       </div>
 
@@ -935,7 +935,7 @@ function ResourceView(){
             <thead>
               <tr style={{background:'#f7fafc'}}>
                 <th style={{...hdCell,textAlign:'left',minWidth:200,position:'sticky',left:0,background:'#f7fafc',zIndex:2,boxShadow:'2px 0 5px rgba(0,0,0,0.08)'}}>Project / Resource</th>
-                <th colSpan={3} style={{...hdCell,textAlign:'center',borderLeft:`1px solid ${C.surfaceBorder}`,color:C.gold,background:'#ebebeb'}}>YTD Total<div style={{fontSize:9,fontStyle:'italic',fontWeight:400,color:C.textDim,marginTop:1}}>Jan–Jun</div></th>
+                <th colSpan={3} style={{...hdCell,textAlign:'center',borderLeft:`1px solid ${C.surfaceBorder}`,color:C.gold,background:'#ebebeb'}}>YTD Total<div style={{fontSize:9,fontStyle:'italic',fontWeight:400,color:C.textDim,marginTop:1}}>Jan–Jul</div></th>
                 {MONTHS.map(m=><th key={m} colSpan={3} style={{...hdCell,textAlign:'center',borderLeft:`1px solid ${C.surfaceBorder}`}}>{m}</th>)}
               </tr>
               <tr style={{background:'#f7fafc'}}>
@@ -1162,13 +1162,13 @@ function AllocSpendView(){
   return(<div>
     <div style={{marginBottom:16}}>
       <h1 style={{color:C.text,fontWeight:700,fontSize:22,margin:'0 0 4px'}}>Allocation vs Spend</h1>
-      <p style={{color:C.textMuted,fontSize:13,margin:0}}>Monthly CapEx allocation (Resourcing Model) vs actual spend (MyTime hrs × Hourly Rate × CapEx Rate) · Actuals: Jan–Jun</p>
+      <p style={{color:C.textMuted,fontSize:13,margin:0}}>Monthly CapEx allocation (Resourcing Model) vs actual spend (MyTime hrs × Hourly Rate × CapEx Rate) · Actuals: Jan–Jul</p>
     </div>
     <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:12,marginBottom:14}}>
-      <KPI label="YTD RM Fc" value={f$(gp)} color={C.blue} period="Jan–Jun" sub="Sum of monthly allocations"/>
-      <KPI label="YTD Cal Act" value={f$(ga)} color={C.orange} period="Jan–Jun" sub="MyTime hrs × Rate × CapEx%"/>
-      <KPI label="YTD Variance" value={(gv>=0?'+':'')+f$(gv)} color={vc(gv)} period="Jan–Jun" sub={gp>0?`${(gv/gp*100).toFixed(1)}% vs projection`:''}/>
-      <KPI label="Utilisation" value={gp>0?`${(ga/gp*100).toFixed(1)}%`:'—'} color={ga>gp?C.red:C.teal} period="Jan–Jun" sub={ga>gp?'Over-allocated':'Under-allocated'}/>
+      <KPI label="YTD RM Fc" value={f$(gp)} color={C.blue} period="Jan–Jul" sub="Sum of monthly allocations"/>
+      <KPI label="YTD Cal Act" value={f$(ga)} color={C.orange} period="Jan–Jul" sub="MyTime hrs × Rate × CapEx%"/>
+      <KPI label="YTD Variance" value={(gv>=0?'+':'')+f$(gv)} color={vc(gv)} period="Jan–Jul" sub={gp>0?`${(gv/gp*100).toFixed(1)}% vs projection`:''}/>
+      <KPI label="Utilisation" value={gp>0?`${(ga/gp*100).toFixed(1)}%`:'—'} color={ga>gp?C.red:C.teal} period="Jan–Jul" sub={ga>gp?'Over-allocated':'Under-allocated'}/>
     </div>
     <div style={{display:'flex',gap:10,alignItems:'center',marginBottom:12,flexWrap:'wrap'}}>
       <select value={projF} onChange={e=>setProjF(e.target.value)} style={ss}>
@@ -1193,7 +1193,7 @@ function AllocSpendView(){
               <th style={{padding:'7px 8px',textAlign:'left',color:C.textMuted,fontWeight:600,fontSize:10,borderBottom:`1px solid ${C.surfaceBorder}`,whiteSpace:'nowrap'}}>Project</th>
               <th style={{padding:'7px 6px',textAlign:'center',color:C.textMuted,fontWeight:600,fontSize:10,borderBottom:`1px solid ${C.surfaceBorder}`}}>Plan CR%</th>
               <th style={{padding:'7px 6px',textAlign:'center',color:C.teal,fontWeight:600,fontSize:10,borderBottom:`1px solid ${C.surfaceBorder}`}}>Act CR%</th>
-              <th colSpan={3} style={{padding:'6px 8px',textAlign:'center',color:C.gold,fontWeight:700,fontSize:10,borderLeft:`2px solid ${C.gold}44`,borderBottom:`1px solid ${C.surfaceBorder}`,background:'#ebebeb'}}>YTD<div style={{fontSize:8,fontStyle:'italic',fontWeight:400,color:C.textDim}}>Jan–Jun</div></th>
+              <th colSpan={3} style={{padding:'6px 8px',textAlign:'center',color:C.gold,fontWeight:700,fontSize:10,borderLeft:`2px solid ${C.gold}44`,borderBottom:`1px solid ${C.surfaceBorder}`,background:'#ebebeb'}}>YTD<div style={{fontSize:8,fontStyle:'italic',fontWeight:400,color:C.textDim}}>Jan–Jul</div></th>
               {MOS.map(m=>{const ex=exM.has(m);return(
                 <th key={m} colSpan={ex?3:1} onClick={()=>togM(m)} style={{padding:'6px 8px',textAlign:'center',color:ex?C.text:C.textMuted,fontWeight:700,fontSize:10,borderLeft:`1px solid ${C.surfaceBorder}22`,borderBottom:`1px solid ${C.surfaceBorder}`,cursor:'pointer',userSelect:'none',whiteSpace:'nowrap',background:ex?'transparent':'#fafafa'}}>
                   <span style={{marginRight:3,fontSize:9,color:C.textDim}}>{ex?'▼':'▶'}</span>{m}
@@ -1274,7 +1274,7 @@ function AllocSpendView(){
               <th style={{padding:'7px 8px',textAlign:'left',color:C.textMuted,fontWeight:600,fontSize:10,borderBottom:`1px solid ${C.surfaceBorder}`,whiteSpace:'nowrap'}}>Project</th>
               <th style={{padding:'7px 6px',textAlign:'center',color:C.textMuted,fontWeight:600,fontSize:10,borderBottom:`1px solid ${C.surfaceBorder}`}}>Plan CR%</th>
               <th style={{padding:'7px 6px',textAlign:'center',color:C.teal,fontWeight:600,fontSize:10,borderBottom:`1px solid ${C.surfaceBorder}`}}>Act CR%</th>
-              <th colSpan={3} style={{padding:'6px 8px',textAlign:'center',color:C.gold,fontWeight:700,fontSize:10,borderLeft:`2px solid ${C.gold}44`,borderBottom:`1px solid ${C.surfaceBorder}`,background:'#ebebeb'}}>YTD<div style={{fontSize:8,fontStyle:'italic',fontWeight:400,color:C.textDim}}>Jan–Jun</div></th>
+              <th colSpan={3} style={{padding:'6px 8px',textAlign:'center',color:C.gold,fontWeight:700,fontSize:10,borderLeft:`2px solid ${C.gold}44`,borderBottom:`1px solid ${C.surfaceBorder}`,background:'#ebebeb'}}>YTD<div style={{fontSize:8,fontStyle:'italic',fontWeight:400,color:C.textDim}}>Jan–Jul</div></th>
               {MOS.map(m=>{const ex=exM.has(m);return(
                 <th key={m} colSpan={ex?3:1} onClick={()=>togM(m)} style={{padding:'6px 8px',textAlign:'center',color:ex?C.text:C.textMuted,fontWeight:700,fontSize:10,borderLeft:`1px solid ${C.surfaceBorder}22`,borderBottom:`1px solid ${C.surfaceBorder}`,cursor:'pointer',userSelect:'none',whiteSpace:'nowrap',background:ex?'transparent':'#fafafa'}}>
                   <span style={{marginRight:3,fontSize:9,color:C.textDim}}>{ex?'▼':'▶'}</span>{m}
@@ -1348,7 +1348,7 @@ function AllocSpendView(){
               <th style={{padding:'7px 8px',textAlign:'left',color:C.textMuted,fontWeight:600,fontSize:10,borderBottom:`1px solid ${C.surfaceBorder}`,whiteSpace:'nowrap'}}>Project</th>
               <th style={{padding:'7px 6px',textAlign:'center',color:C.textMuted,fontWeight:600,fontSize:10,borderBottom:`1px solid ${C.surfaceBorder}`}}>Plan CR%</th>
               <th style={{padding:'7px 6px',textAlign:'center',color:C.teal,fontWeight:600,fontSize:10,borderBottom:`1px solid ${C.surfaceBorder}`}}>Act CR%</th>
-              <th colSpan={3} style={{padding:'6px 8px',textAlign:'center',color:C.gold,fontWeight:700,fontSize:10,borderLeft:`2px solid ${C.gold}44`,borderBottom:`1px solid ${C.surfaceBorder}`,background:'#ebebeb'}}>YTD<div style={{fontSize:8,fontStyle:'italic',fontWeight:400,color:C.textDim}}>Jan–Jun</div></th>
+              <th colSpan={3} style={{padding:'6px 8px',textAlign:'center',color:C.gold,fontWeight:700,fontSize:10,borderLeft:`2px solid ${C.gold}44`,borderBottom:`1px solid ${C.surfaceBorder}`,background:'#ebebeb'}}>YTD<div style={{fontSize:8,fontStyle:'italic',fontWeight:400,color:C.textDim}}>Jan–Jul</div></th>
               {MOS.map(m=>{const ex=exM.has(m);return(
                 <th key={m} colSpan={ex?3:1} onClick={()=>togM(m)} style={{padding:'6px 8px',textAlign:'center',color:ex?C.text:C.textMuted,fontWeight:700,fontSize:10,borderLeft:`1px solid ${C.surfaceBorder}22`,borderBottom:`1px solid ${C.surfaceBorder}`,cursor:'pointer',userSelect:'none',whiteSpace:'nowrap',background:ex?'transparent':'#fafafa'}}>
                   <span style={{marginRight:3,fontSize:9,color:C.textDim}}>{ex?'▼':'▶'}</span>{m}
@@ -1393,7 +1393,7 @@ function AllocSpendView(){
         </table>
       </div>
       <div style={{padding:'7px 14px',borderTop:`1px solid ${C.surfaceBorder}`,display:'flex',gap:16,flexWrap:'wrap'}}>
-        <span style={{color:C.textDim,fontSize:11}}>⚑ Cal Actuals: MyTime CapEx Hrs × Hourly Rate × CapEx Rate · Jan–Jun 2026</span>
+        <span style={{color:C.textDim,fontSize:11}}>⚑ Cal Actuals: MyTime CapEx Hrs × Hourly Rate × CapEx Rate · Jan–Jul 2026</span>
       </div>
       <div style={{padding:'6px 14px 8px',borderTop:`1px solid ${C.surfaceBorder}`,display:'flex',gap:16,flexWrap:'wrap'}}>
         <span style={{color:C.blue,fontSize:11}}>● RM Fc (Resourcing Model Forecast)</span>
@@ -1459,7 +1459,7 @@ function TimeTrackingView(){
     <div>
       <div style={{marginBottom:16}}>
         <h1 style={{color:C.text,fontWeight:700,fontSize:22,margin:'0 0 4px'}}>Time Tracking Compliance</h1>
-        <p style={{color:C.textMuted,fontSize:13,margin:0}}>MyTime vs Resourcing Model · Jan–Jun 2026 · {COMPLIANCE.length} resources</p>
+        <p style={{color:C.textMuted,fontSize:13,margin:0}}>MyTime vs Resourcing Model · Jan–Jul 2026 · {COMPLIANCE.length} resources</p>
       </div>
 
       {/* Summary cards */}
@@ -1559,7 +1559,7 @@ function TimeTrackingView(){
                   ['Compliance','105px'],['Allocated To','140px'],
                   ['YTD Allocation (FTE-mo)','120px'],
                   ['Tracked To','140px'],['Misallocated Projects','140px'],
-                  ['Total Hrs · Jan–Jun','90px'],['Misallocated Hrs','80px']
+                  ['Total Hrs · Jan–Jul','90px'],['Misallocated Hrs','80px']
                 ].map(([h,w])=>(
                   <th key={h} style={{padding:'8px 12px',color:C.textMuted,fontWeight:600,textAlign:'left',
                     fontSize:10,borderBottom:`1px solid ${C.surfaceBorder}`,
@@ -1636,7 +1636,7 @@ function TimeTrackingView(){
           {Object.entries(FLAG_META).map(([k,v])=>(
             <span key={k} style={{fontSize:11,color:v.col}}><strong>{v.label}:</strong> {v.desc}</span>
           ))}
-          <span style={{fontSize:11,color:C.textMuted,marginLeft:'auto'}}>YTD Allocation = FTE-months Jan–Jun · FY = full-year total</span>
+          <span style={{fontSize:11,color:C.textMuted,marginLeft:'auto'}}>YTD Allocation = FTE-months Jan–Jul · FY = full-year total</span>
         </div>
       </div>
     </div>
