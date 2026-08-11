@@ -15269,7 +15269,7 @@
           break;
         case 2:
           this._point = 3;
-          this._context.lineTo((5 * this._x0 + this._x1) / 6, (5 * this._y0 + this._y1) / 6);
+          this._context.lineTo((5 * this._x0 + this._x1) / 6, (5 * this._y0 + this._y1) / YTD.length);
         // falls through
         default:
           point(this, x2, y2);
@@ -15329,7 +15329,7 @@
         case 2:
           this._point = 3;
           this._x4 = x2, this._y4 = y2;
-          this._context.moveTo((this._x0 + 4 * this._x1 + x2) / 6, (this._y0 + 4 * this._y1 + y2) / 6);
+          this._context.moveTo((this._x0 + 4 * this._x1 + x2) / 6, (this._y0 + 4 * this._y1 + y2) / YTD.length);
           break;
         default:
           point(this, x2, y2);
@@ -38452,7 +38452,7 @@
     return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
       /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { marginBottom: 20 }, children: [
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h1", { style: { color: C.text, fontWeight: 700, fontSize: 22, margin: "0 0 4px" }, children: "Program Home" }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { color: C.textMuted, fontSize: 13, margin: 0 }, children: "All financial initiatives \xB7 Jan\u2013Jun 2026 \xB7 Actuals: Jan\u2013Jun" })
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { color: C.textMuted, fontSize: 13, margin: 0 }, children: "All financial initiatives \xB7 Jan\u2013Jul 2026 \xB7 Actuals: Jan\u2013Jul" })
       ] }),
       /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "grid", gridTemplateColumns: "repeat(5,1fr)", gap: 12, marginBottom: 20 }, children: [
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)(KPI, { label: "Total Budget (incl. SHA)", value: fmt(totB), color: C.green }),
@@ -38521,31 +38521,31 @@
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, children: "Budget" }),
             cxShow && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("th", { style: { padding: "0", background: "#f7fafc", borderBottom: `1px solid ${C.surfaceBorder}` }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { padding: "8px 12px", textAlign: "right", color: C.blue, fontSize: 11, fontWeight: 700, borderLeft: `2px solid ${C.blue}22` }, children: [
               "YTD Fc CapEx",
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 9, fontStyle: "italic", fontWeight: 400, color: "#a0aec0", display: "block", marginTop: 1 }, children: "Jan\u2013Jun" })
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 9, fontStyle: "italic", fontWeight: 400, color: "#a0aec0", display: "block", marginTop: 1 }, children: "Jan\u2013Jul" })
             ] }) }),
             oxShow && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("th", { style: { padding: "0", background: "#f7fafc", borderBottom: `1px solid ${C.surfaceBorder}` }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { padding: "8px 12px", textAlign: "right", color: C.gold, fontSize: 11, fontWeight: 700, borderLeft: `2px solid ${C.gold}22` }, children: [
               "YTD Fc OpEx",
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 9, fontStyle: "italic", fontWeight: 400, color: "#a0aec0", display: "block", marginTop: 1 }, children: "Jan\u2013Jun" })
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 9, fontStyle: "italic", fontWeight: 400, color: "#a0aec0", display: "block", marginTop: 1 }, children: "Jan\u2013Jul" })
             ] }) }),
             cxShow && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("th", { style: { padding: "0", background: "#f7fafc", borderBottom: `1px solid ${C.surfaceBorder}` }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { padding: "8px 12px", textAlign: "right", color: C.orange, fontSize: 11, fontWeight: 700, borderLeft: `2px solid ${C.orange}33` }, children: [
               "YTD Act CapEx",
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 9, fontStyle: "italic", fontWeight: 400, color: "#a0aec0", display: "block", marginTop: 1 }, children: "Jan\u2013Jun" })
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 9, fontStyle: "italic", fontWeight: 400, color: "#a0aec0", display: "block", marginTop: 1 }, children: "Jan\u2013Jul" })
             ] }) }),
             oxShow && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("th", { style: { padding: "0", background: "#f7fafc", borderBottom: `1px solid ${C.surfaceBorder}` }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { padding: "8px 12px", textAlign: "right", color: C.gold, fontSize: 11, fontWeight: 700, borderLeft: `2px solid ${C.gold}22` }, children: [
               "YTD Act OpEx",
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 9, fontStyle: "italic", fontWeight: 400, color: "#a0aec0", display: "block", marginTop: 1 }, children: "Jan\u2013Jun" })
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 9, fontStyle: "italic", fontWeight: 400, color: "#a0aec0", display: "block", marginTop: 1 }, children: "Jan\u2013Jul" })
             ] }) }),
             oxShow && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("th", { style: { padding: "0", background: "#f7fafc", borderBottom: `1px solid ${C.surfaceBorder}` }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { padding: "8px 12px", textAlign: "right", color: C.gold, fontSize: 11, fontWeight: 700, borderLeft: `2px solid ${C.gold}22` }, children: [
               "YTD Cal OpEx",
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 9, fontStyle: "italic", fontWeight: 400, color: "#a0aec0", display: "block", marginTop: 1 }, children: "Jan\u2013Jun" })
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 9, fontStyle: "italic", fontWeight: 400, color: "#a0aec0", display: "block", marginTop: 1 }, children: "Jan\u2013Jul" })
             ] }) }),
-            cxShow && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jun", children: "Var to Budget" }),
-            cxShow && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jun", children: "Actuals Var to YTD Fc" }),
+            cxShow && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jul", children: "Var to Budget" }),
+            cxShow && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jul", children: "Actuals Var to YTD Fc" }),
             cxShow && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Annualised", children: "Run Rate Based on Actuals" }),
             cxShow && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Annualised", children: "Var Based on Run Rate" }),
-            cxShow && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jun", children: "% Spent" }),
-            cxShow && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jun", children: "Overage" }),
-            cxShow && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jun", children: "Underspend" }),
+            cxShow && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jul", children: "% Spent" }),
+            cxShow && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jul", children: "Overage" }),
+            cxShow && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jul", children: "Underspend" }),
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { children: "Status" })
           ] }) }),
           /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("tbody", { children: [
@@ -38609,27 +38609,27 @@
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Full Year", children: "Budget" }),
             cxShow && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("th", { style: { padding: "0", background: "#f7fafc", borderBottom: `1px solid ${C.surfaceBorder}` }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { padding: "8px 12px", textAlign: "right", color: C.blue, fontSize: 11, fontWeight: 700, borderLeft: `2px solid ${C.blue}22` }, children: [
               "YTD Fc CapEx",
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 9, fontStyle: "italic", fontWeight: 400, color: C.textDim, display: "block", marginTop: 1 }, children: "Jan\u2013Jun" })
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 9, fontStyle: "italic", fontWeight: 400, color: C.textDim, display: "block", marginTop: 1 }, children: "Jan\u2013Jul" })
             ] }) }),
             oxShow && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("th", { style: { padding: "0", background: "#f7fafc", borderBottom: `1px solid ${C.surfaceBorder}` }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { padding: "8px 12px", textAlign: "right", color: C.gold, fontSize: 11, fontWeight: 700, borderLeft: `2px solid ${C.gold}22` }, children: [
               "YTD Fc OpEx",
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 9, fontStyle: "italic", fontWeight: 400, color: C.textDim, display: "block", marginTop: 1 }, children: "Jan\u2013Jun" })
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 9, fontStyle: "italic", fontWeight: 400, color: C.textDim, display: "block", marginTop: 1 }, children: "Jan\u2013Jul" })
             ] }) }),
             cxShow && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("th", { style: { padding: "0", background: "#f7fafc", borderBottom: `1px solid ${C.surfaceBorder}` }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { padding: "8px 12px", textAlign: "right", color: C.orange, fontSize: 11, fontWeight: 700, borderLeft: `2px solid ${C.orange}33` }, children: [
               "YTD Act CapEx",
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 9, fontStyle: "italic", fontWeight: 400, color: C.textDim, display: "block", marginTop: 1 }, children: "Jan\u2013Jun" })
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 9, fontStyle: "italic", fontWeight: 400, color: C.textDim, display: "block", marginTop: 1 }, children: "Jan\u2013Jul" })
             ] }) }),
             oxShow && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("th", { style: { padding: "0", background: "#f7fafc", borderBottom: `1px solid ${C.surfaceBorder}` }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { padding: "8px 12px", textAlign: "right", color: C.gold, fontSize: 11, fontWeight: 700, borderLeft: `2px solid ${C.gold}22` }, children: [
               "YTD Act OpEx",
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 9, fontStyle: "italic", fontWeight: 400, color: C.textDim, display: "block", marginTop: 1 }, children: "Jan\u2013Jun" })
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 9, fontStyle: "italic", fontWeight: 400, color: C.textDim, display: "block", marginTop: 1 }, children: "Jan\u2013Jul" })
             ] }) }),
-            cxShow && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jun", children: "Var to Budget" }),
-            cxShow && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jun", children: "Actuals Var to YTD Fc" }),
+            cxShow && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jul", children: "Var to Budget" }),
+            cxShow && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jul", children: "Actuals Var to YTD Fc" }),
             cxShow && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Annualised", children: "Run Rate Based on Actuals" }),
             cxShow && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Annualised", children: "Var Based on Run Rate" }),
-            cxShow && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jun", children: "% Spent" }),
-            cxShow && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jun", children: "Overage" }),
-            cxShow && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jun", children: "Underspend" })
+            cxShow && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jul", children: "% Spent" }),
+            cxShow && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jul", children: "Overage" }),
+            cxShow && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jul", children: "Underspend" })
           ] }) }),
           /* @__PURE__ */ (0, import_jsx_runtime.jsx)("tbody", { children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("tr", { children: [
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TD, { bold: true, color: C.purple, children: "SHA-ND" }),
@@ -38699,9 +38699,9 @@
       ] }),
       /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 12, marginBottom: 20 }, children: [
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)(KPI, { label: "Team Target Budget", value: fmt(b), color: C.green }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(KPI, { label: "YTD Forecast CapEx", value: fmt(fc_mv), period: "Jan\u2013Jun", sub: "OpEx: " + fmt(fo_mv), color: C.blue }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(KPI, { label: "YTD Actuals CapEx", value: fmt(ac_mv), period: "Jan\u2013Jun", sub: "OpEx: " + fmt(ao_mv), color: C.orange }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(KPI, { label: "YTD Cal Actuals CapEx", value: fmt(cc_mv), period: "Jan\u2013Jun", sub: "Cal OpEx: " + fmt(co_mv), color: C.teal })
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(KPI, { label: "YTD Forecast CapEx", value: fmt(fc_mv), period: "Jan\u2013Jul", sub: "OpEx: " + fmt(fo_mv), color: C.blue }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(KPI, { label: "YTD Actuals CapEx", value: fmt(ac_mv), period: "Jan\u2013Jul", sub: "OpEx: " + fmt(ao_mv), color: C.orange }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(KPI, { label: "YTD Cal Actuals CapEx", value: fmt(cc_mv), period: "Jan\u2013Jul", sub: "Cal OpEx: " + fmt(co_mv), color: C.teal })
       ] }),
       /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { background: C.surface, border: `1px solid ${isSHA ? C.purple + "66" : C.surfaceBorder}`, borderRadius: 8, padding: 16, marginBottom: 16 }, children: [
         /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h3", { style: { color: C.text, fontSize: 13, fontWeight: 600, margin: "0 0 14px" }, children: [
@@ -38805,7 +38805,7 @@
     return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
       /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { marginBottom: 20 }, children: [
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h1", { style: { color: C.text, fontWeight: 700, fontSize: 22, margin: "0 0 4px" }, children: "YTD Financial Overview" }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { color: C.textMuted, fontSize: 13, margin: 0 }, children: "Budget \xB7 Forecast \xB7 Actuals \xB7 Variances \xB7 Run Rate \u2014 Jan\u2013Jun 2026" })
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { color: C.textMuted, fontSize: 13, margin: 0 }, children: "Budget \xB7 Forecast \xB7 Actuals \xB7 Variances \xB7 Run Rate \u2014 Jan\u2013Jul 2026" })
       ] }),
       /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 12, marginBottom: 20 }, children: [
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)(KPI, { label: "Total Budget (incl. SHA)", value: fmt(totB), color: C.green }),
@@ -38823,15 +38823,15 @@
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { children: "Project" }),
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, children: "Budget" }),
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Full Year", children: "FY Fc CapEx" }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jun", children: "YTD Fc CapEx" }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jun", children: "YTD Act CapEx" }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jun", children: "YTD Cal CapEx" }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jun", children: "Var to Budget" }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jun", children: "Act vs Fc" }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jul", children: "YTD Fc CapEx" }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jul", children: "YTD Act CapEx" }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jul", children: "YTD Cal CapEx" }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jul", children: "Var to Budget" }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jul", children: "Act vs Fc" }),
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Annualised", children: "Run Rate" }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jun", children: "% Spent" }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jun", children: "Overage" }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jun", children: "Underspend" }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jul", children: "% Spent" }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jul", children: "Overage" }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jul", children: "Underspend" }),
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { children: "Status" })
           ] }) }),
           /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("tbody", { children: [
@@ -38881,15 +38881,15 @@
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { children: "Project" }),
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, children: "Budget" }),
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Full Year", children: "FY Fc CapEx" }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jun", children: "YTD Fc CapEx" }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jun", children: "YTD Act CapEx" }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jun", children: "YTD Cal CapEx" }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jun", children: "Var to Budget" }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jun", children: "Act vs Fc" }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jul", children: "YTD Fc CapEx" }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jul", children: "YTD Act CapEx" }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jul", children: "YTD Cal CapEx" }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jul", children: "Var to Budget" }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jul", children: "Act vs Fc" }),
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Annualised", children: "Run Rate" }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jun", children: "% Spent" }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jun", children: "Overage" }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jun", children: "Underspend" }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jul", children: "% Spent" }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jul", children: "Overage" }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jul", children: "Underspend" }),
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { children: "Status" })
           ] }) }),
           /* @__PURE__ */ (0, import_jsx_runtime.jsx)("tbody", { children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("tr", { children: [
@@ -38946,14 +38946,14 @@
         /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("table", { style: { width: "100%", borderCollapse: "collapse", fontSize: 12 }, children: [
           /* @__PURE__ */ (0, import_jsx_runtime.jsx)("thead", { children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("tr", { children: [
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { children: "Project" }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jun", children: "SOW Forecast" }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jun", children: "SOW Cal Act" }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jun", children: "SOW \u0394" }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jun", children: "FTE Forecast" }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jun", children: "FTE Cal Act" }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jun", children: "FTE \u0394" }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jun", children: "Total Forecast" }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jun", children: "Total Cal" })
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jul", children: "SOW Forecast" }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jul", children: "SOW Cal Act" }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jul", children: "SOW \u0394" }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jul", children: "FTE Forecast" }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jul", children: "FTE Cal Act" }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jul", children: "FTE \u0394" }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jul", children: "Total Forecast" }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TH, { right: true, sub: "Jan\u2013Jul", children: "Total Cal" })
           ] }) }),
           /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("tbody", { children: [
             PROJECTS.map((p, i) => {
@@ -39023,21 +39023,21 @@
     return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
       /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { marginBottom: 20 }, children: [
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h1", { style: { color: C.text, fontWeight: 700, fontSize: 22, margin: "0 0 4px" }, children: "CapEx vs OpEx \u2014 2026" }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { color: C.textMuted, fontSize: 13, margin: 0 }, children: "Capital and operating expenditure breakdown across all projects \xB7 Jan\u2013Jun" })
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { color: C.textMuted, fontSize: 13, margin: 0 }, children: "Capital and operating expenditure breakdown across all projects \xB7 Jan\u2013Jul" })
       ] }),
       /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 12, marginBottom: 8 }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(KPI, { label: "Forecast CapEx", value: fmt(tFc), color: C.teal, sub: "Jan\u2013Jun \xB7 RM" }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(KPI, { label: "Forecast OpEx", value: fmt(tFo), color: C.gold, sub: "Jan\u2013Jun \xB7 RM" }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(KPI, { label: "Forecast CapEx", value: fmt(tFc), color: C.teal, sub: "Jan\u2013Jul \xB7 RM" }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(KPI, { label: "Forecast OpEx", value: fmt(tFo), color: C.gold, sub: "Jan\u2013Jul \xB7 RM" }),
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)(KPI, { label: "CapEx % of Forecast", value: fmtPct(tFc / (tFc + tFo) * 100), color: C.teal })
       ] }),
       /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 12, marginBottom: 8 }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(KPI, { label: "Actuals CapEx", value: fmt(tAc), color: C.orange, sub: "Jan\u2013Jun \xB7 Financial System" }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(KPI, { label: "Actuals OpEx", value: fmt(tAo), color: C.red, sub: "Jan\u2013Jun \xB7 Financial System" }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(KPI, { label: "Actuals CapEx", value: fmt(tAc), color: C.orange, sub: "Jan\u2013Jul \xB7 Financial System" }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(KPI, { label: "Actuals OpEx", value: fmt(tAo), color: C.red, sub: "Jan\u2013Jul \xB7 Financial System" }),
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)(KPI, { label: "CapEx % of Actuals", value: fmtPct(tAc / (tAc + tAo) * 100), color: C.orange })
       ] }),
       /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 12, marginBottom: 20 }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(KPI, { label: "Cal Actuals CapEx", value: fmt(tCc), color: C.blue, sub: "Jan\u2013Jun \xB7 MyTime" }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(KPI, { label: "Cal Actuals OpEx", value: fmt(tCo), color: C.purple, sub: "Jan\u2013Jun \xB7 MyTime" }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(KPI, { label: "Cal Actuals CapEx", value: fmt(tCc), color: C.blue, sub: "Jan\u2013Jul \xB7 MyTime" }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(KPI, { label: "Cal Actuals OpEx", value: fmt(tCo), color: C.purple, sub: "Jan\u2013Jul \xB7 MyTime" }),
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)(KPI, { label: "CapEx % of Cal Actuals", value: fmtPct(tCc / (tCc + tCo) * 100), color: C.blue })
       ] }),
       /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 16, marginBottom: 16 }, children: [["Actuals (BEX) \u2014 CapEx vs OpEx", p1], ["Cal Actuals \u2014 CapEx vs OpEx", p2], ["Forecast \u2014 CapEx vs OpEx", p3]].map(([title, data], idx) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: pieStyle, children: [
@@ -39179,7 +39179,7 @@
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("th", { style: { ...hdCell, textAlign: "left", minWidth: 200, position: "sticky", left: 0, background: "#f7fafc", zIndex: 2, boxShadow: "2px 0 5px rgba(0,0,0,0.08)" }, children: "Project / Resource" }),
               /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("th", { colSpan: 3, style: { ...hdCell, textAlign: "center", borderLeft: `1px solid ${C.surfaceBorder}`, color: C.gold, background: "#ebebeb" }, children: [
                 "YTD Total",
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 9, fontStyle: "italic", fontWeight: 400, color: C.textDim, marginTop: 1 }, children: "Jan\u2013Jun" })
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 9, fontStyle: "italic", fontWeight: 400, color: C.textDim, marginTop: 1 }, children: "Jan\u2013Jul" })
               ] }),
               MONTHS2.map((m) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("th", { colSpan: 3, style: { ...hdCell, textAlign: "center", borderLeft: `1px solid ${C.surfaceBorder}` }, children: m }, m))
             ] }),
@@ -39404,13 +39404,13 @@
     return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
       /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { marginBottom: 16 }, children: [
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h1", { style: { color: C.text, fontWeight: 700, fontSize: 22, margin: "0 0 4px" }, children: "Allocation vs Spend" }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { color: C.textMuted, fontSize: 13, margin: 0 }, children: "Monthly CapEx allocation (Resourcing Model) vs actual spend (MyTime hrs \xD7 Hourly Rate \xD7 CapEx Rate) \xB7 Actuals: Jan\u2013Jun" })
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { color: C.textMuted, fontSize: 13, margin: 0 }, children: "Monthly CapEx allocation (Resourcing Model) vs actual spend (MyTime hrs \xD7 Hourly Rate \xD7 CapEx Rate) \xB7 Actuals: Jan\u2013Jul" })
       ] }),
       /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 12, marginBottom: 14 }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(KPI, { label: "YTD RM Fc", value: f$(gp), color: C.blue, period: "Jan\u2013Jun", sub: "Sum of monthly allocations" }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(KPI, { label: "YTD Cal Act", value: f$(ga), color: C.orange, period: "Jan\u2013Jun", sub: "MyTime hrs \xD7 Rate \xD7 CapEx%" }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(KPI, { label: "YTD Variance", value: (gv >= 0 ? "+" : "") + f$(gv), color: vc(gv), period: "Jan\u2013Jun", sub: gp > 0 ? `${(gv / gp * 100).toFixed(1)}% vs projection` : "" }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(KPI, { label: "Utilisation", value: gp > 0 ? `${(ga / gp * 100).toFixed(1)}%` : "\u2014", color: ga > gp ? C.red : C.teal, period: "Jan\u2013Jun", sub: ga > gp ? "Over-allocated" : "Under-allocated" })
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(KPI, { label: "YTD RM Fc", value: f$(gp), color: C.blue, period: "Jan\u2013Jul", sub: "Sum of monthly allocations" }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(KPI, { label: "YTD Cal Act", value: f$(ga), color: C.orange, period: "Jan\u2013Jul", sub: "MyTime hrs \xD7 Rate \xD7 CapEx%" }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(KPI, { label: "YTD Variance", value: (gv >= 0 ? "+" : "") + f$(gv), color: vc(gv), period: "Jan\u2013Jul", sub: gp > 0 ? `${(gv / gp * 100).toFixed(1)}% vs projection` : "" }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(KPI, { label: "Utilisation", value: gp > 0 ? `${(ga / gp * 100).toFixed(1)}%` : "\u2014", color: ga > gp ? C.red : C.teal, period: "Jan\u2013Jul", sub: ga > gp ? "Over-allocated" : "Under-allocated" })
       ] }),
       /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 10, alignItems: "center", marginBottom: 12, flexWrap: "wrap" }, children: [
         /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("select", { value: projF, onChange: (e) => setProjF(e.target.value), style: ss, children: [
@@ -39446,7 +39446,7 @@
                 /* @__PURE__ */ (0, import_jsx_runtime.jsx)("th", { style: { padding: "7px 6px", textAlign: "center", color: C.teal, fontWeight: 600, fontSize: 10, borderBottom: `1px solid ${C.surfaceBorder}` }, children: "Act CR%" }),
                 /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("th", { colSpan: 3, style: { padding: "6px 8px", textAlign: "center", color: C.gold, fontWeight: 700, fontSize: 10, borderLeft: `2px solid ${C.gold}44`, borderBottom: `1px solid ${C.surfaceBorder}`, background: "#ebebeb" }, children: [
                   "YTD",
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 8, fontStyle: "italic", fontWeight: 400, color: C.textDim }, children: "Jan\u2013Jun" })
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 8, fontStyle: "italic", fontWeight: 400, color: C.textDim }, children: "Jan\u2013Jul" })
                 ] }),
                 MOS.map((m) => {
                   const ex = exM.has(m);
@@ -39537,7 +39537,7 @@
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("th", { style: { padding: "7px 6px", textAlign: "center", color: C.teal, fontWeight: 600, fontSize: 10, borderBottom: `1px solid ${C.surfaceBorder}` }, children: "Act CR%" }),
               /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("th", { colSpan: 3, style: { padding: "6px 8px", textAlign: "center", color: C.gold, fontWeight: 700, fontSize: 10, borderLeft: `2px solid ${C.gold}44`, borderBottom: `1px solid ${C.surfaceBorder}`, background: "#ebebeb" }, children: [
                 "YTD",
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 8, fontStyle: "italic", fontWeight: 400, color: C.textDim }, children: "Jan\u2013Jun" })
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 8, fontStyle: "italic", fontWeight: 400, color: C.textDim }, children: "Jan\u2013Jul" })
               ] }),
               MOS.map((m) => {
                 const ex = exM.has(m);
@@ -39624,7 +39624,7 @@
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("th", { style: { padding: "7px 6px", textAlign: "center", color: C.teal, fontWeight: 600, fontSize: 10, borderBottom: `1px solid ${C.surfaceBorder}` }, children: "Act CR%" }),
               /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("th", { colSpan: 3, style: { padding: "6px 8px", textAlign: "center", color: C.gold, fontWeight: 700, fontSize: 10, borderLeft: `2px solid ${C.gold}44`, borderBottom: `1px solid ${C.surfaceBorder}`, background: "#ebebeb" }, children: [
                 "YTD",
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 8, fontStyle: "italic", fontWeight: 400, color: C.textDim }, children: "Jan\u2013Jun" })
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 8, fontStyle: "italic", fontWeight: 400, color: C.textDim }, children: "Jan\u2013Jul" })
               ] }),
               MOS.map((m) => {
                 const ex = exM.has(m);
@@ -39714,7 +39714,7 @@
             ] })
           ] })
         ] }) }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { padding: "7px 14px", borderTop: `1px solid ${C.surfaceBorder}`, display: "flex", gap: 16, flexWrap: "wrap" }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { color: C.textDim, fontSize: 11 }, children: "\u2691 Cal Actuals: MyTime CapEx Hrs \xD7 Hourly Rate \xD7 CapEx Rate \xB7 Jan\u2013Jun 2026" }) }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { padding: "7px 14px", borderTop: `1px solid ${C.surfaceBorder}`, display: "flex", gap: 16, flexWrap: "wrap" }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { color: C.textDim, fontSize: 11 }, children: "\u2691 Cal Actuals: MyTime CapEx Hrs \xD7 Hourly Rate \xD7 CapEx Rate \xB7 Jan\u2013Jul 2026" }) }),
         /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { padding: "6px 14px 8px", borderTop: `1px solid ${C.surfaceBorder}`, display: "flex", gap: 16, flexWrap: "wrap" }, children: [
           /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { color: C.blue, fontSize: 11 }, children: "\u25CF RM Fc (Resourcing Model Forecast)" }),
           /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { color: C.teal, fontSize: 11 }, children: "\u25CF Cal Act (Calculated Actuals)" }),
@@ -39777,7 +39777,7 @@
       /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { marginBottom: 16 }, children: [
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h1", { style: { color: C.text, fontWeight: 700, fontSize: 22, margin: "0 0 4px" }, children: "Time Tracking Compliance" }),
         /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", { style: { color: C.textMuted, fontSize: 13, margin: 0 }, children: [
-          "MyTime vs Resourcing Model \xB7 Jan\u2013Jun 2026 \xB7 ",
+          "MyTime vs Resourcing Model \xB7 Jan\u2013Jul 2026 \xB7 ",
           COMPLIANCE.length,
           " resources"
         ] })
@@ -39906,7 +39906,7 @@
             ["YTD Allocation\xA0(FTE-mo)", "120px"],
             ["Tracked To", "140px"],
             ["Misallocated Projects", "140px"],
-            ["Total Hrs\xA0\xB7\xA0Jan\u2013Jun", "90px"],
+            ["Total Hrs\xA0\xB7\xA0Jan\u2013Jul", "90px"],
             ["Misallocated Hrs", "80px"]
           ].map(([h, w]) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("th", { style: {
             padding: "8px 12px",
@@ -39983,7 +39983,7 @@
             " ",
             v.desc
           ] }, k2)),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 11, color: C.textMuted, marginLeft: "auto" }, children: "YTD Allocation = FTE-months Jan\u2013Jun \xB7 FY = full-year total" })
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 11, color: C.textMuted, marginLeft: "auto" }, children: "YTD Allocation = FTE-months Jan\u2013Jul \xB7 FY = full-year total" })
         ] })
       ] })
     ] });
