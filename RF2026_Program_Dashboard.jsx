@@ -1146,7 +1146,7 @@ function AllocSpendView(){
       const ya=ac.slice(0,7).reduce((s,v)=>s+v,0);
       return{nm,tp:tp?'SOW':'FTE',pn:ALLOC_PROJ[pi],cr,acr,pj,ac,yp,ya,yv:ya-yp,yvp:yp>0?(ya-yp)/yp*100:0};
     }).sort((a,b)=>a.pn.localeCompare(b.pn)||a.nm.localeCompare(b.nm));
-  const gp=rows.reduce((s,r)=>s+r.yp,0),ga=rows.reduce((s,r)=>s+r.ya,0),gv=ga-gp;
+  const gp=rows.reduce((s,r)=>s+r.yp,0),ga=PROJECTS.reduce((s,p)=>s+YTD.reduce((ss,m)=>ss+(MD[p][m]?.cc||0),0),0),gv=ga-gp;
   const fteRows=rows.filter(r=>r.tp==='FTE');
   const sowRows=rows.filter(r=>r.tp==='SOW');
   const ftePgp=fteRows.reduce((s,r)=>s+r.yp,0),fteGa=fteRows.reduce((s,r)=>s+r.ya,0);

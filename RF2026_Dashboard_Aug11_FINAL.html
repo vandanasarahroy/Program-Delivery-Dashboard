@@ -3,7 +3,7 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <!-- build:20260811215711 -->
+  <!-- build:20260811221038 -->
   <!-- v2026-08-11 21:07:21 --><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>RF2026 Program Dashboard</title>
 <style>*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html,body,#root{height:100%;width:100%;overflow:hidden}body{background:#f0f2f5;font-family:system-ui,-apple-system,sans-serif}::-webkit-scrollbar{width:6px;height:6px}::-webkit-scrollbar-track{background:#e2e8f0}::-webkit-scrollbar-thumb{background:#a0aec0;border-radius:3px}::-webkit-scrollbar-thumb:hover{background:#718096}</style>
@@ -39391,7 +39391,7 @@
       const ya = ac.slice(0, 7).reduce((s2, v) => s2 + v, 0);
       return { nm, tp: tp ? "SOW" : "FTE", pn: ALLOC_PROJ[pi3], cr, acr, pj, ac, yp, ya, yv: ya - yp, yvp: yp > 0 ? (ya - yp) / yp * 100 : 0 };
     }).sort((a2, b) => a2.pn.localeCompare(b.pn) || a2.nm.localeCompare(b.nm));
-    const gp = rows.reduce((s2, r2) => s2 + r2.yp, 0), ga = rows.reduce((s2, r2) => s2 + r2.ya, 0), gv = ga - gp;
+    const gp = rows.reduce((s2, r2) => s2 + r2.yp, 0), ga = PROJECTS.reduce((s2, p) => s2 + YTD.reduce((ss, m) => ss + ((MD[p][m] || {}).cc || 0), 0), 0), gv = ga - gp;
     const fteRows = rows.filter((r2) => r2.tp === "FTE");
     const sowRows = rows.filter((r2) => r2.tp === "SOW");
     const ftePgp = fteRows.reduce((s2, r2) => s2 + r2.yp, 0), fteGa = fteRows.reduce((s2, r2) => s2 + r2.ya, 0);
