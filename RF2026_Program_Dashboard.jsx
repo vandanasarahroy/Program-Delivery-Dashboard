@@ -991,7 +991,7 @@ function ResourceView(){
                           const fc=ad?.pj[mi]||0;
                           const cc=ad?.ac[mi]||0;
                           // Derive monthly OpEx proportionally from YTD total
-                          const ytdPj=(ad?.pj||[]).slice(0,6).reduce((s,v)=>s+v,0);
+                          const ytdPj=(ad?.pj||[]).slice(0,7).reduce((s,v)=>s+v,0);
                           const fo=ytdPj>0&&r.tfo>0?Math.round(r.tfo*(ad?.pj[mi]||0)/ytdPj):0;
                           return[
                             <td key={`${r.n}_${m}_fc`} style={{...cell(fc),borderLeft:`1px solid ${C.surfaceBorder}11`}}>{fc>0?fmM(fc):'—'}</td>,
@@ -1142,8 +1142,8 @@ function AllocSpendView(){
     .filter(r=>(projF==='All'||ALLOC_PROJ[r[2]]===projF)&&(typeF==='All'||(typeF==='FTE'&&r[1]===0)||(typeF==='SOW'&&r[1]===1)))
     .map(r=>{
       const [nm,tp,pi,hr,cr,acr,pj,ac]=r;
-      const yp=pj.slice(0,6).reduce((s,v)=>s+v,0);
-      const ya=ac.slice(0,6).reduce((s,v)=>s+v,0);
+      const yp=pj.slice(0,7).reduce((s,v)=>s+v,0);
+      const ya=ac.slice(0,7).reduce((s,v)=>s+v,0);
       return{nm,tp:tp?'SOW':'FTE',pn:ALLOC_PROJ[pi],cr,acr,pj,ac,yp,ya,yv:ya-yp,yvp:yp>0?(ya-yp)/yp*100:0};
     }).sort((a,b)=>a.pn.localeCompare(b.pn)||a.nm.localeCompare(b.nm));
   const gp=rows.reduce((s,r)=>s+r.yp,0),ga=rows.reduce((s,r)=>s+r.ya,0),gv=ga-gp;
