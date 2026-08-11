@@ -145,11 +145,11 @@ const PieLabel=({cx,cy,midAngle,innerRadius,outerRadius,percent})=>{
 
 /* ── PROGRAM HOME ────────────────────────────────────────────────── */
 const SOW_FTE={
-  'PE-RF-NuCLEAR Cont. Modern-DA':{sow_fc:633607,sow_cc:721494,fte_fc:2604091,fte_cc:2741067},
-  'PE-RF-Public Records Content-DM':{sow_fc:147435,sow_cc:51061,fte_fc:76898,fte_cc:76854},
-  'PE-RF-Public Records Content-ND':{sow_fc:232630,sow_cc:69350,fte_fc:410565,fte_cc:198797},
-  'PE-RF-PR CLEAR App. Opt. Content-DA':{sow_fc:112362,sow_cc:47672,fte_fc:276538,fte_cc:185062},
-  'PE-CE-Content SHA-ND':{sow_fc:150745,sow_cc:119456,fte_fc:32210,fte_cc:44234},
+  'PE-RF-NuCLEAR Cont. Modern-DA':{sow_fc:633607,sow_cc:735051,fte_fc:2604091,fte_cc:2792487},
+  'PE-RF-Public Records Content-DM':{sow_fc:147435,sow_cc:111887,fte_fc:76898,fte_cc:173325},
+  'PE-RF-Public Records Content-ND':{sow_fc:232630,sow_cc:93626,fte_fc:410565,fte_cc:296013},
+  'PE-RF-PR CLEAR App. Opt. Content-DA':{sow_fc:112362,sow_cc:55434,fte_fc:276538,fte_cc:218329},
+  'PE-CE-Content SHA-ND':{sow_fc:150745,sow_cc:171699,fte_fc:32210,fte_cc:72287},
 };
 
 function ProgramHome(){
