@@ -38396,7 +38396,7 @@
     const [oxShow, setOxShow] = (0, import_react57.useState)(false);
     const coreRows = CORE_PROJECTS.map((p) => {
       const ac = ytdActCapex(p), fc = ytdFcCapex(p), b = BUDGET[p];
-      const rr = ac / 6 * 12, varB = b - ac, varF = fc - ac, varRR = b - rr, spentPct = ac / b * 100;
+      const rr = ac / YTD.length * 12, varB = b - ac, varF = fc - ac, varRR = b - rr, spentPct = ac / b * 100;
       return {
         p,
         b,
@@ -38424,7 +38424,7 @@
       co: ytdCalOpex(SHA),
       b: BUDGET[SHA]
     };
-    sha.rr = sha.ac / 6 * 12;
+    sha.rr = sha.ac / YTD.length * 12;
     sha.varB = sha.b - sha.ac;
     sha.varF = sha.fc - sha.ac;
     sha.varRR = sha.b - sha.rr;
@@ -38773,7 +38773,7 @@
   function YTDOverview() {
     const coreRows = CORE_PROJECTS.map((p) => {
       const ac = ytdActCapex(p), fc = ytdFcCapex(p), cc = ytdCalCapex(p);
-      const b = BUDGET[p], rr = ac / 6 * 12;
+      const b = BUDGET[p], rr = ac / YTD.length * 12;
       const fullFc = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"].reduce((s2, m) => s2 + (MD[p][m]?.fc || 0), 0);
       const varB = b - ac, varF = fc - ac, varRR = b - rr;
       return {
@@ -38793,7 +38793,7 @@
       };
     });
     const sha = { ac: ytdActCapex(SHA), fc: ytdFcCapex(SHA), cc: ytdCalCapex(SHA), b: BUDGET[SHA] };
-    sha.rr = sha.ac / 6 * 12;
+    sha.rr = sha.ac / YTD.length * 12;
     sha.varB = sha.b - sha.ac;
     sha.varF = sha.fc - sha.ac;
     sha.varRR = sha.b - sha.rr;
