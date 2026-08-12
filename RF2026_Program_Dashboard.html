@@ -3,7 +3,7 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <!-- build:20260812204941 -->
+  <!-- build:20260812210811 -->
   <!-- v2026-08-11 21:07:21 --><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>RF2026 Program Dashboard</title>
 <style>*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html,body,#root{height:100%;width:100%;overflow:hidden}body{background:#f0f2f5;font-family:system-ui,-apple-system,sans-serif}::-webkit-scrollbar{width:6px;height:6px}::-webkit-scrollbar-track{background:#e2e8f0}::-webkit-scrollbar-thumb{background:#a0aec0;border-radius:3px}::-webkit-scrollbar-thumb:hover{background:#718096}</style>
@@ -38441,7 +38441,7 @@
     const totB = PROJECTS.reduce((s2, p) => s2 + BUDGET[p], 0);
     const coreAc = coreRows.reduce((s2, r2) => s2 + r2.ac, 0);
     const coreAo = coreRows.reduce((s2, r2) => s2 + r2.ao, 0);
-    const CT_PH = coreRows.reduce((a2, r2) => ({ b: a2.b + r2.b, fc: a2.fc + r2.fc, fo: a2.fo + r2.fo, ac: a2.ac + r2.ac, ao: a2.ao + r2.ao, co: a2.co + r2.co, rr: a2.rr + r2.rr, varB: a2.varB + r2.varB, varF: a2.varF + r2.varF, varRR: a2.varRR + r2.varRR, overage: a2.overage + r2.overage, underspend: a2.underspend + r2.underspend }), { b: 0, fc: 0, fo: 0, ac: 0, ao: 0, co: 0, rr: 0, rrFc: 0, varB: 0, varF: 0, varRR: 0, varRRFc: 0, overage: 0, underspend: 0 });
+    const CT_PH = coreRows.reduce((a2, r2) => ({ b: a2.b + r2.b, fc: a2.fc + r2.fc, fo: a2.fo + r2.fo, ac: a2.ac + r2.ac, ao: a2.ao + r2.ao, co: a2.co + r2.co, rr: a2.rr + r2.rr, rrFc: (a2.rrFc || 0) + (r2.rrFc || 0), varB: a2.varB + r2.varB, varF: a2.varF + r2.varF, varRR: a2.varRR + r2.varRR, varRRFc: (a2.varRRFc || 0) + (r2.varRRFc || 0), overage: a2.overage + r2.overage, underspend: a2.underspend + r2.underspend }), { b: 0, fc: 0, fo: 0, ac: 0, ao: 0, co: 0, rr: 0, rrFc: 0, varB: 0, varF: 0, varRR: 0, varRRFc: 0, overage: 0, underspend: 0 });
     const allAc = coreAc + sha.ac;
     const barData = MONTHS.map((m) => ({
       "month": m,
@@ -38569,11 +38569,9 @@
               cxShow && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("td", { style: { padding: "9px 12px", textAlign: "right", color: r2.varB < 0 ? C.red : C.green, fontWeight: 700 }, children: fmt(r2.varB) }),
               cxShow && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("td", { style: { padding: "9px 12px", textAlign: "right", color: r2.varF < 0 ? C.red : C.green }, children: fmt(r2.varF) }),
               cxShow && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("td", { style: { padding: "9px 12px", textAlign: "right", color: C.gold, fontWeight: 600 }, children: fmt(r2.rr) }),
-              cxShow && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("td", { style: { padding: "9px 12px", textAlign: "right", color: r2.rrFc < r2.rr ? C.green : C.gold, fontWeight: 600 }, children: fmt(r2.rrFc) }),
-              cxShow && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("td", { style: { padding: "9px 12px", textAlign: "right", color: r2.varRRFc < 0 ? C.red : C.green, fontWeight: 600 }, children: fmt(r2.varRRFc) }),
               cxShow && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("td", { style: { padding: "9px 12px", textAlign: "right", color: r2.varRR < 0 ? C.red : C.green }, children: fmt(r2.varRR) }),
-                cxShow && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("td", { style: { padding: "9px 12px", textAlign: "right", color: r2.rrFc < r2.rr ? C.green : C.gold }, children: fmt(r2.rrFc) }),
-                cxShow && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("td", { style: { padding: "9px 12px", textAlign: "right", color: r2.varRRFc < 0 ? C.red : C.green }, children: fmt(r2.varRRFc) }),
+              cxShow && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("td", { style: { padding: "9px 12px", textAlign: "right", color: r2.rrFc < r2.rr ? C.green : C.gold }, children: fmt(r2.rrFc) }),
+              cxShow && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("td", { style: { padding: "9px 12px", textAlign: "right", color: r2.varRRFc < 0 ? C.red : C.green }, children: fmt(r2.varRRFc) }),
                 cxShow && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("td", { style: { padding: "9px 12px", textAlign: "right", color: r2.spentPct > 100 ? C.red : C.text }, children: [
                 r2.spentPct.toFixed(1),
                 "%"
