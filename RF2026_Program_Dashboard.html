@@ -3,7 +3,7 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <!-- build:20260812202651 -->
+  <!-- build:20260812203039 -->
   <!-- v2026-08-11 21:07:21 --><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>RF2026 Program Dashboard</title>
 <style>*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html,body,#root{height:100%;width:100%;overflow:hidden}body{background:#f0f2f5;font-family:system-ui,-apple-system,sans-serif}::-webkit-scrollbar{width:6px;height:6px}::-webkit-scrollbar-track{background:#e2e8f0}::-webkit-scrollbar-thumb{background:#a0aec0;border-radius:3px}::-webkit-scrollbar-thumb:hover{background:#718096}</style>
@@ -38780,7 +38780,7 @@
       const ac = ytdActCapex(p), fc = ytdFcCapex(p), cc = ytdCalCapex(p);
       const b = BUDGET[p], rr = ac / YTD.length * 12, rrFc = fc / YTD.length * 12;
       const fullFc = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"].reduce((s2, m) => s2 + (MD[p][m]?.fc || 0), 0);
-      const varB = b - ac, varF = fc - ac, varRR = b - rr, varRRFc2 = b - rrFc2;
+      const varB = b - ac, varF = fc - ac, varRR = b - rr, varRRFc = b - rrFc;
       return {
         p,
         b,
