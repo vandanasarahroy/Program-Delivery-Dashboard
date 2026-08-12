@@ -3,7 +3,7 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <!-- build:20260812204605 -->
+  <!-- build:20260812204941 -->
   <!-- v2026-08-11 21:07:21 --><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>RF2026 Program Dashboard</title>
 <style>*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html,body,#root{height:100%;width:100%;overflow:hidden}body{background:#f0f2f5;font-family:system-ui,-apple-system,sans-serif}::-webkit-scrollbar{width:6px;height:6px}::-webkit-scrollbar-track{background:#e2e8f0}::-webkit-scrollbar-thumb{background:#a0aec0;border-radius:3px}::-webkit-scrollbar-thumb:hover{background:#718096}</style>
@@ -38412,9 +38412,11 @@
         cc: ytdCalCapex(p),
         co: ytdCalOpex(p),
         rr,
+        rrFc,
         varB,
         varF,
         varRR,
+        varRRFc,
         spentPct,
         overage: varB < 0 ? Math.abs(varB) : 0,
         underspend: varRR > 0 ? varRR : 0
@@ -38803,9 +38805,11 @@
         ac,
         cc,
         rr,
+        rrFc,
         varB,
         varF,
         varRR,
+        varRRFc,
         spentPct: ac / b * 100,
         overage: varB < 0 ? Math.abs(varB) : 0,
         underspend: varRR > 0 ? varRR : 0
@@ -38819,7 +38823,7 @@
     sha.spentPct = sha.ac / sha.b * 100;
     sha.overage = sha.varB < 0 ? Math.abs(sha.varB) : 0;
     sha.underspend = sha.varRR > 0 ? sha.varRR : 0;
-    const CT = coreRows.reduce((acc, r2) => ({ b: acc.b + r2.b, fullFc: acc.fullFc + r2.fullFc, fc: acc.fc + r2.fc, ac: acc.ac + r2.ac, cc: acc.cc + r2.cc, rr: acc.rr + r2.rr, varB: acc.varB + r2.varB, varF: acc.varF + r2.varF, overage: acc.overage + r2.overage, underspend: acc.underspend + r2.underspend }), { b: 0, fullFc: 0, fc: 0, ac: 0, cc: 0, rr: 0, varB: 0, varF: 0, overage: 0, underspend: 0 });
+    const CT = coreRows.reduce((acc, r2) => ({ b: acc.b + r2.b, fullFc: acc.fullFc + r2.fullFc, fc: acc.fc + r2.fc, ac: acc.ac + r2.ac, cc: acc.cc + r2.cc, rr: acc.rr + r2.rr, varB: acc.varB + r2.varB, varF: acc.varF + r2.varF, rrFc: (acc.rrFc || 0) + (r2.rrFc || 0), varRR: (acc.varRR || 0) + (r2.varRR || 0), varRRFc: (acc.varRRFc || 0) + (r2.varRRFc || 0), overage: acc.overage + r2.overage, underspend: acc.underspend + r2.underspend }), { b: 0, fullFc: 0, fc: 0, ac: 0, cc: 0, rr: 0, rrFc: 0, varB: 0, varF: 0, varRR: 0, varRRFc: 0, overage: 0, underspend: 0 });
     const totB = CT.b + sha.b;
     return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
       /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { marginBottom: 20 }, children: [
