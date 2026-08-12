@@ -3,7 +3,7 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <!-- build:20260811221943 -->
+  <!-- build:20260812201602 -->
   <!-- v2026-08-11 21:07:21 --><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>RF2026 Program Dashboard</title>
 <style>*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html,body,#root{height:100%;width:100%;overflow:hidden}body{background:#f0f2f5;font-family:system-ui,-apple-system,sans-serif}::-webkit-scrollbar{width:6px;height:6px}::-webkit-scrollbar-track{background:#e2e8f0}::-webkit-scrollbar-thumb{background:#a0aec0;border-radius:3px}::-webkit-scrollbar-thumb:hover{background:#718096}</style>
@@ -38401,7 +38401,7 @@
     const [oxShow, setOxShow] = (0, import_react57.useState)(false);
     const coreRows = CORE_PROJECTS.map((p) => {
       const ac = ytdActCapex(p), fc = ytdFcCapex(p), b = BUDGET[p];
-      const rr = ac / YTD.length * 12, varB = b - ac, varF = fc - ac, varRR = b - rr, spentPct = ac / b * 100;
+      const rr = ac / YTD.length * 12, rrFc = fc / YTD.length * 12, varB = b - ac, varF = fc - ac, varRR = b - rr, varRRFc = b - rrFc, spentPct = ac / b * 100;
       return {
         p,
         b,
@@ -38429,17 +38429,17 @@
       co: ytdCalOpex(SHA),
       b: BUDGET[SHA]
     };
-    sha.rr = sha.ac / YTD.length * 12;
+    sha.rr = sha.ac / YTD.length * 12; sha.rrFc = sha.fc / YTD.length * 12;
     sha.varB = sha.b - sha.ac;
     sha.varF = sha.fc - sha.ac;
-    sha.varRR = sha.b - sha.rr;
+    sha.varRR = sha.b - sha.rr; sha.varRRFc = sha.b - sha.rrFc;
     sha.spentPct = sha.ac / sha.b * 100;
     sha.overage = sha.varB < 0 ? Math.abs(sha.varB) : 0;
     sha.underspend = sha.varRR > 0 ? sha.varRR : 0;
     const totB = PROJECTS.reduce((s2, p) => s2 + BUDGET[p], 0);
     const coreAc = coreRows.reduce((s2, r2) => s2 + r2.ac, 0);
     const coreAo = coreRows.reduce((s2, r2) => s2 + r2.ao, 0);
-    const CT_PH = coreRows.reduce((a2, r2) => ({ b: a2.b + r2.b, fc: a2.fc + r2.fc, fo: a2.fo + r2.fo, ac: a2.ac + r2.ac, ao: a2.ao + r2.ao, co: a2.co + r2.co, rr: a2.rr + r2.rr, varB: a2.varB + r2.varB, varF: a2.varF + r2.varF, varRR: a2.varRR + r2.varRR, overage: a2.overage + r2.overage, underspend: a2.underspend + r2.underspend }), { b: 0, fc: 0, fo: 0, ac: 0, ao: 0, co: 0, rr: 0, varB: 0, varF: 0, varRR: 0, overage: 0, underspend: 0 });
+    const CT_PH = coreRows.reduce((a2, r2) => ({ b: a2.b + r2.b, fc: a2.fc + r2.fc, fo: a2.fo + r2.fo, ac: a2.ac + r2.ac, ao: a2.ao + r2.ao, co: a2.co + r2.co, rr: a2.rr + r2.rr, varB: a2.varB + r2.varB, varF: a2.varF + r2.varF, varRR: a2.varRR + r2.varRR, overage: a2.overage + r2.overage, underspend: a2.underspend + r2.underspend }), { b: 0, fc: 0, fo: 0, ac: 0, ao: 0, co: 0, rr: 0, rrFc: 0, varB: 0, varF: 0, varRR: 0, varRRFc: 0, overage: 0, underspend: 0 });
     const allAc = coreAc + sha.ac;
     const barData = MONTHS.map((m) => ({
       "month": m,
@@ -38778,9 +38778,9 @@
   function YTDOverview() {
     const coreRows = CORE_PROJECTS.map((p) => {
       const ac = ytdActCapex(p), fc = ytdFcCapex(p), cc = ytdCalCapex(p);
-      const b = BUDGET[p], rr = ac / YTD.length * 12;
+      const b = BUDGET[p], rr = ac / YTD.length * 12, rrFc = fc / YTD.length * 12;
       const fullFc = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"].reduce((s2, m) => s2 + (MD[p][m]?.fc || 0), 0);
-      const varB = b - ac, varF = fc - ac, varRR = b - rr;
+      const varB = b - ac, varF = fc - ac, varRR = b - rr, varRRFc2 = b - rrFc2;
       return {
         p,
         b,
@@ -38798,10 +38798,10 @@
       };
     });
     const sha = { ac: ytdActCapex(SHA), fc: ytdFcCapex(SHA), cc: ytdCalCapex(SHA), b: BUDGET[SHA] };
-    sha.rr = sha.ac / YTD.length * 12;
+    sha.rr = sha.ac / YTD.length * 12; sha.rrFc = sha.fc / YTD.length * 12;
     sha.varB = sha.b - sha.ac;
     sha.varF = sha.fc - sha.ac;
-    sha.varRR = sha.b - sha.rr;
+    sha.varRR = sha.b - sha.rr; sha.varRRFc = sha.b - sha.rrFc;
     sha.spentPct = sha.ac / sha.b * 100;
     sha.overage = sha.varB < 0 ? Math.abs(sha.varB) : 0;
     sha.underspend = sha.varRR > 0 ? sha.varRR : 0;

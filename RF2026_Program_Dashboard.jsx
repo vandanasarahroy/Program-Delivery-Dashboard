@@ -157,9 +157,9 @@ function ProgramHome(){
   const [oxShow,setOxShow]=useState(false);
   const coreRows=CORE_PROJECTS.map(p=>{
     const ac=ytdActCapex(p),fc=ytdFcCapex(p),b=BUDGET[p];
-    const rr=(ac/YTD.length)*12,varB=b-ac,varF=fc-ac,varRR=b-rr,spentPct=(ac/b)*100;
+    const rr=(ac/YTD.length)*12,rrFc=(fc/YTD.length)*12,varB=b-ac,varF=fc-ac,varRR=b-rr,varRRFc=b-rrFc,spentPct=(ac/b)*100;
     return{p,b,fc,fo:ytdFcOpex(p),ac,ao:ytdActOpex(p),cc:ytdCalCapex(p),co:ytdCalOpex(p),
-      rr,varB,varF,varRR,spentPct,
+      rr,rrFc,varB,varF,varRR,varRRFc,spentPct,
       overage:varB<0?Math.abs(varB):0,underspend:varRR>0?varRR:0};
   });
   const sha={
@@ -169,12 +169,12 @@ function ProgramHome(){
     b:BUDGET[SHA]
   };
   sha.rr=(sha.ac/YTD.length)*12; sha.varB=sha.b-sha.ac; sha.varF=sha.fc-sha.ac;
-  sha.varRR=sha.b-sha.rr; sha.spentPct=(sha.ac/sha.b)*100;
+  sha.varRR=sha.b-sha.rr; sha.rrFc=(sha.fc/YTD.length)*12; sha.varRRFc=sha.b-sha.rrFc; sha.spentPct=(sha.ac/sha.b)*100;
   sha.overage=sha.varB<0?Math.abs(sha.varB):0; sha.underspend=sha.varRR>0?sha.varRR:0;
   const totB=PROJECTS.reduce((s,p)=>s+BUDGET[p],0);
   const coreAc=coreRows.reduce((s,r)=>s+r.ac,0);
   const coreAo=coreRows.reduce((s,r)=>s+r.ao,0);
-  const CT_PH=coreRows.reduce((a,r)=>({b:a.b+r.b,fc:a.fc+r.fc,fo:a.fo+r.fo,ac:a.ac+r.ac,ao:a.ao+r.ao,co:a.co+r.co,rr:a.rr+r.rr,varB:a.varB+r.varB,varF:a.varF+r.varF,varRR:a.varRR+r.varRR,overage:a.overage+r.overage,underspend:a.underspend+r.underspend}),{b:0,fc:0,fo:0,ac:0,ao:0,co:0,rr:0,varB:0,varF:0,varRR:0,overage:0,underspend:0});
+  const CT_PH=coreRows.reduce((a,r)=>({b:a.b+r.b,fc:a.fc+r.fc,fo:a.fo+r.fo,ac:a.ac+r.ac,ao:a.ao+r.ao,co:a.co+r.co,rr:a.rr+r.rr,varB:a.varB+r.varB,varF:a.varF+r.varF,varRR:a.varRR+r.varRR,varRRFc:a.varRRFc+r.varRRFc,overage:a.overage+r.overage,underspend:a.underspend+r.underspend}),{b:0,fc:0,fo:0,ac:0,ao:0,co:0,rr:0,rrFc:0,varB:0,varF:0,varRR:0,varRRFc:0,overage:0,underspend:0});
   const allAc=coreAc+sha.ac;
 
   const barData=MONTHS.map(m=>({'month':m,
@@ -284,6 +284,10 @@ function ProgramHome(){
                 {cxShow&&<TH right sub="Jan–Jul">Actuals Var to YTD Fc</TH>}
                 {cxShow&&<TH right sub="Annualised">Run Rate Based on Actuals</TH>}
                 {cxShow&&<TH right sub="Annualised">Var Based on Run Rate</TH>}
+                {cxShow&&<TH right sub="Annualised">Run Rate Based
+on Forecast</TH>}
+                {cxShow&&<TH right sub="Annualised">Var Based on
+Forecast Run Rate</TH>}
                 {cxShow&&<TH right sub="Jan–Jul">% Spent</TH>}
                 {cxShow&&<TH right sub="Jan–Jul">Overage</TH>}
                 {cxShow&&<TH right sub="Jan–Jul">Underspend</TH>}
@@ -304,6 +308,8 @@ function ProgramHome(){
                   {cxShow&&<td style={{padding:'9px 12px',textAlign:'right',color:r.varF<0?C.red:C.green}}>{fmt(r.varF)}</td>}
                   {cxShow&&<td style={{padding:'9px 12px',textAlign:'right',color:C.gold,fontWeight:600}}>{fmt(r.rr)}</td>}
                   {cxShow&&<td style={{padding:'9px 12px',textAlign:'right',color:r.varRR<0?C.red:C.green}}>{fmt(r.varRR)}</td>}
+                  {cxShow&&<td style={{padding:'9px 12px',textAlign:'right',color:r.rrFc<r.rr?C.green:C.gold}}>{fmt(r.rrFc)}</td>}
+                  {cxShow&&<td style={{padding:'9px 12px',textAlign:'right',color:r.varRRFc<0?C.red:C.green}}>{fmt(r.varRRFc)}</td>}
                   {cxShow&&<td style={{padding:'9px 12px',textAlign:'right',color:r.spentPct>100?C.red:C.text}}>{r.spentPct.toFixed(1)}%</td>}
                   {cxShow&&<td style={{padding:'9px 12px',textAlign:'right',color:r.overage>0?C.red:C.textDim}}>{fmt(r.overage)}</td>}
                   {cxShow&&<td style={{padding:'9px 12px',textAlign:'right',color:r.underspend>0?C.green:C.textDim}}>{r.underspend>0?fmt(r.underspend):'—'}</td>}
@@ -322,6 +328,8 @@ function ProgramHome(){
                 {cxShow&&<td style={{padding:'9px 12px',textAlign:'right',color:CT_PH.varF<0?C.red:C.green,fontWeight:700}}>{fmt(CT_PH.varF)}</td>}
                 {cxShow&&<td style={{padding:'9px 12px',textAlign:'right',color:C.gold,fontWeight:700}}>{fmt(CT_PH.rr)}</td>}
                 {cxShow&&<td style={{padding:'9px 12px',textAlign:'right',color:CT_PH.varRR<0?C.red:C.green,fontWeight:700}}>{fmt(CT_PH.varRR)}</td>}
+                {cxShow&&<td style={{padding:'9px 12px',textAlign:'right',color:CT_PH.rrFc<CT_PH.rr?C.green:C.gold,fontWeight:700}}>{fmt(CT_PH.rrFc)}</td>}
+                {cxShow&&<td style={{padding:'9px 12px',textAlign:'right',color:CT_PH.varRRFc<0?C.red:C.green,fontWeight:700}}>{fmt(CT_PH.varRRFc)}</td>}
                 {cxShow&&<td style={{padding:'9px 12px',textAlign:'right',color:CT_PH.ac/CT_PH.b>1?C.red:C.gold,fontWeight:700}}>{fmtPct(CT_PH.ac/CT_PH.b*100)}</td>}
                 {cxShow&&<td style={{padding:'9px 12px',textAlign:'right',color:CT_PH.overage>0?C.red:C.textDim,fontWeight:700}}>{fmt(CT_PH.overage)}</td>}
                 {cxShow&&<td style={{padding:'9px 12px',textAlign:'right',color:C.green,fontWeight:700}}>{CT_PH.underspend>0?fmt(CT_PH.underspend):'—'}</td>}
@@ -524,18 +532,18 @@ function MonthlyView(){
 function YTDOverview(){
   const coreRows=CORE_PROJECTS.map(p=>{
     const ac=ytdActCapex(p),fc=ytdFcCapex(p),cc=ytdCalCapex(p);
-    const b=BUDGET[p],rr=(ac/YTD.length)*12;
+    const b=BUDGET[p],rr=(ac/YTD.length)*12,rrFc=(fc/YTD.length)*12;
     const fullFc=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'].reduce((s,m)=>s+(MD[p][m]?.fc||0),0);
-    const varB=b-ac, varF=fc-ac, varRR=b-rr;
-    return{p,b,fullFc,fc,ac,cc,rr,varB,varF,varRR,spentPct:(ac/b)*100,
+    const varB=b-ac, varF=fc-ac, varRR=b-rr, varRRFc=b-rrFc;
+    return{p,b,fullFc,fc,ac,cc,rr,rrFc,varB,varF,varRR,varRRFc,spentPct:(ac/b)*100,
       overage:varB<0?Math.abs(varB):0, underspend:varRR>0?varRR:0};
   });
   const sha={ac:ytdActCapex(SHA),fc:ytdFcCapex(SHA),cc:ytdCalCapex(SHA),b:BUDGET[SHA]};
   sha.rr=(sha.ac/YTD.length)*12; sha.varB=sha.b-sha.ac; sha.varF=sha.fc-sha.ac;
-  sha.varRR=sha.b-sha.rr; sha.spentPct=(sha.ac/sha.b)*100;
+  sha.varRR=sha.b-sha.rr; sha.rrFc=(sha.fc/YTD.length)*12; sha.varRRFc=sha.b-sha.rrFc; sha.spentPct=(sha.ac/sha.b)*100;
   sha.overage=sha.varB<0?Math.abs(sha.varB):0; sha.underspend=sha.varRR>0?sha.varRR:0;
 
-  const CT=coreRows.reduce((acc,r)=>({b:acc.b+r.b,fullFc:acc.fullFc+r.fullFc,fc:acc.fc+r.fc,ac:acc.ac+r.ac,cc:acc.cc+r.cc,rr:acc.rr+r.rr,varB:acc.varB+r.varB,varF:acc.varF+r.varF,overage:acc.overage+r.overage,underspend:acc.underspend+r.underspend}),{b:0,fullFc:0,fc:0,ac:0,cc:0,rr:0,varB:0,varF:0,overage:0,underspend:0});
+  const CT=coreRows.reduce((acc,r)=>({b:acc.b+r.b,fullFc:acc.fullFc+r.fullFc,fc:acc.fc+r.fc,ac:acc.ac+r.ac,cc:acc.cc+r.cc,rr:acc.rr+r.rr,rrFc:acc.rrFc+r.rrFc,varB:acc.varB+r.varB,varF:acc.varF+r.varF,varRRFc:acc.varRRFc+r.varRRFc,overage:acc.overage+r.overage,underspend:acc.underspend+r.underspend}),{b:0,fullFc:0,fc:0,ac:0,cc:0,rr:0,varB:0,varF:0,overage:0,underspend:0});
   const totB=CT.b+sha.b;
 
   return(
@@ -550,6 +558,7 @@ function YTDOverview(){
         <KPI label="Core YTD Actuals CapEx" value={fmt(CT.ac)} color={C.orange} sub={fmtPct(CT.ac/totB*100)+' of total budget'}/>
         <KPI label="Core Budget Variance" value={fmt(CT.varB)} color={CT.varB<0?C.red:C.green} sub={CT.varB<0?'Overspend':'Under budget'}/>
         <KPI label="Core Run Rate" value={fmt(CT.rr)} color={C.gold} sub={fmt(CT.b-CT.rr)+' vs core budget'}/>
+        <KPI label="Forecast Run Rate" value={fmt(CT.rrFc)} color={C.blue} sub={fmt(CT.b-CT.rrFc)+' vs core budget'}/>
       </div>
 
       {/* Core projects table */}
@@ -561,7 +570,11 @@ function YTDOverview(){
         <div style={{overflowX:'auto'}}>
           <table style={{width:'100%',borderCollapse:'collapse',fontSize:11.5}}>
             <thead>
-              <tr><TH>Project</TH><TH right>Budget</TH><TH right sub="Full Year">FY Fc CapEx</TH><TH right sub="Jan–Jul">YTD Fc CapEx</TH><TH right sub="Jan–Jul">YTD Act CapEx</TH><TH right sub="Jan–Jul">YTD Cal CapEx</TH><TH right sub="Jan–Jul">Var to Budget</TH><TH right sub="Jan–Jul">Act vs Fc</TH><TH right sub="Annualised">Run Rate</TH><TH right sub="Jan–Jul">% Spent</TH><TH right sub="Jan–Jul">Overage</TH><TH right sub="Jan–Jul">Underspend</TH><TH>Status</TH></tr>
+              <tr><TH>Project</TH><TH right>Budget</TH><TH right sub="Full Year">FY Fc CapEx</TH><TH right sub="Jan–Jul">YTD Fc CapEx</TH><TH right sub="Jan–Jul">YTD Act CapEx</TH><TH right sub="Jan–Jul">YTD Cal CapEx</TH><TH right sub="Jan–Jul">Var to Budget</TH><TH right sub="Jan–Jul">Act vs Fc</TH><TH right sub="Annualised">Run Rate</TH>
+              <TH right sub="Annualised">Run Rate
+Based on Forecast</TH>
+              <TH right sub="Annualised">Var Based on
+Forecast Run Rate</TH><TH right sub="Jan–Jul">% Spent</TH><TH right sub="Jan–Jul">Overage</TH><TH right sub="Jan–Jul">Underspend</TH><TH>Status</TH></tr>
             </thead>
             <tbody>
               {coreRows.map((r)=>(
@@ -575,6 +588,8 @@ function YTDOverview(){
                   <TD right color={r.varB<0?C.red:C.green} bold>{fmt(r.varB)}</TD>
                   <TD right color={r.varF<0?C.red:C.green}>{fmt(r.varF)}</TD>
                   <TD right color={C.gold}>{fmt(r.rr)}</TD>
+              <TD right color={r.rrFc<r.rr?C.green:C.gold}>{fmt(r.rrFc)}</TD>
+              <TD right color={r.varRRFc<0?C.red:C.green}>{fmt(r.varRRFc)}</TD>
                   <td style={{padding:'9px 12px',whiteSpace:'nowrap'}}>
                     <div style={{display:'flex',alignItems:'center',gap:6,justifyContent:'flex-end'}}>
                       <div style={{width:48,height:4,background:'#e2e8f0',borderRadius:2,overflow:'hidden'}}>
@@ -599,6 +614,8 @@ function YTDOverview(){
                 <td style={{padding:'10px 12px',textAlign:'right',color:CT.varB<0?C.red:C.green,fontWeight:700}}>{fmt(CT.varB)}</td>
                 <td style={{padding:'10px 12px',textAlign:'right',color:CT.varF<0?C.red:C.green,fontWeight:700}}>{fmt(CT.varF)}</td>
                 <td style={{padding:'10px 12px',textAlign:'right',color:C.gold,fontWeight:700}}>{fmt(CT.rr)}</td>
+                <td style={{padding:'10px 12px',textAlign:'right',color:CT.rrFc<CT.rr?C.green:C.gold,fontWeight:700}}>{fmt(CT.rrFc)}</td>
+                <td style={{padding:'10px 12px',textAlign:'right',color:CT.varRRFc<0?C.red:C.green,fontWeight:700}}>{fmt(CT.varRRFc)}</td>
                 <td style={{padding:'10px 12px',textAlign:'right',color:CT.ac/CT.b>1?C.red:C.gold,fontWeight:700}}>{fmtPct(CT.ac/CT.b*100)}</td>
                 <td style={{padding:'10px 12px',textAlign:'right',color:CT.overage>0?C.red:C.textDim,fontWeight:700}}>{fmt(CT.overage)}</td>
                 <td style={{padding:'10px 12px',textAlign:'right',color:C.green,fontWeight:700}}>{CT.underspend>0?fmt(CT.underspend):'—'}</td>
@@ -631,6 +648,8 @@ function YTDOverview(){
               <TD right color={sha.varB<0?C.red:C.green} bold>{fmt(sha.varB)}</TD>
               <TD right color={sha.varF<0?C.red:C.green}>{fmt(sha.varF)}</TD>
               <TD right color={C.gold}>{fmt(sha.rr)}</TD>
+              <TD right color={sha.rrFc<sha.rr?C.green:C.gold}>{fmt(sha.rrFc)}</TD>
+              <TD right color={sha.varRRFc<0?C.red:C.purple}>{fmt(sha.varRRFc)}</TD>
               <td style={{padding:'9px 12px'}}>
                 <div style={{display:'flex',alignItems:'center',gap:6,justifyContent:'flex-end'}}>
                   <div style={{width:48,height:4,background:'#e2e8f0',borderRadius:2,overflow:'hidden'}}>
