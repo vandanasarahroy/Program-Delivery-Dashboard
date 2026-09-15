@@ -34,6 +34,8 @@ a.ado{color:#1d4ed8;text-decoration:none;font-size:11px;display:block}
 a.ado:hover{text-decoration:underline}
 .note{font-size:11px;color:#475569;font-style:italic}
 @keyframes golive{0%,100%{opacity:1;text-shadow:0 0 8px rgba(22,163,74,.9),0 0 16px rgba(22,163,74,.6)}50%{opacity:.6;text-shadow:none}}
+@keyframes glow-pulse{0%,100%{text-shadow:0 0 6px #4ade80,0 0 14px #4ade80,0 0 28px #22c55e;opacity:1}50%{text-shadow:0 0 14px #4ade80,0 0 28px #4ade80,0 0 50px #16a34a;opacity:.8}}
+.live-badge{color:#4ade80;font-weight:800;font-size:13px;letter-spacing:2px;animation:glow-pulse 1.6s ease-in-out infinite;margin-left:auto;padding-right:4px}
 .go-live{animation:golive 1.2s ease-in-out infinite;color:#16a34a;font-weight:700;font-style:normal}
 .id-link{cursor:pointer;text-decoration:underline dotted;border-radius:3px;padding:1px 3px;transition:background .15s}
 .id-link:hover{background:rgba(0,0,0,.12)}
@@ -101,13 +103,13 @@ ol.steps{padding-left:18px;font-size:12px;color:#475569;line-height:1.9}
 .ps-clear{align-self:flex-end;color:#D64000;font-size:11px;cursor:pointer;background:none;border:none;padding:4px 0;font-weight:500}
 .ps-clear:hover{text-decoration:underline}
 .ps-section-row td{background:#1e3a5f !important;font-weight:700;font-size:10px;color:rgba(255,255,255,.8);padding:6px 10px;letter-spacing:.6px;text-transform:uppercase;border-right:none !important}
-.ps-table{width:100%;border-collapse:collapse;font-size:12px;table-layout:auto;min-width:1100px}
+.ps-table{width:100%;border-collapse:collapse;font-size:12px;table-layout:fixed;min-width:1100px}
 .ps-table th{background:#1e3a5f;color:rgba(255,255,255,.85);padding:8px 10px;text-align:left;font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;border-right:0.5px solid rgba(255,255,255,.1)}.ps-table th.th-center{text-align:center}
 .ps-table th:last-child{border-right:none}
-.ps-table td{padding:9px 10px;border-bottom:0.5px solid #e2e8f0;vertical-align:top;line-height:1.5;word-wrap:break-word}
+.ps-table td{padding:9px 10px;border-bottom:0.5px solid #e2e8f0;vertical-align:top;line-height:1.5;word-wrap:break-word;overflow-wrap:break-word;overflow:hidden}
 .ps-table tr:last-child td{border-bottom:none}
 .ps-table tr:hover td{background:#f8fafc}
-.ps-name{font-weight:600;color:#1e3a5f;font-size:12px}
+.ps-name{font-weight:600;color:#1e3a5f;font-size:12px;word-wrap:break-word;overflow-wrap:break-word}
 .ps-sub{font-size:10px;color:#94a3b8;margin-top:1px}
 .ps-iter{display:inline-block;background:#f1f5f9;color:#475569;padding:1px 6px;border-radius:3px;font-size:10px;margin-top:3px}
 .ps-badge{display:inline-flex;align-items:center;justify-content:center;padding:3px 9px;border-radius:3px;font-size:10px;font-weight:700;letter-spacing:.3px;text-transform:uppercase;white-space:nowrap}
@@ -118,8 +120,8 @@ ol.steps{padding-left:18px;font-size:12px;color:#475569;line-height:1.9}
 .ps-green{background:#4DB299}
 .ps-amber{background:#E9B045}
 .ps-red{background:#D64000}
-.ps-bullets{padding-left:0;list-style:none;margin:0}
-.ps-bullets li{display:flex;gap:5px;padding:1px 0;color:#334155}
+.ps-bullets{padding-left:0;list-style:none;margin:0;width:100%}
+.ps-bullets li{display:flex;gap:5px;padding:1px 0;color:#334155;word-wrap:break-word;overflow-wrap:break-word;min-width:0}
 .ps-bullets li::before{content:"\2022";color:#D64000;flex-shrink:0;font-weight:700}
 .ps-table td .empty{display:flex;justify-content:center;align-items:center;height:100%;}
 .ps-edit-btn{border:0.5px solid #e2e8f0;background:#fff;color:#475569;border-radius:3px;padding:3px 10px;font-size:11px;cursor:pointer;transition:border-color .15s}
@@ -274,6 +276,11 @@ tr.ps-drag-over{border-top:2px solid #D64000!important}
 .ps-row-dragging{outline:2px dashed #D64000;outline-offset:1px;opacity:.6}
 .ps-drag-clone{position:fixed;pointer-events:none;z-index:99999;opacity:.9;background:#1e3a5f;color:#fff;box-shadow:0 4px 20px rgba(0,0,0,.3);border-radius:6px;padding:6px 14px;font-size:12px;font-weight:700;white-space:nowrap;max-width:320px;overflow:hidden;text-overflow:ellipsis;border-left:3px solid #D64000}
 .ps-drop-line{position:fixed;height:3px;background:#D64000;border-radius:2px;pointer-events:none;z-index:99998;left:0;right:0}
+
+.ps-iter-locked .ps-row-actions { display: none !important; }
+.ps-iter-locked .ps-sec-add { display: none !important; }
+.ps-iter-locked .ps-sec-drag-handle { display: none !important; }
+.ps-iter-locked .ps-drag-handle { cursor: default !important; pointer-events: none; opacity: .3; }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
 </head>
@@ -289,12 +296,14 @@ tr.ps-drag-over{border-top:2px solid #D64000!important}
 <div class="tabs" id="tabs">
   <button class="tab on" data-tab="overview">Overview</button>
   <button class="tab" data-tab="roadmap">Roadmap</button>
+  <button class="tab" data-tab="cutover">Cutover Plan</button>
   <button class="tab" data-tab="gantt">Gantt Chart</button>
   <button class="tab" data-tab="risks">Risks &amp; Issues</button>
   <button class="tab" data-tab="model">Model Release</button>
   <button class="tab" data-tab="actions">Actions &amp; Next Steps</button>
   <button class="tab" data-tab="summary">Project Summary</button>
   <button class="tab" data-tab="npd">NPD Summary</button>
+  <button class="tab" data-tab="warehouse">Postgres Warehouse Delivery Plan</button>
 </div>
 <div class="cont">
 
@@ -313,7 +322,7 @@ tr.ps-drag-over{border-top:2px solid #D64000!important}
     <span class="leg"><span class="sw" style="background:#bbf7d0"></span>Green &mdash; V6.2</span>
     <span class="leg"><span class="sw" style="background:#bfdbfe"></span>Blue &mdash; App</span>
     <span class="leg"><span class="sw" style="background:#99f6e4"></span>Teal &mdash; TNI</span>
-    <span class="leg"><span class="sw" style="background:#fef08a"></span>Yellow &mdash; Cutover</span>
+    
     <span class="leg"><span class="sw" style="background:#93c5fd"></span>Dark Blue &mdash; Warehouse</span>
   </div>
   <table>
@@ -321,26 +330,73 @@ tr.ps-drag-over{border-top:2px solid #D64000!important}
     <thead><tr><th>ID</th><th>Key Dependency Deliverable</th><th>Target Date</th><th>Env</th><th>Owner</th><th>Notes</th></tr></thead>
     <tbody id="ov-body"></tbody>
   </table>
+  <div style="margin-top:16px;padding:10px 0;border-top:1px solid #e2e8f0;font-size:11px;color:#94a3b8">
+    Source: <a href="https://trten.sharepoint.com/sites/NuCLEARContentDeliverables/Shared%20Documents/Content%20Development/2026%20Project%20plan/2026%20Big%20Deliverables%20plan.xlsx" target="_blank" style="color:#1e3a5f;text-decoration:underline;font-weight:600">2026 Big Deliverables plan.xlsx</a> &nbsp;&middot;&nbsp; People Delivery Plan tab &nbsp;&middot;&nbsp; Last refreshed: Aug 25, 2026 &middot; 12:00 PM
+  </div>
 </div>
 
 <!-- ROADMAP -->
 <div id="tab-roadmap" class="pane">
-  <div class="legend">
-    <b style="font-size:11px;color:#64748b;margin-right:4px">Legend:</b>
-    <span class="leg"><span class="sw" style="background:#fecdd3"></span>Pink &mdash; NPD Validation</span>
-    <span class="leg"><span class="sw" style="background:#fed7aa"></span>Orange &mdash; V6.0 Non-Basis</span>
-    <span class="leg"><span class="sw" style="background:#e9d5ff"></span>Purple &mdash; V6.1 Basis</span>
-    <span class="leg"><span class="sw" style="background:#bbf7d0"></span>Green &mdash; V6.2</span>
-    <span class="leg"><span class="sw" style="background:#bfdbfe"></span>Blue &mdash; App</span>
-    <span class="leg"><span class="sw" style="background:#99f6e4"></span>Teal &mdash; TNI</span>
-    <span class="leg"><span class="sw" style="background:#fef08a"></span>Yellow &mdash; Cutover</span>
-    <span class="leg"><span class="sw" style="background:#93c5fd"></span>Dark Blue &mdash; Warehouse</span>
+  <div class="legend" style="display:flex;align-items:center;flex-wrap:wrap;gap:6px;justify-content:space-between">
+    <div style="display:flex;align-items:center;flex-wrap:wrap;gap:6px">
+      <b style="font-size:11px;color:#64748b;margin-right:4px">Legend:</b>
+      <span class="leg"><span class="sw" style="background:#fecdd3"></span>Pink &mdash; NPD Validation</span>
+      <span class="leg"><span class="sw" style="background:#fed7aa"></span>Orange &mdash; V6.0 Non-Basis</span>
+      <span class="leg"><span class="sw" style="background:#e9d5ff"></span>Purple &mdash; V6.1 Basis</span>
+      <span class="leg"><span class="sw" style="background:#bbf7d0"></span>Green &mdash; V6.2</span>
+      <span class="leg"><span class="sw" style="background:#bfdbfe"></span>Blue &mdash; App</span>
+      <span class="leg"><span class="sw" style="background:#99f6e4"></span>Teal &mdash; TNI</span>
+      <span class="leg"><span class="sw" style="background:#93c5fd"></span>Dark Blue &mdash; Warehouse</span>
+    </div>
+    <button id="rm-toggle-btn" onclick="rmToggleCompleted()" style="background:#1e3a5f;color:#fff;border:none;border-radius:6px;padding:5px 14px;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;letter-spacing:.3px">Hide Completed</button>
   </div>
   <table>
-    <colgroup><col style="width:36px"><col style="width:48px"><col><col style="width:105px"><col style="width:80px"><col style="width:65px"><col style="width:105px"><col style="width:28%"></colgroup>
+    <colgroup><col style="width:36px"><col style="width:5%"><col style="width:28%"><col style="width:10%"><col style="width:9%"><col style="width:7%"><col style="width:10%"><col style="width:27%"></colgroup>
     <thead><tr><th>ID</th><th>Env</th><th>Title</th><th>Target Date</th><th>Owner</th><th>Status</th><th>ADO</th><th>Notes</th></tr></thead>
     <tbody id="rm-body"></tbody>
   </table>
+  <div style="margin-top:16px;padding:10px 0;border-top:1px solid #e2e8f0;font-size:11px;color:#94a3b8">
+    Source: <a href="https://trten.sharepoint.com/sites/NuCLEARContentDeliverables/Shared%20Documents/Content%20Development/2026%20Project%20plan/2026%20Big%20Deliverables%20plan.xlsx" target="_blank" style="color:#1e3a5f;text-decoration:underline;font-weight:600">2026 Big Deliverables plan.xlsx</a> &nbsp;&middot;&nbsp; People Delivery Plan tab &nbsp;&middot;&nbsp; Last refreshed: Aug 25, 2026 &middot; 12:00 PM
+  </div>
+</div>
+
+
+<!-- CUTOVER PLAN -->
+<div id="tab-cutover" class="pane">
+  <div style="padding:16px 0 8px 0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+    <div>
+      <div style="font-size:18px;font-weight:700;color:#1e3a5f">Cutover Plan</div>
+      <div style="font-size:12px;color:#64748b;margin-top:4px">Person Authority Build — ERD to NER Cutover Execution Plan</div>
+    </div>
+  </div>
+  <div style="overflow-x:auto">
+  <table style="width:100%;border-collapse:collapse;font-size:12px;table-layout:fixed;min-width:900px">
+    <colgroup>
+      <col style="width:36px">
+      <col style="width:52px">
+      <col>
+      <col style="width:100px">
+      <col style="width:80px">
+      <col style="width:70px">
+      <col style="width:110px">
+      <col style="width:22%">
+    </colgroup>
+    <thead><tr>
+      <th style="text-align:center">ID</th>
+      <th style="text-align:center">Env</th>
+      <th style="text-align:left">Title</th>
+      <th style="text-align:center">Target Date</th>
+      <th style="text-align:center">Owner</th>
+      <th style="text-align:center">Status</th>
+      <th style="text-align:center">ADO</th>
+      <th style="text-align:center">Notes</th>
+    </tr></thead>
+    <tbody id="co-body"></tbody>
+  </table>
+  </div>
+  <div style="margin-top:16px;padding:10px 0;border-top:1px solid #e2e8f0;font-size:11px;color:#94a3b8">
+    Source: <a href="https://trten.sharepoint.com/sites/NuCLEARContentDeliverables/Shared%20Documents/Content%20Development/2026%20Project%20plan/2026%20Big%20Deliverables%20plan.xlsx" target="_blank" style="color:#1e3a5f;text-decoration:underline;font-weight:600">2026 Big Deliverables plan.xlsx</a> &nbsp;&middot;&nbsp; People Delivery Plan tab &nbsp;&middot;&nbsp; Rows 37–97 (IDs 1–61) &nbsp;&middot;&nbsp; Last refreshed: Aug 25, 2026 &middot; 12:00 PM
+  </div>
 </div>
 
 <!-- GANTT -->
@@ -354,7 +410,7 @@ tr.ps-drag-over{border-top:2px solid #D64000!important}
       <span class="leg"><span class="sw" style="background:#bbf7d0"></span>Green&mdash;V6.2</span>
       <span class="leg"><span class="sw" style="background:#bfdbfe"></span>Blue&mdash;App</span>
       <span class="leg"><span class="sw" style="background:#99f6e4"></span>Teal&mdash;TNI</span>
-      <span class="leg"><span class="sw" style="background:#fef08a"></span>Yellow&mdash;Cutover</span>
+      
       <span class="leg"><span class="sw" style="background:#93c5fd"></span>Dark Blue&mdash;Warehouse</span>
     </div>
     <div class="legend" style="margin:0">
@@ -652,7 +708,7 @@ tr.ps-drag-over{border-top:2px solid #D64000!important}
     <div class="card"><div style="display:flex;justify-content:space-between;gap:8px;margin-bottom:5px"><div style="font-weight:600;font-size:12px">Define go / no-go criteria for Cutover Start (ID 41)</div><span class="badge b-plan">Planning</span></div><div class="note" style="margin-bottom:6px">Document conditions before Oct 30: QA sign-offs complete, warehouse readiness confirmed, privacy compliance reviewed, rollback plan approved. Disaster recovery testing must also be confirmed.</div><div style="font-size:11px;color:#64748b">Owner: <b>Sarah / All leads</b> &nbsp;&middot;&nbsp; When: <b>Sep 2026</b></div></div>
     <div class="card"><div style="display:flex;justify-content:space-between;gap:8px;margin-bottom:5px"><div style="font-weight:600;font-size:12px">Define measurable exit criteria per NPD gate</div><span class="badge b-plan">Planning</span></div><div class="note" style="margin-bottom:6px">Each NPD validation (IDs 4, 7, 12, 20, 27) needs agreed pass/fail thresholds — precision and recall testing across 100&ndash;200 records per ContentSet — before work starts, not after.</div><div style="font-size:11px;color:#64748b">Owner: <b>NPD / Sarah</b> &nbsp;&middot;&nbsp; When: <b>Before each gate</b></div></div>
     <div class="card"><div style="display:flex;justify-content:space-between;gap:8px;margin-bottom:5px"><div style="font-weight:600;font-size:12px">Finalize Transit Files data attributes &amp; distribution design</div><span class="badge b-plan">Planning</span></div><div class="note" style="margin-bottom:6px">Identification of certain fields usage still being determined. Design for distribution of files to downstream consumers (on-Prem warehouse) still in progress.</div><div style="font-size:11px;color:#64748b">Owner: <b>Assembly / Warehouse</b> &nbsp;&middot;&nbsp; When: <b>Jul 2026</b></div></div>
-    <div class="card"><div style="display:flex;justify-content:space-between;gap:8px;margin-bottom:5px"><div style="font-weight:600;font-size:12px">Establish weekly cross-team sync for Prod phase</div><span class="badge b-plan">Planning</span></div><div class="note" style="margin-bottom:6px">IDs 28&ndash;46 involve GCO, NER, Assembly, RA, PA, Labs, TNI. Weekly check-ins from September prevent coordination gaps.</div><div style="font-size:11px;color:#64748b">Owner: <b>Sarah</b> &nbsp;&middot;&nbsp; When: <b>From Sep 2026</b></div></div>
+    <div class="card"><div style="display:flex;justify-content:space-between;gap:8px;margin-bottom:5px"><div style="font-weight:600;font-size:12px">Establish weekly cross-team sync for Prod phase</div><span class="badge b-plan">Planning</span></div><div class="note" style="margin-bottom:6px">IDs 29&ndash;49 involve GCO, NER, Assembly, RA, PA, Labs, TNI. Weekly check-ins from September prevent coordination gaps.</div><div style="font-size:11px;color:#64748b">Owner: <b>Sarah</b> &nbsp;&middot;&nbsp; When: <b>From Sep 2026</b></div></div>
   </div>
 
   <div class="coll-hdr" onclick="toggleColl('act-4',this)">Tracking <span class="coll-chev">&#9660;</span></div>
@@ -662,6 +718,48 @@ tr.ps-drag-over{border-top:2px solid #D64000!important}
     <div class="card"><div style="display:flex;justify-content:space-between;gap:8px;margin-bottom:5px"><div style="font-weight:600;font-size:12px">Complete Delta Comparison (ERD vs. Current Model)</div><span class="badge b-track">Tracking</span></div><div class="note" style="margin-bottom:6px">In progress — ERD vs. Current Model, False Positives and new Matches. Review of Checklist for conversion to new pathway ongoing with NPD.</div><div style="font-size:11px;color:#64748b">Owner: <b>NPD / NER</b> &nbsp;&middot;&nbsp; When: <b>Jun&ndash;Jul 2026</b></div></div>
   </div>
 </div>
+
+<!-- WAREHOUSE ROADMAP -->
+<div id="tab-warehouse" class="pane">
+  <div style="padding:16px 0 8px 0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+    <div>
+      <div style="font-size:18px;font-weight:700;color:#1e3a5f">Oracle-to-Postgres Migration - People Warehouse</div>
+    </div>
+  </div>
+
+  <!-- Legend -->
+  <div style="display:flex;gap:16px;margin-bottom:16px;flex-wrap:wrap">
+    <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:#374151"><span style="width:14px;height:14px;background:#dcfce7;border:1px solid #16a34a;border-radius:3px;display:inline-block"></span>Completed</div>
+    <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:#374151"><span style="width:14px;height:14px;background:#fce8df;border:1px solid #D64000;border-radius:3px;display:inline-block"></span>In Progress</div>
+    <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:#374151"><span style="width:14px;height:14px;background:#f1f5f9;border:1px solid #64748b;border-radius:3px;display:inline-block"></span>Not Started</div>
+    <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:#374151"><span style="width:14px;height:14px;background:#fef3c7;border:1px solid #d97706;border-radius:3px;display:inline-block"></span>TBC</div>
+  </div>
+
+  <div style="overflow-x:auto">
+  <table style="width:100%;border-collapse:collapse;font-size:12px">
+    <thead>
+      <tr style="background:#1e3a5f;color:#fff">
+        <th style="padding:8px 10px;text-align:center;width:28px;border-right:1px solid rgba(255,255,255,.1)">ID</th>
+        <th style="padding:8px 10px;text-align:center;border-right:1px solid rgba(255,255,255,.1)">PWH</th>
+        <th style="padding:8px 10px;text-align:center;border-right:1px solid rgba(255,255,255,.1)">Environment</th>
+        <th style="padding:8px 10px;text-align:center;border-right:1px solid rgba(255,255,255,.1)">DBs</th>
+        <th style="padding:8px 10px;text-align:center;border-right:1px solid rgba(255,255,255,.1)">Activity</th>
+        <th style="padding:8px 10px;text-align:center;border-right:1px solid rgba(255,255,255,.1)">Status</th>
+        <th style="padding:8px 10px;text-align:center;border-right:1px solid rgba(255,255,255,.1)">End Date</th>
+        <th style="padding:8px 10px;text-align:center;border-right:1px solid rgba(255,255,255,.1)">Owner</th>
+        <th style="padding:8px 10px;text-align:center">Notes</th>
+      </tr>
+    </thead>
+    <tbody id="wh-tbody">
+    </tbody>
+  </table>
+  </div>
+
+  <div style="margin-top:16px;padding:10px 0;border-top:1px solid #e2e8f0;font-size:11px;color:#94a3b8">
+    Source: <a href="https://trten.sharepoint.com/:x:/r/sites/PublicRecordsandDerivedAuthorities-PlanningandEstimating/Shared%20Documents/Planning%20and%20Estimating/2026/NuClear/Warehouse%20Delivery/People%20Wareshouse%20-%20Roadmap.xlsx?d=wc36fc1087b524416a73aa4d3edbc4846&csf=1&web=1&e=IUk4ws" target="_blank" style="color:#1e3a5f;text-decoration:underline;font-weight:600">People Wareshouse - Roadmap.xlsx</a> &nbsp;&middot;&nbsp; Last updated: Jul 7, 2026
+  </div>
+</div>
+
 <!-- PROJECT SUMMARY -->
 <div id="tab-summary" class="pane">
   <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:10px">
@@ -673,11 +771,9 @@ tr.ps-drag-over{border-top:2px solid #D64000!important}
       <label style="font-size:10px;font-weight:600;color:#64748b;white-space:nowrap">Iteration</label>
       <select id="ps-iteration" onchange="psChangeIteration(this.value)" style="border:0.5px solid #1e3a5f;border-radius:3px;padding:5px 10px;font-size:12px;color:#1e293b;background:#fff;outline:none;min-width:180px;font-weight:500">
         <optgroup label="-- Current --" style="color:#16a34a;font-weight:700">
-          <option value="jul07" selected>Jul 7, 2026 (current)</option>
+          <option value="aug04" selected>Aug 4, 2026 (current)</option>
         </optgroup>
         <optgroup label="-- Upcoming --" style="color:#94a3b8;font-style:italic">
-          <option value="jul21">Jul 21, 2026</option>
-          <option value="aug04">Aug 4, 2026</option>
           <option value="aug18">Aug 18, 2026</option>
           <option value="sep01">Sep 1, 2026</option>
           <option value="sep15">Sep 15, 2026</option>
@@ -690,6 +786,8 @@ tr.ps-drag-over{border-top:2px solid #D64000!important}
           <option value="dec22">Dec 22, 2026</option>
         </optgroup>
         <optgroup label="-- Past --" style="color:#64748b">
+          <option value="jul21">Jul 21, 2026 (cancelled)</option>
+          <option value="jul07">Jul 7, 2026</option>
           <option value="jun23">Jun 23, 2026</option>
           <option value="may12">May 12&ndash;26, 2026</option>
           <option value="apr27">Apr 27&ndash;May 12, 2026</option>
@@ -735,7 +833,7 @@ tr.ps-drag-over{border-top:2px solid #D64000!important}
   <div style="overflow-x:auto">
   <table class="ps-table">
     <colgroup><col style="width:180px"><col style="width:32px"><col style="width:100px"><col style="min-width:200px"><col style="min-width:180px"><col style="min-width:180px"><col style="min-width:150px"></colgroup>
-    <thead><tr><th>Milestone</th><th class="th-center">Health</th><th class="th-center">Status</th><th class="th-center">Current State</th><th class="th-center">Risks / Issues</th><th class="th-center">Next Steps</th><th class="th-center">Business Impact</th></tr></thead>
+    <thead><tr><th style="width:18%">Milestone</th><th class="th-center" style="width:6%">Health</th><th class="th-center" style="width:9%">Status</th><th class="th-center" style="width:20%">Current State</th><th class="th-center" style="width:16%">Risks / Issues</th><th class="th-center" style="width:18%">Next Steps</th><th class="th-center" style="width:13%">Business Impact</th></tr></thead>
     <tbody id="ps-tbody"></tbody>
   </table>
   </div>
@@ -825,107 +923,103 @@ tr.ps-drag-over{border-top:2px solid #D64000!important}
 </div><!-- /cont -->
 <script>
 var BASE='https://dev.azure.com/tr-content-and-research-systems/Public-records-content-development/_workitems/edit/';
-var CM={4:'#fecdd3',7:'#fecdd3',9:'#fed7aa',12:'#fed7aa',18:'#e9d5ff',20:'#e9d5ff',22:'#bbf7d0',26:'#bfdbfe',27:'#bbf7d0',31:'#fecdd3',32:'#99f6e4',41:'#fef08a',45:'#93c5fd',46:'#fef08a'};
-var TC={4:'#9f1239',7:'#9f1239',9:'#9a3412',12:'#9a3412',18:'#6b21a8',20:'#6b21a8',22:'#14532d',26:'#1e3a8a',27:'#14532d',31:'#9f1239',32:'#134e4a',41:'#78350f',45:'#1e3a8a',46:'#78350f'};
+var CM={4:'#fecdd3',7:'#fecdd3',9:'#fed7aa',12:'#fed7aa',22:'#e9d5ff',24:'#bbf7d0',27:'#bfdbfe',28:'#bbf7d0',31:'#fef08a',32:'#fef08a',35:'#99f6e4',36:'#e2e8f0'};
+var TC={4:'#9f1239',7:'#9f1239',9:'#9a3412',12:'#9a3412',22:'#6b21a8',24:'#14532d',27:'#1e3a8a',28:'#14532d',31:'#78350f',32:'#78350f',35:'#134e4a',36:'#374151'};
 var ROWS=[
   {id:1, e:'QA',  t:'Threshold Merge for Basis Content',s:'done',d:'Jan 27, 2026',o:'NPD/NER',a:'User Story 1448457',n:''},
   {id:2, e:'QA',  t:'Load full content set using v4.7 - qa',s:'done',d:'Feb 26, 2026',o:'Dev',a:'',n:''},
   {id:3, e:'QA',  t:'Run all non-basis content (200 records for each) against V4.8',s:'done',d:'May 22, 2026',o:'NER',a:'',n:'10 days.'},
-  {id:4, e:'QA',  t:'NPD Validation & Feedback V4.8 (Non-Basis verification)',s:'done',d:'Jun 15, 2026',o:'NPD',a:'',n:'5/27 - NPD indicates 6/15 date to complete. Conversation with NPD is in progress. NPD to document what is being validated. What is Delta?\n6/11 - Precision looks good. Recall - Orphan testing on-going. Few issues noted. Issues to be discussed with prod. Labs. Not a blocker.\n6/18 - Non-basis testing completed. Recall/Orphan - name tokenization, still issue. Content Sets that need more attention at the moment - Real property, DMV, Dockets, & others'},
-  {id:5, e:'QA',  t:'Complete Build out of Authority again. (v4.8) - New Snapping or Merging logic to handle Multi-Matches efficiently',s:'plan',d:'Jun 24, 2026',o:'NER',a:'Feature 1290619',n:'6/11 - Currently on track to meet timeline. Challenges noted, flag in case timelines can\'t be met\n6/18 - Currently in-progress. Should be completed by mid-next week. Testing mergining & super entities. BAHR will be kicked off today\n6/24 - BAHR issue fixed, analysis currently in progress for under Merge before running TUCS. Probably need till end of week to determine TUCS runs. Samples can still be shared for NPD review\n07/02 - TUCS should be completed today. Reviews for other basis content continue to stay in progress with NPD. So far the results/feedback look good.'},
-  {id:6, e:'QA',  t:'Review NPD testing plan for v4.8',s:'done',d:'Jun 19, 2026',o:'NPD',a:'',n:'See Note: Precision testing pulls 200 random entities at each confidence level to verify match accuracy, validate merges with conflicting SSN/DOB data, and flag anomalous super entities. Recall testing confirms that 200 standalone entities were correctly left unmerged.\n6/18 - Test plan already in place\n6/24: Samples for CCH/EQCH looking good so far. BAHR samples will be shared shortly'},
-  {id:7, e:'QA',  t:'NPD Validation & Feedback (Authority quality / Basis content) on V4.8',s:'plan',d:'Jun 30, 2026',o:'NPD',a:'',n:'Question for NPD: Do we need 20 days to verify Basis content again?\n6/24: Samples for CCH/EQCH looking good so far. BAHR samples will be shared shortly'},
-  {id:8, e:'QA',  t:'Review NPD testing plan for v6.0',s:'done',d:'Jul 3, 2026',o:'NPD',a:'',n:'See Note: Precision and Recall testing pulls 100-200 records per Content Set for review and confirmation of mapping setup. Also will review Delta files against old ERD Matches.\n6/18 - test plan in place\n6/24: Still on target. Focusing on BAHR Merge rules, which might push deliveries by a week'},
-  {id:9, e:'QA',  t:'Initial V6.0 Model Delivery (Non-Basis)',s:'done',d:'Jul 1, 2026',o:'Labs',a:'',n:'Summary by NPD by Jul 1\n7/2: Model was released June 30th.'},
-  {id:10,e:'QA',  t:'Workflow - Support Non Basis Prospective loading through Content Console (1 Content Set) (Listening to LTC) (Aircraft?)',s:'plan',d:'Jul 12, 2026',o:'GCO/NER',a:'Feature 1315869',n:'6/24 - LTC workflow currently in process - needs following up\n7/2 - Dependency on Active MQ migration Aug 1 for Prod LTC. QA-NER should be ready by Jul 12th'},
-  {id:11,e:'QA',  t:'Process non-Basis content (200/500 records for each ContentSet) using V6.0 against authority built with V4.8 model',s:'plan',d:'Jul 10, 2026',o:'NER',a:'Feature 1478100',n:'10 days.\n7/2 - Dependent on Authority Build, but trending to track'},
-  {id:12,e:'QA',  t:'NPD Validation & Feedback (Non-Basis) on V6.0',s:'plan',d:'Jul 30, 2026',o:'NPD/Product Testing',a:'',n:'6/18 - Recall/Orphan - name tokenization, still issue. Content Sets that need more attention at the moment - Real property, DMV, Dockets, & others\n7/2: Focus will be on validating tokenization, lower quality matches, ass. addresses'},
-  {id:13,e:'QA',  t:'Workflow - Rematch testing (functional validation with a small batch, ensuring Re)',s:'plan',d:'Jul 15, 2026',o:'NER',a:'Feature 1291076',n:''},
-  {id:14,e:'QA',  t:'Feature: Support capability for Full Content Set Reprocessing.',s:'plan',d:'Jul 30, 2026',o:'RA',a:'Feature 1511415',n:''},
-  {id:15,e:'QA',  t:'Feature: Transit Files - Ability to generate Transit files for warehouse consumption for all content sets',s:'plan',d:'Jul 31, 2026',o:'Assembly',a:'Epic 1457215',n:''},
-  {id:16,e:'QA',  t:'Workflow - Load Non Basis from TNI through Content Console (2 Content Sets) (Dependency on TNI loads to S3)',s:'plan',d:'Jul 31, 2026',o:'GCO/NER',a:'Feature 1436007',n:''},
-  {id:17,e:'QA',  t:'Workflow - Support Non Basis Prospective through Content Console (All Content Sets) (Listening to LTC)',s:'plan',d:'Jul 31, 2026',o:'GCO/NER',a:'Feature 1315869',n:''},
-  {id:18,e:'QA',  t:'New V6.1 model from Lab based on feed back from line no 9 (if needed) (Basis)',s:'plan',d:'Jul 20, 2026',o:'Labs',a:'',n:''},
-  {id:19,e:'QA',  t:'Complete Build out of Authority again if needed. (V6.1) - Based upon feedback from model v4.8 including Merge and Snap rules.',s:'plan',d:'Jul 31, 2026',o:'NER',a:'Feature 1478100',n:''},
-  {id:20,e:'QA',  t:'NPD Validation & Sign Off (Basis Content And Person Authority) V 6.1',s:'plan',d:'Aug 20, 2026',o:'NPD',a:'',n:'Question for NPD: Do we need 20 days to verify Basis content again? NPD will provide a report that will be signed off by all. (What is the Delta? TBC)'},
-  {id:21,e:'QA',  t:'Review NPD testing plan for v6.2',s:'plan',d:'Aug 1, 2026',o:'NPD',a:'',n:'NPD will provide a report that will be signed off by all. (What is the Delta? TBC)'},
-  {id:22,e:'QA',  t:'New V6.2 model from Lab based on feedback from line no 13 (Non-Basis)',s:'plan',d:'Aug 20, 2026',o:'Labs',a:'',n:''},
-  {id:23,e:'QA',  t:'Process non-Basis content (200/500 records for each) against V6.2 deliverable',s:'plan',d:'Aug 25, 2026',o:'NER',a:'Feature 1478100',n:'10 days.'},
-  {id:24,e:'QA',  t:'Feature: Transit Files - Automated comparison with Legacy.',s:'plan',d:'Aug 10, 2026',o:'Assembly',a:'Epic 1457215',n:''},
-  {id:25,e:'QA',  t:'Warehouse cutover to new Person Authority process finalized and tested.',s:'prog',d:'Aug 28, 2026',o:'Assembly/PA/Warehouse',a:'Feature 1473075',n:'Use Person Warehouse standby to test againt, and then restore to get back in sync. NOTE: These artifacts will drive the final cutover timelines and playbook.'},
-  {id:26,e:'QA',  t:'Application testing in Pre-Prod through Clear, Batch, S2S, Investigate, PR on Westlaw.',s:'plan',d:'Sep 1, 2026',o:'NPD',a:'',n:'Are there items that need to be removed from the application side. Confidence level threasholds need to be adjusted?'},
-  {id:27,e:'QA',  t:'NPD Validation & Sign Off (Everything) V 6.2',s:'plan',d:'Sep 15, 2026',o:'NPD',a:'',n:'20 days to validate'},
-  {id:28,e:'Prod',t:'Feature: Reprocessing of Basis Content from RA',s:'plan',d:'Sep 11, 2026',o:'RA',a:'Feature 1290494',n:'Find A feature for this\u2026'},
-  {id:29,e:'Prod',t:'V6.2 and all related code moved to Production',s:'plan',d:'Sep 17, 2026',o:'Dev',a:'Feature 1478100',n:''},
-  {id:30,e:'Prod',t:'Build out Production Person Authority Targeting reprocessing of all 4 basis contents. (RA, NER & PA activities only) V6.2',s:'plan',d:'Sep 29, 2026',o:'Dev Team',a:'Feature 1512011',n:''},
-  {id:31,e:'Prod',t:'NPD Validation?',s:'plan',d:'Oct 9, 2026',o:'NPD',a:'',n:'Question for NPD: Should have been all validated in QA, do we need to in Prod? Allocating 1 week.'},
-  {id:32,e:'Prod',t:'Loading Novus Collections to TNI - Non-Basis (S3)',s:'plan',d:'Oct 30, 2026',o:'Todd/TNI Team',a:'',n:'Need a story/Feature created.'},
-  {id:33,e:'Prod',t:'Setup Workflow - Non Basis Prospective (All Content Sets) (THIS IS NOT PROCESSING CONTENT)',s:'plan',d:'Oct 15, 2026',o:'GCO',a:'Feature 1490405',n:''},
-  {id:34,e:'Prod',t:'Setup Workflow - Dockets Prospective (THIS IS NOT PROCESSING CONTENT)',s:'plan',d:'Oct 15, 2026',o:'GCO',a:'Feature 1490405',n:''},
-  {id:35,e:'Prod',t:'Setup Workflow - Rematch (THIS IS NOT PROCESSING CONTENT)',s:'plan',d:'Oct 15, 2026',o:'GCO',a:'Feature 1436006',n:''},
-  {id:36,e:'Prod',t:'Setup Workflow - Update CCH, EQCH, BAHR and TUCS Prospective workflows (Match QA workflow add PA, etc..) (THIS IS NOT PROCESSING CONTENT)',s:'plan',d:'Oct 30, 2026',o:'GCO',a:'Feature 1512011',n:''},
-  {id:37,e:'Prod',t:'Workflow setup to support Non-Basis Retro loading',s:'plan',d:'Nov 13, 2026',o:'NER',a:'',n:''},
-  {id:38,e:'Prod',t:'Loading Novus Collections through TNI - Non-Basis - Loading to NER Tables',s:'plan',d:'Nov 13, 2026',o:'Todd/ NER',a:'Feature 1436007',n:''},
-  {id:39,e:'Prod',t:'Feature: Privacy Deletes for Non-Basis contents (Legally Obligated. Ensure we are deleting NER, PA & Assembly data)',s:'plan',d:'Nov 13, 2026',o:'NER/Assembly',a:'',n:'Need to add feature to support this to NER backlog.'},
-  {id:40,e:'Prod',t:'Feature: TRSS needed features',s:'plan',d:'Nov 13, 2026',o:'RA/Console',a:'',n:'Pending ongoing discussions led by Kurt'},
-  {id:41,e:'Prod',t:'Cutover - Start',s:'plan',d:'Oct 30, 2026',o:'\u2014',a:'',n:'Full Authority is ready'},
-  {id:42,e:'Prod',t:'Update Person Authority',s:'plan',d:'TBD',o:'\u2014',a:'',n:'(Are we updating Authority from September? We need to ensure it is current to match ERD)'},
-  {id:43,e:'Prod',t:'Pause Content Processing',s:'plan',d:'TBD',o:'\u2014',a:'',n:''},
-  {id:44,e:'Prod',t:'Update Warehouse, NEDS, Marts',s:'plan',d:'TBD',o:'\u2014',a:'',n:'Timeline is also dependent on POC. Sunitha/Andy\n6/24 - Functional test in QA done - worked. Larger testing is in plan, which needs fleshing out'},
-  {id:45,e:'Prod',t:'Warehouse ERD to NER cut-over',s:'plan',d:'Dec 10, 2026',o:'Dev Team',a:'Feature 1290494',n:'This is the process of mapping all existing ERD based relationships into new Person Authority relationships. This is not rematching of content.\n<span class=\"go-live\">&#x1F7E2; Go Live!</span>'},
-  {id:46,e:'Prod',t:'Cutover - Done',s:'plan',d:'Dec 31, 2026 11:59pm',o:'\u2014',a:'',n:''}
+  {id:4, e:'QA',  t:'NPD Validation & Feedback V4.8 (Non-Basis verification)',s:'done',d:'Jun 15, 2026',o:'NPD',a:'',n:'6/11 - Precision looks good. Recall - Orphan testing on-going. Few issues noted. Issues to be discussed with prod. Labs. Not a blocker.\n6/18 - Non-basis testing completed. Recall/Orphan - name tokenization, still issue. Content Sets that need more attention at the moment - Real property, DMV, Dockets, & others'},
+  {id:5, e:'QA',  t:'Complete Build out of Authority again. (v4.8) - New Snapping or Merging logic to handle Multi-Matches efficiently',s:'done',d:'Jun 24, 2026',o:'NER',a:'Feature 1290619',n:'07/02 - TUCS should be completed today. Reviews for other basis content continue to stay in progress with NPD. So far the results/feedback look good.\n07/08 - Investigating some entity issues, but the work flow as such is complete'},
+  {id:6, e:'QA',  t:'Review NPD testing plan for v4.8',s:'done',d:'Jun 19, 2026',o:'NPD',a:'',n:'See Note: Precision testing pulls 200 random entities at each confidence level to verify match accuracy, validate merges with conflicting SSN/DOB data, and flag anomalous super entities. Recall testing confirms that 200 standalone entities were correctly left unmerged.\n6/18 - Test plan already in place'},
+  {id:7, e:'QA',  t:'NPD Validation & Feedback (Authority quality / Basis content) on V4.8',s:'done',d:'Jul 14, 2026',o:'NPD',a:'',n:'7/16 - Dropped match/merging issues not a blocker at the moment but Critical. Current analysis underway\n7/23 - no issues with Super entities. Looks good on Precision'},
+  {id:8, e:'QA',  t:'Review NPD testing plan for v6.0',s:'done',d:'Jul 1, 2026',o:'NPD',a:'',n:'See Note: Precision and Recall testing pulls 100-200 records per Content Set for review and confirmation of mapping setup. Also will review Delta files against old ERD Matches.\n6/18 - test plan in place'},
+  {id:9, e:'QA',  t:'Initial V6.0 Model Delivery (Non-Basis)',s:'done',d:'Jul 1, 2026',o:'Labs',a:'',n:'6/24: Still on target. Focusing on BAHR Merge rules, which might push deliveries by a week\n7/2: Model was released June 30th.'},
+  {id:10,e:'QA',  t:'Workflow - Support Non Basis Prospective loading through Content Console (1 Content Set) (Listening to LTC) (Aircraft?)',s:'none',d:'\u2014',o:'\u2014',a:'\u2014',n:'Merged with ID19'},
+  {id:11,e:'QA',  t:'Process non-Basis content (200/500 records for each ContentSet) using V6.0 against authority built with V4.8 model',s:'done',d:'Aug 31, 2026',o:'NER',a:'Feature 1478100',n:'8/06 - Received a total of 47 content sets for reviews of date. NPD review in process.\n8/16 - Krishanu to confirm if all content sets have been provided'},
+  {id:12,e:'QA',  t:'NPD Validation & Feedback (Non-Basis) on V6.0',s:'done',d:'Aug 14, 2026',o:'NPD/Product Testing',a:'',n:'8/13 - Reported strong P&R results across (Precision approx. 30 & Recall 16) content sets. Signoff completed on 46 content sets.\n8/20 - Overall looks good. Note: Begin Basis review for 6.1 early next week'},
+  {id:13,e:'QA',  t:'Quality Gate: Will there be a new Non-Basis model needed?',s:'done',d:'Aug 14, 2026',o:'\u2014',a:'',n:'8/20 - a good Delta comparison between ERD/NER sys put in place. Will cont. to monitor/track as we progress. Quality updates will be provided on regular basis starting Sep until cutover in Oct.\n8/27 - will continue to monitor/track and report as we progress.'},
+  {id:14,e:'QA',  t:'Workflow - Rematch testing (functional validation with a small batch, ensuring Re)',s:'done',d:'Aug 31, 2026',o:'NER',a:'Feature 1291076',n:'8/27 - PA issue addressed. Review with GCO and acceptance testing pending next week.\n9/10 - Pin/Unpin is ready as well'},
+  {id:15,e:'QA',  t:'Feature: Support capability for Full Content Set Reprocessing.',s:'prog',d:'Sep 30, 2026',o:'RA/NER/UI',a:'Feature 1511415',n:'8/27 - Making progress with targeted Reprocessing. Currently on track to meet target date. NER scope of work identified, implementation in progress\n9/10 - Completed core reprocessing. Testing in progress. Targeted reprocessing, one change WIP. Should begin testing later next week'},
+  {id:16,e:'QA',  t:'Feature: Transit Files - Ability to generate Transit files for all content sets',s:'prog',d:'Sep 15, 2026',o:'Assembly',a:'Epic 1457215',n:'8/27 - Scoping out the test plan. Implementing changes discussed by next week.\n9/10 - Dist./Assembly work completed. Compare tool dev done. Test done for Compare tool. Changes needed for WH currently work on it.'},
+  {id:17,e:'QA',  t:'Feature: Transit Files - Generate Transit files to send to warehouse.',s:'prog',d:'Sep 25, 2026',o:'Distribution and Warehouse',a:'',n:'8/27 - WH integration in progress\n9/10 - Changes needed for WH currently In progress'},
+  {id:18,e:'QA',  t:'Workflow - Load Non Basis from TNI through Content Console (2 Content Sets) (Dependency on TNI loads to S3)',s:'done',d:'Aug 31, 2026',o:'GCO/RA',a:'Feature 1436007',n:'8/13 - Loading to S3 complete. On track\n8/20 - Loading completed. promoted to Novus in S stage'},
+  {id:19,e:'QA',  t:'Workflow - Support Non Basis Prospective through Content Console (All Content Sets) (Listening to LTC)',s:'prog',d:'Sep 15, 2026',o:'GCO/NER',a:'Feature 1315869',n:'8/27 - 90% INT done. Testing through LTC to begin today\n9/10 - INT integration completed, progressed 90% in QA. Connect NER QA to LTC post completion. Next steps connect NER to LTC prod.'},
+  {id:20,e:'QA',  t:'New V6.1 model from Lab based on feed back from line no 9 (if needed) (Basis)',s:'done',d:'Jul 29, 2026',o:'Labs',a:'',n:'7/23 - Working on new merge logic and new normalization\n8/06 - 6.1 released as of Monday, Aug 3rd.'},
+  {id:21,e:'QA',  t:'Complete Build out of Authority - Based upon feedback from model v4.8 including Merge and Snap rules - NOT 6.1, but is 6.0 with additional Pre and Post processing rules applied. (CCH x2, EQCH x1, BAHR x2, TUCS x1 - New FF from vendor.)',s:'prog',d:'Aug 28, 2026',o:'NER',a:'Feature 1478100',n:'8/27 - TUCS load kicked off as of yesterday.\n9/10 - Rerun for TUCS, pending changes (SSN blacklist) from Labs. Once changes are implemented, re-run will be initiated'},
+  {id:22,e:'QA',  t:'NPD Validation & Sign Off (Basis Content And Person Authority) V 6.1',s:'done',d:'Sep 4, 2026',o:'NPD',a:'',n:'9/3 - Review continues. Issues related to several Over Merge and Name mismatch examples are being investigated. Annotation review expected to close by Friday Sep 4th.\n9/10 - Over merging scenarios discussed with Labs. Changes will be made. But overall review can be closed.'},
+  {id:23,e:'QA',  t:'Review NPD testing plan for v6.2',s:'done',d:'Aug 1, 2026',o:'NPD',a:'',n:''},
+  {id:24,e:'QA',  t:'New V6.2 model from Lab based on feedback from line no 13 (Non-Basis)',s:'done',d:'Aug 28, 2026',o:'Labs',a:'',n:'8/20 - Per Claudia new model delivered by 8/28\n8/27 - v6.2 released as of Aug 25th - improved handling of ass. addresses, added country-gated state feature so a state cannot match across a known country boundary. New tokenizer was also released in addition to v6.2'},
+  {id:25,e:'QA',  t:'Process non-Basis content (200/500 records for each) against V6.2 deliverable',s:'prog',d:'Sep 18, 2026',o:'NER',a:'Feature 1478100',n:'9/10 - Review to begin early next week and will continue to report out issues'},
+  {id:26,e:'QA',  t:'Feature: Transit Files - Automated comparison with Legacy.',s:'prog',d:'Sep 21, 2026',o:'Assembly',a:'Epic 1457215',n:'8/27 - part of the overall test plan that\'s in progress\n9/10 - similar to ID16'},
+  {id:27,e:'QA',  t:'Warehouse cutover to new Person Authority process finalized and tested.',s:'prog',d:'Sep 9, 2026',o:'Assembly/PA/Warehouse',a:'Feature 1473075',n:'8/20 - WH has requested time to draft their strawman. Will be reviewing the WH plan 1st Sep. Will also review the overall cutover plan/timelines with leadership shortly. More to come.\n8/21 - Review plan with everyone 1st Sep. Looking into rollback'},
+  {id:28,e:'QA',  t:'Workflow - Support Dockets Prospective coming from GCS',s:'prog',d:'Sep 21, 2026',o:'GCO/NER',a:'Feature 1315869',n:'8/27 - Implementation phase.\n9/10 - under development'},
+  {id:29,e:'QA',  t:'Application testing in Pre-Prod through Clear, Batch, S2S, Investigate, PR on Westlaw.',s:'done',d:'Sep 1, 2026',o:'\u2014',a:'',n:'8/5 - No pre-prod application testing is planned however, Dana/Todd/Tom are working on an overall Transit file test plan. More update to follow.\n8/24 - Closing this item as this is no longer needed. The Transit file testing plan is tracked in IDs 16/17.'},
+  {id:30,e:'QA',  t:'NPD Validation & Sign Off (Everything) V 6.2',s:'plan',d:'Oct 2, 2026',o:'NPD',a:'',n:'20 days to validate\n8/26 - confirmed with Jim. Might still need the 20 day validation period since there are 75 content sets. Will probably use the automation developed by Herman & team for Annotation validation'},
+  {id:31,e:'Prod', t:'CA Drop Support',s:'prog',d:'Sep 15, 2026',o:'\u2014',a:'',n:'8/27 - TNI complete. TUCS testing remaining. Testing CA Drop in NER/PA in progress\n9/10 - Few scale fixes in progress. Targeting prod. next week'},
+  {id:32,e:'Prod', t:'Partner Loading Support',s:'prog',d:'TBD',o:'\u2014',a:'',n:'8/27 - On going meetings with smaller group. Identified work that might need to be done in RA/UI. RA has started design\n9/10 - RA currently working on building this out. Not high on priority list'},
+  {id:33,e:'Prod', t:'Feature: Reprocessing of Basis Content from RA',s:'plan',d:'Oct 8, 2026',o:'RA',a:'Feature 1511415',n:''},
+  {id:34,e:'Prod', t:'V6.2 and all related code moved to Production',s:'plan',d:'Oct 8, 2026',o:'Dev',a:'Feature 1478100',n:''},
+  {id:35,e:'Prod', t:'Loading Novus Collections to TNI - Non-Basis (S3) (All non-DROP content sets)',s:'prog',d:'Oct 30, 2026',o:'Todd/TNI Team',a:'',n:''},
+  {id:36,e:'Prod', t:'Cutover - Start',s:'plan',d:'Oct 30, 2026',o:'\u2014',a:'',n:'Full Authority is ready. Refer Cutover Plan tab.'}
 ];
 var GANTT=[
   {id:1, l:'Threshold Merge for Basis Content',s:0,e:0.9,st:'done'},
   {id:2, l:'Load full content set v4.7',s:1,e:2,st:'done'},
   {id:3, l:'Run non-basis content vs V4.8',s:2,e:4.7,st:'done'},
   {id:4, l:'NPD Validation V4.8 (Non-Basis)',s:4.5,e:5.5,st:'done'},
-  {id:5, l:'Build out Authority (v4.8)',s:5,e:5.75,st:'plan'},
+  {id:5, l:'Build out Authority (v4.8)',s:5,e:5.75,st:'done'},
   {id:6, l:'Review NPD test plan v4.8',s:5,e:5.65,st:'done'},
-  {id:7, l:'NPD Validation Authority quality V4.8',s:5,e:6,st:'plan'},
-  {id:8, l:'Review NPD test plan v6.0',s:5.5,e:6.1,st:'done'},
+  {id:7, l:'NPD Validation Authority quality V4.8',s:5,e:6.5,st:'done'},
+  {id:8, l:'Review NPD test plan v6.0',s:5.5,e:6.03,st:'done'},
   {id:9, l:'Initial V6.0 Model Delivery',s:6,e:6.03,st:'done'},
-  {id:10,l:'Workflow Non Basis Prospective (1 Set)',s:6.03,e:6.37,st:'plan'},
-  {id:11,l:'Process non-Basis content vs V6.0',s:6,e:6.33,st:'plan'},
-  {id:12,l:'NPD Validation (Non-Basis) V6.0',s:6,e:7,st:'plan'},
-  {id:13,l:'Workflow Rematch testing',s:6,e:6.5,st:'plan'},
-  {id:14,l:'Feature: Full Content Set Reprocessing',s:6,e:7,st:'plan'},
-  {id:15,l:'Feature: Transit Files (warehouse)',s:6,e:7.1,st:'plan'},
-  {id:16,l:'Workflow Load Non Basis from TNI (2 Sets)',s:5,e:7.1,st:'plan'},
-  {id:17,l:'Workflow Non Basis Prospective (All Sets)',s:5,e:7.1,st:'plan'},
-  {id:18,l:'New V6.1 model from Lab',s:6,e:6.7,st:'plan'},
-  {id:19,l:'Build out Authority (V6.1)',s:6,e:7.1,st:'plan'},
-  {id:20,l:'NPD Validation & Sign Off V6.1',s:7,e:7.7,st:'plan'},
-  {id:21,l:'Review NPD test plan v6.2',s:7,e:7.7,st:'plan'},
-  {id:22,l:'New V6.2 model from Lab',s:7,e:7.7,st:'plan'},
-  {id:23,l:'Process non-Basis content vs V6.2',s:7.5,e:7.85,st:'plan'},
-  {id:24,l:'Feature: Transit Files (Legacy comparison)',s:7,e:7.33,st:'plan'},
-  {id:25,l:'Warehouse cutover testing',s:4,e:7.9,st:'prog'},
-  {id:26,l:'Application testing Pre-Prod',s:8,e:9,st:'plan'},
-  {id:27,l:'NPD Sign Off (Everything) V6.2',s:8,e:8.5,st:'plan'},
-  {id:28,l:'Reprocessing Basis Content from RA',s:8.4,e:8.5,st:'plan'},
-  {id:29,l:'V6.2 code to Production',s:8.5,e:8.6,st:'plan'},
-  {id:30,l:'Build out Prod Person Authority',s:8.5,e:9,st:'plan'},
-  {id:31,l:'NPD Validation? (Prod)',s:9,e:9.3,st:'plan'},
-  {id:32,l:'Load Novus Collections to TNI (S3)',s:9.5,e:10,st:'plan'},
-  {id:33,l:'Setup Workflow Non Basis Prospective',s:9.5,e:9.6,st:'plan'},
-  {id:34,l:'Setup Workflow Dockets Prospective',s:9.5,e:9.6,st:'plan'},
-  {id:35,l:'Setup Workflow Rematch',s:9.5,e:9.6,st:'plan'},
-  {id:36,l:'Setup Workflow CCH/EQCH/BAHR/TUCS',s:9.5,e:10,st:'plan'},
-  {id:37,l:'Workflow Non-Basis Retro loading',s:10,e:10.5,st:'plan'},
-  {id:38,l:'Load Novus through TNI to NER Tables',s:10,e:10.5,st:'plan'},
-  {id:39,l:'Feature: Privacy Deletes (Non-Basis)',s:10,e:10.5,st:'plan'},
-  {id:40,l:'Feature: TRSS needed features',s:10,e:10.5,st:'plan'},
-  {id:41,l:'Cutover - Start',s:9.5,e:9.6,st:'plan'},
-  {id:42,l:'Update Person Authority',s:10,e:11,st:'plan'},
-  {id:43,l:'Pause Content Processing',s:10,e:11,st:'plan'},
-  {id:44,l:'Update Warehouse, NEDS, Marts',s:10,e:11,st:'plan'},
-  {id:45,l:'Warehouse ERD to NER cut-over',s:10,e:11.4,st:'plan'},
-  {id:46,l:'Cutover - Done',s:11.9,e:12,st:'plan'}
+  {id:10,l:'Workflow Non Basis Prospective (1 Set)',s:6.03,e:6.9,st:'plan'},
+  {id:11,l:'Process non-Basis content vs V6.0',s:6,e:8.0,st:'done'},
+  {id:12,l:'NPD Validation (Non-Basis) V6.0',s:6,e:7.5,st:'done'},
+  {id:13,l:'Quality Gate: New Non-Basis model?',s:6,e:7.5,st:'done'},
+  {id:14,l:'Workflow Rematch testing',s:6,e:8.0,st:'done'},
+  {id:15,l:'Feature: Full Content Set Reprocessing',s:6,e:9.0,st:'prog'},
+  {id:16,l:'Feature: Transit Files (all content sets)',s:6,e:8.5,st:'prog'},
+  {id:17,l:'Feature: Transit Files to Warehouse',s:6,e:8.85,st:'prog'},
+  {id:18,l:'Workflow Load Non Basis from TNI (2 Sets)',s:5,e:8.0,st:'done'},
+  {id:19,l:'Workflow Non Basis Prospective (All Sets)',s:5,e:8.0,st:'prog'},
+  {id:20,l:'New V6.1 model from Lab',s:6,e:6.97,st:'done'},
+  {id:21,l:'Build out Authority (v6.0 + rules)',s:7.15,e:7.9,st:'prog'},
+  {id:22,l:'NPD Validation & Sign Off V6.1',s:7.5,e:9.35,st:'done'},
+  {id:23,l:'Review NPD test plan v6.2',s:7.1,e:7.1,st:'done'},
+  {id:24,l:'New V6.2 model from Lab',s:7.5,e:7.9,st:'done'},
+  {id:25,l:'Process non-Basis content vs V6.2',s:8,e:9.15,st:'prog'},
+  {id:26,l:'Feature: Transit Files (Legacy comparison)',s:7.5,e:8.0,st:'prog'},
+  {id:27,l:'Warehouse cutover testing',s:4,e:9.3,st:'prog'},
+  {id:28,l:'Workflow Dockets Prospective (GCS)',s:8,e:8.7,st:'prog'},
+  {id:29,l:'Application testing Pre-Prod',s:8,e:9.0,st:'done'},
+  {id:30,l:'NPD Sign Off (Everything) V6.2',s:8,e:10.07,st:'plan'},
+  {id:31,l:'CA Drop Support',s:7.5,e:8.5,st:'prog'},
+  {id:32,l:'Partner Loading Support',s:7.5,e:11,st:'prog'},
+  {id:33,l:'Feature: Reprocessing Basis Content from RA',s:9.25,e:9.27,st:'plan'},
+  {id:34,l:'V6.2 code to Production',s:9.25,e:9.27,st:'plan'},
+  {id:35,l:'Load Novus Collections to TNI (S3)',s:9.5,e:10,st:'prog'},
+  {id:36,l:'Cutover - Start',s:9.97,e:10.0,st:'plan'},
+  {id:101,l:'Prework: Workflows Setup (IDs 1-15)',s:8.5,e:9.5,st:'plan'},
+  {id:102,l:'Cutover Start - Content Hold (Oct 16)',s:9.5,e:9.5,st:'plan'},
+  {id:103,l:'ERD Stop LTC Processing (Oct 21)',s:9.7,e:9.7,st:'plan'},
+  {id:104,l:'Full MRD/RRD/CDD Dump to Snowflake (Oct 26)',s:9.85,e:9.85,st:'plan'},
+  {id:105,l:'Person Authority Build out V6.2 (Oct 19 - Nov 4)',s:9.6,e:10.13,st:'plan'},
+  {id:106,l:'CCH Full Load & Rematch',s:9.6,e:9.85,st:'plan'},
+  {id:107,l:'EQCH Full Load & Rematch',s:9.85,e:10.0,st:'plan'},
+  {id:108,l:'BAHR Full Load & Rematch',s:10.0,e:10.1,st:'plan'},
+  {id:109,l:'TUCS Full Load & Rematch',s:10.1,e:10.35,st:'plan'},
+  {id:110,l:'NPD Validation (Nov 2-4)',s:10.03,e:10.13,st:'plan'},
+  {id:111,l:'Rollback Snapshot (Oct 26-29)',s:9.85,e:9.97,st:'plan'},
+  {id:112,l:'Warehouse Updates & Snaps (Nov 4-20)',s:10.13,e:10.65,st:'plan'},
+  {id:113,l:'Go-No-Go Decision (Nov 6)',s:10.2,e:10.2,st:'plan'},
+  {id:114,l:'Verification (Nov 17-18)',s:10.55,e:10.6,st:'plan'},
+  {id:115,l:'Enable Basis Publishing (Nov 17)',s:10.55,e:10.55,st:'plan'},
+  {id:116,l:'Enable Non-Basis Promote Workflows (Nov 20)',s:10.65,e:10.65,st:'plan'}
 ];
 
 function adoHtml(a){
-  if(!a)return '<span style="color:#94a3b8">&#8212;</span>';
+  if(!a)return '<span style="color:#94a3b8;display:block;text-align:center">&#8212;</span>';
   var re=/(User Story|Feature|Epic)\s+(\d+)/gi,out2=[],m;
   while((m=re.exec(a))!==null)out2.push('<a class="ado" href="'+BASE+m[2]+'" target="_blank">'+m[1]+' '+m[2]+'</a>');
   return out2.length?out2.join(''):'<span style="color:#64748b">'+a+'</span>';
@@ -933,12 +1027,14 @@ function adoHtml(a){
 function stHtml(s){
   if(s==='done')return '<span class="s-done">Completed</span>';
   if(s==='prog')return '<span class="s-prog">In Progress</span>';
+  if(s==='none')return '<span style="color:#94a3b8;display:block;text-align:center">&#8212;</span>';
+  if(s==='unplan')return '<span style="color:#dc2626;font-size:10px;font-weight:600">Unplanned</span>';
   return '<span class="s-plan">Planned</span>';
 }
 function envHtml(e){return e==='QA'?'<span class="eqa">QA</span>':'<span class="eprod">Prod</span>';}
 function rowBg(id){return CM[id]||'transparent';}
 function rowTc(id){return TC[id]||'inherit';}
-function noteHtml(n){return n?n.replace(/\n/g,'<br>'):'&#8212;';}
+function noteHtml(n){return n?n.replace(/\n/g,'<br>'):'<span style="color:#94a3b8;display:block;text-align:center">&#8212;</span>';}
 
 function goToRoadmap(id){
   document.querySelectorAll('.tab').forEach(function(b){b.classList.remove('on');});
@@ -954,6 +1050,14 @@ function goToRoadmap(id){
     }
   },40);
 }
+function goToWarehouse(){
+  document.querySelectorAll('.tab').forEach(function(b){b.classList.remove('on');});
+  document.querySelectorAll('.pane').forEach(function(p){p.classList.remove('on');});
+  document.querySelector('[data-tab="cutover"]').classList.add('on');
+  document.getElementById('tab-cutover').classList.add('on');
+  window.scrollTo(0,0);
+}
+
 function goToOverview(id){
   document.querySelectorAll('.tab').forEach(function(b){b.classList.remove('on');});
   document.querySelectorAll('.pane').forEach(function(p){p.classList.remove('on');});
@@ -969,26 +1073,40 @@ function buildOv(){
   var h='';
   ROWS.filter(function(r){return CM[r.id];}).forEach(function(r){
     var bg=rowBg(r.id),tc=rowTc(r.id),st='background:'+bg+';color:'+tc;
+    var isWh = r.id===36;
+    var clickFn = isWh
+      ? 'goToWarehouse()'
+      : 'goToRoadmap('+r.id+')';
+    var titleTxt = isWh ? 'View Cutover Plan' : 'View in Roadmap';
     h+='<tr id="ov-row-'+r.id+'">'
-      +'<td class="id" style="'+st+'"><span class="id-link" title="View in Roadmap" onclick="goToRoadmap('+r.id+')">'+r.id+'</span></td>'
-      +'<td style="'+st+';font-weight:600;cursor:pointer" title="View in Roadmap" onclick="goToRoadmap('+r.id+')">'+r.t+' <span style="font-size:9px;opacity:.5">&#8599;</span></td>'
-      +'<td style="'+st+'">'+r.d+'</td>'
+      +'<td class="id" style="'+st+'"><span class="id-link" title="'+titleTxt+'" onclick="'+clickFn+'">'+(r.id===36?'':r.id)+'</span></td>'
+      +'<td style="'+st+';font-weight:600;cursor:pointer" title="'+titleTxt+'" onclick="'+clickFn+'">'+r.t+' <span style="font-size:9px;opacity:.5">&#8599;</span></td>'
+      +'<td style="'+st+';text-align:center">'+r.d+'</td>'
       +'<td style="'+st+'">'+envHtml(r.e)+'</td>'
-      +'<td style="'+st+'">'+r.o+'</td>'
+      +'<td style="'+st+';text-align:center">'+r.o+'</td>'
       +'<td style="'+st+'"><span class="note">'+noteHtml(r.n)+'</span></td>'
       +'</tr>';
   });
   document.getElementById('ov-body').innerHTML=h;
 }
 
+var rmHideCompleted=false;
+function rmToggleCompleted(){
+  rmHideCompleted=!rmHideCompleted;
+  var btn=document.getElementById('rm-toggle-btn');
+  if(btn)btn.textContent=rmHideCompleted?'Show Completed':'Hide Completed';
+  document.querySelectorAll('#rm-body tr[data-status="done"]').forEach(function(r){
+    r.style.display=rmHideCompleted?'none':'table-row';
+  });
+}
 function buildRm(){
   var h='',curE=null,grpId=0,counts={QA:0,Prod:0};
   ROWS.forEach(function(r){counts[r.e]=(counts[r.e]||0)+1;});
   ROWS.forEach(function(r){
     if(r.e!==curE){
       curE=r.e;grpId++;
-      var title=r.e==='QA'?'QA Environment':'Production Environment & Cutover';
-      var sub=r.e==='QA'?'IDs 1\u201327 \u00b7 '+counts.QA+' rows':'IDs 28\u201346 \u00b7 '+counts.Prod+' rows';
+      var title=r.e==='QA'?'QA Environment':'Production Environment';
+      var sub=r.e==='QA'?'IDs 1\u201328 \u00b7 '+counts.QA+' rows':'IDs 29\u201336 \u00b7 '+counts.Prod+' rows';
       var secBg=r.e==='QA'?'#1e3a5f':'#123121';
       var secCls=r.e==='QA'?'sec-row':'sec-row sec-row-prod';
       h+='<tr class="'+secCls+'" id="hdr-'+grpId+'" onclick="toggleGrp('+grpId+')" style="background:'+secBg+'">'
@@ -996,14 +1114,14 @@ function buildRm(){
         +'</tr>';
     }
     var bg=rowBg(r.id),tc=rowTc(r.id),st='background:'+bg+';color:'+tc,bold=!!CM[r.id];
-    h+='<tr class="grp-'+grpId+'" id="rm-row-'+r.id+'">'
-      +'<td class="id" style="'+st+(bold?';font-weight:700':'')+'">'+( bold?'<span class="id-link" title="Back to Overview" onclick="goToOverview('+r.id+')">'+r.id+'</span>':r.id)+'</td>'
+    h+='<tr class="grp-'+grpId+'" id="rm-row-'+r.id+'" data-status="'+r.s+'">'
+      +'<td class="id" style="'+st+(bold?';font-weight:700':'')+'">'+( bold?'<span class="id-link" title="'+(r.id===36?'View Cutover Plan':'Back to Overview')+'" onclick="'+(r.id===36?'goToWarehouse()':'goToOverview('+r.id+')') +'">'+(r.id===36?'':r.id)+'</span>':(r.id===36?'':r.id))+'</td>'
       +'<td style="'+st+'">'+envHtml(r.e)+'</td>'
-      +'<td style="'+st+(bold?';font-weight:600;cursor:pointer':'')+'"'+(bold?' title="Back to Overview" onclick="goToOverview('+r.id+')"':'')+'>'+( bold?r.t+' <span style="font-size:9px;opacity:.5">&#8598;</span>':r.t)+'</td>'
-      +'<td style="'+st+'">'+r.d+'</td>'
-      +'<td style="'+st+'">'+r.o+'</td>'
-      +'<td style="'+st+'">'+stHtml(r.s)+'</td>'
-      +'<td style="'+st+'">'+adoHtml(r.a)+'</td>'
+      +'<td style="'+st+(bold?';font-weight:600;cursor:pointer':'')+'"'+(bold?' title="'+(r.id===36?'View Cutover Plan':'Back to Overview')+'" onclick="'+(r.id===36?'goToWarehouse()':'goToOverview('+r.id+')')+'\"':'')+'>'+( bold?r.t+' <span style="font-size:9px;opacity:.5">'+(r.id===36?'&#8599;':'&#8598;')+'</span>':r.t)+'</td>'
+      +'<td style="'+st+';text-align:center">'+r.d+'</td>'
+      +'<td style="'+st+';text-align:center">'+r.o+'</td>'
+      +'<td style="'+st+';text-align:center">'+stHtml(r.s)+'</td>'
+      +'<td style="'+st+'">'+( r.id===48 ? '<a href="javascript:void(0)" onclick="document.querySelectorAll(\'.tab\').forEach(function(b){b.classList.remove(\'on\')});document.querySelectorAll(\'.pane\').forEach(function(p){p.classList.remove(\'on\')});document.querySelector(\'[data-tab=warehouse]\').classList.add(\'on\');document.getElementById(\'tab-warehouse\').classList.add(\'on\')" style="color:#D64000;font-weight:700;text-decoration:underline;cursor:pointer">Postgres Warehouse Delivery Plan &#8599;</a>' : adoHtml(r.a) )+'</td>'
       +'<td style="'+st+'"><span class="note">'+noteHtml(r.n)+'</span></td>'
       +'</tr>';
   });
@@ -1110,8 +1228,8 @@ function buildGantt(){
     return out2;
   }
 
-  var qaRows=GANTT.filter(function(r){return r.id<=27;});
-  var prodRows=GANTT.filter(function(r){return r.id>27;});
+  var qaRows=GANTT.filter(function(r){return r.id<=28;});
+  var prodRows=GANTT.filter(function(r){return r.id>28;});
   var qaPreviews=[
     {label:'New V6.2 model from Lab',s:7,e:7.7,color:'#16a34a'},
     {label:'Application testing Pre-Prod',s:8,e:9,color:'#3b82f6'},
@@ -1122,8 +1240,11 @@ function buildGantt(){
     {label:'Warehouse ERD to NER cut-over',s:10,e:11.4,color:'#93c5fd'},
     {label:'Cutover',s:9.5,e:12,color:'#ef4444'}
   ];
-  h+=renderSection('QA \u2014 Basis Content & Model Development','Jan \u2013 Sep 2026 \u00b7 IDs 1\u201327',qaRows,'#1e3a5f',qaPreviews);
-  h+=renderSection('Prod \u2014 Production Deployment & Cutover','Sep \u2013 Dec 2026 \u00b7 IDs 28\u201346',prodRows,'#123121',prodPreviews);
+  h+=renderSection('QA \u2014 Basis Content & Model Development','Jan \u2013 Sep 2026 \u00b7 IDs 1\u201328',qaRows,'#1e3a5f',qaPreviews);
+  h+=renderSection('Prod \u2014 Production Deployment & Cutover','Sep \u2013 Dec 2026 \u00b7 IDs 29\u201336',prodRows,'#123121',prodPreviews);
+  var coRows=GANTT.filter(function(r){return r.id>=101;});
+  var coPreviews={};
+  h+=renderSection('Cutover \u2014 ERD to NER Execution Plan','Oct \u2013 Nov 2026 \u00b7 IDs 1\u201361',coRows,'#78350f',coPreviews);
   document.getElementById('gantt-rows').innerHTML=h;
 }
 
@@ -1148,6 +1269,11 @@ document.getElementById('tabs').addEventListener('click',function(e){
   document.querySelectorAll('.pane').forEach(function(p){p.classList.remove('on');});
   btn.classList.add('on');
   document.getElementById('tab-'+btn.dataset.tab).classList.add('on');
+
+  // Build cutover AFTER pane is visible so browser renders correctly
+  if(btn.dataset.tab==='cutover' && typeof buildCo==='function'){
+    setTimeout(function(){buildCo();},0);
+  }
 
   // Re-activate edit mode on the new tab if edit is on
   if(typeof PS_EDIT_MODE !== 'undefined' && PS_EDIT_MODE) {
@@ -1176,14 +1302,24 @@ var ALL_ITER={
   ],
 
   'jul07':[
-    {section:'Person Authority Build',name:'Basis Person Authority Build Up',sub:'',team:'NER',owner:'Krishanu Bhattacharya',health:'Green',status:'In Progress',iterLabel:'Jul 7, 2026 (current)',state:['Execution of the Basis/Authority build-up on V4.8 has completed with all 4 Basis Content being successfully merged. All issues identified during the process were resolved. NPD validations look promising'],risks:['Although authority quality looks good, there are a few extra entities in authority that are being investigated'],next:['NER working with Labs to tighten/loosen few more rules for merge before the next round of basis publishing. Meanwhile the PA will be used for ongoing content matching testing.'],impact:['Not at the moment'],link:''},
-    {section:'Person Authority Build',name:'Non-Basis People Matching/Grading',sub:'',team:'NER',owner:'Krishanu Bhattacharya',health:'Green',status:'In Progress',iterLabel:'Jul 7, 2026 (current)',state:['NER–LTC integration is functionally complete with integration to QA underway. Product validation for annotations from samples results look satisfactory.'],risks:['Dependency on Active MQ migration Aug 1 for Prod LTC. Nothing at this point. There is a dependency when NER-LTC goes to Prod, for LTC to be migrated to ActiveMQ.'],next:['Edge cases of NER–LTC integration will be tested. New 6.0 model will be integrated for matching.'],impact:['Not at the moment'],link:''},
-    {section:'Person Authority Build',name:'People Warehouse Integration & Transit Pipeline Readiness',sub:'',team:'NA',owner:'Tom Klein',health:'Green',status:'In Progress',iterLabel:'Jul 7, 2026 (current)',state:['Document Facet development to deliver load file to storage is complete. Testing for Basis/Non-Basis against onPrem is underway. Working with Distribution Service on delivering files to on-Prem for ingestion.','Development to create Transit files is wrapping up. Design for Distribution of files to downstream consumers will be finalized this week. Next-up is comparison with onPrem generated Transit files.','Entity Snapping POC - Initial process has been executed and verified in lower environments. Large scale Testing of process set to start this week to determine throughput and time needed for cutover.'],risks:['People Warehouse Exadata availability for testing. Utilizing PR22 for testing 7/6 thru 7/17. Coordinating with Postgres dev team.'],next:['Validation of DocFacet and Transit File output as compared to legacy outputted files.','POC to determine throughput to inform cutover timeline.'],impact:['Not at the moment'],link:''},
-    {section:'NPD',name:'NPD – Annotating Updates',sub:'',team:'NPD/NER',owner:'Jim Votel',health:'Green',status:'In Progress',iterLabel:'Jul 7, 2026 (current)',state:['Basis Content – Review of 4.8 in progress, Precision and Recall.','Non-Basis Content - Recall, continued discussions on name and address parsing issues (Tokenization).'],risks:['Recall – Continued Review of Issues noted above, Tokenization and Missed Matches.'],next:['Basis Content – 4.8 Model Precision Annotating Tasks to completion.','Basis Content – 4.8 Model Recall Annotating Tasks to completion.','Delta Comparison – In progress, ERD vs. Current Model, False Positives and new Matches.','Non-Basis Precision and Recall Annotating – 6.0 Model Review Tasks.','Review of Checklist for conversion to new pathway.','Opt-Out Annotating and Review as needed.'],impact:['Not at the moment'],link:''},
-    {section:'GCO',name:'GCO',sub:'',team:'GCO',owner:'Mohan Janakiraman',health:'Green',status:'In Progress',iterLabel:'Jul 7, 2026 (current)',state:[],risks:[],next:[],impact:[],link:''},
-    {section:'Labs',name:'Labs – Model V6',sub:'',team:'Labs',owner:'Claudia Schulz',health:'Green',status:'In Progress',iterLabel:'Jul 7, 2026 (current)',state:['Successfully delivered V6 matching model for non-basis content matching, which includes handling of associated addresses and estimated DOB, enabling more accurate matching.'],risks:['V6.1/6.2 delivery remains sensitive due to dependencies on authority build-up and annotation readiness, with emerging model refinement needs indicating timelines may be insufficient to achieve target quality.'],next:['Deliver revised name tokenizer (improved multi-person splitting and tokenization for ambiguous FN/LN). Improve name normalization (ensure only real AKAs are returned as normalized names), revisit address handling (post boxes and military addresses), and investigate FN/LN flips.'],impact:['Not at the moment'],link:''},
-    {section:'Labs',name:'Labs – Retraining Pipeline',sub:'',team:'Labs',owner:'Claudia Schulz',health:'Green',status:'In Progress',iterLabel:'Jul 7, 2026 (current)',state:['Ongoing PoC to move model training from AWS SageMaker to Snowflake'],risks:[],next:[],impact:[],link:''}
+    {section:'Person Authority Build',name:'Basis Person Authority Build Up',sub:'',team:'NER',owner:'Krishanu Bhattacharya',health:'Green',status:'In Progress',iterLabel:'Jul 7, 2026',state:['Execution of the Basis/Authority build-up on V4.8 has completed with all 4 Basis Content being successfully merged. All issues identified during the process were resolved. NPD validations look promising'],risks:['Although overall authority quality looks good, there are a few extra entities in authority that are being investigated.'],next:['Investigating the under-merging scenarios with the intent to resolve for the next load in August. NER working with Labs to tighten/loosen merge rules before the next round of basis publishing. Meanwhile the PA will be used for ongoing content matching testing.'],impact:['Not at the moment'],link:''},
+    {section:'Person Authority Build',name:'Non-Basis People Matching/Grading',sub:'',team:'NER',owner:'Krishanu Bhattacharya',health:'Green',status:'In Progress',iterLabel:'Jul 7, 2026',state:['NER\u2013LTC integration is functionally complete with integration to QA underway. Product validation for annotations from samples results look satisfactory.'],risks:[],next:['Additional LTC messaging needs to be accounted for, meeting with LTC week of 7/6 to identify what is needed. Additional edge cases of NER\u2013LTC integration.','New 6.0 model being integrated for matching.'],impact:['Not at the moment'],link:''},
+    {section:'Person Authority Build',name:'People Warehouse Integration & Transit Pipeline Readiness',sub:'',team:'NA',owner:'Tom Klein',health:'Green',status:'In Progress',iterLabel:'Jul 7, 2026',state:['Document Facet development to deliver load file to storage is complete. Testing for Basis/Non-Basis against onPrem is underway. Working with Distribution Service on delivering files to on-Prem for ingestion.','Development to create Transit files is wrapping up. Design for Distribution of files to downstream consumers will be finalized this week. Next-up is comparison with onPrem generated Transit files.','Entity Snapping POC - Initial process has been executed and verified in lower environments. Large scale Testing of process set to start this week to determine throughput and time needed for cutover.'],risks:['People Warehouse Exadata availability for testing. Utilizing PR22 for testing 7/6 thru 7/17. Coordinating with Postgres dev team.'],next:['Validation of DocFacet and Transit File output as compared to legacy outputted files.','POC to determine throughput to inform cutover timeline.'],impact:['Not at the moment'],link:''},
+    {section:'NPD',name:'NPD – Annotating Updates',sub:'',team:'NPD/NER',owner:'Jim Votel',health:'Green',status:'In Progress',iterLabel:'Jul 7, 2026',state:['Basis Content – Review of 4.8 in progress, Precision and Recall.','Non-Basis Content - Recall, continued discussions on name and address parsing issues (Tokenization).'],risks:['Recall – Continued Review of Issues noted above, Tokenization and Missed Matches.'],next:['Basis Content – 4.8 Model Precision Annotating Tasks to completion.','Basis Content – 4.8 Model Recall Annotating Tasks to completion.','Delta Comparison – In progress, ERD vs. Current Model, False Positives and new Matches.','Non-Basis Precision and Recall Annotating – 6.0 Model Review Tasks.','Review of Checklist for conversion to new pathway.','Opt-Out Annotating and Review as needed.'],impact:['Not at the moment'],link:''},
+    {section:'GCO',name:'GCO',sub:'',team:'GCO',owner:'Mohan Janakiraman',health:'Green',status:'In Progress',iterLabel:'Jul 7, 2026',state:[],risks:[],next:[],impact:[],link:''},
+    {section:'Labs',name:'Labs – Model V6',sub:'',team:'Labs',owner:'Claudia Schulz',health:'Green',status:'In Progress',iterLabel:'Jul 7, 2026',state:['Successfully delivered V6 matching model for non-basis content matching, which includes handling of associated addresses and estimated DOB, enabling more accurate matching.'],risks:['V6.1/6.2 delivery remains sensitive due to dependencies on authority build-up and annotation readiness, with emerging model refinement needs indicating timelines may be insufficient to achieve target quality.'],next:['Deliver revised name tokenizer (improved multi-person splitting and tokenization for ambiguous FN/LN). Improve name normalization (ensure only real AKAs are returned as normalized names), revisit address handling (post boxes and military addresses), and investigate FN/LN flips.'],impact:['Not at the moment'],link:''},
+    {section:'Labs',name:'Labs – Retraining Pipeline',sub:'',team:'Labs',owner:'Claudia Schulz',health:'Green',status:'In Progress',iterLabel:'Jul 7, 2026',state:['Ongoing PoC to move model training from AWS SageMaker to Snowflake'],risks:[],next:[],impact:[],link:''}
   ],
+  'aug04':[
+    {section:'Person Authority Build',name:'Basis Person Authority Build Up',sub:'',team:'All',owner:'Krishanu Bhattacharya',health:'Green',status:'In Progress',iterLabel:'Aug 4, 2026 (current)',state:['NER is integrating merge changes delivered by Labs.'],risks:['None at this time.'],next:['Load the new Authority Build Up and retest the updated merge logic.'],impact:['—'],link:''},
+    {section:'Person Authority Build',name:'People Warehouse Integration & Transit Pipeline Readiness',sub:'',team:'All',owner:'Tom Klein',health:'Green',status:'In Progress',iterLabel:'Aug 4, 2026 (current)',state:['\u2014'],risks:['\u2014'],next:['\u2014'],impact:['\u2014'],link:''},
+    {section:'Person Authority Build',name:'Non-Basis People Matching/Grading',sub:'',team:'NA',owner:'Krishanu Bhattacharya',health:'Green',status:'In Progress',iterLabel:'Aug 4, 2026 (current)',state:['LTC and NER architecture has been simplified, and NER is incorporating the changes. Annotations for 21 content types (v6.0) have been shared with Product for validation and feedback.'],risks:['None at this time.'],next:['Complete INT integration for LTC message promotion and load workflows, and complete LTC QA verification.'],impact:['—'],link:''},
+    {section:'Person Authority Build',name:'Rematch',sub:'',team:'All',owner:'Krishanu Bhattacharya',health:'Green',status:'In Progress',iterLabel:'Aug 4, 2026 (current)',state:['Completed integration and testing of the Content Console UI to NER API.','NER & PA integration is ongoing.'],risks:['No current risks or blockers.'],next:['Complete QA validation after the integration is done in INT.'],impact:['Not at the moment'],link:''},
+    {section:'NPD',name:'NPD - Annotating Updates',sub:'',team:'NPD',owner:'Jim Votel',health:'Green',status:'In Progress',iterLabel:'Aug 4, 2026 (current)',state:['V4.8 - Precision and Recall complete for Basis Testing and Non-Basis Testing. Critical issue identified - Valid Merges/Matches in Basis content being dropped after merge process. NER, PA, Labs, GCO and NPD aware of issue and investigation continues. Otherwise, Precision looks strong with minimal bad matches/false positives identified. Recall testing has revealed no significant missed matches.'],risks:['V4.8 Basis - Dropped Merge issue noted (critical).'],next:['6.0 Non-Basis Testing. Precision testing will focus on lower confidence ranges and the addition of source state information across certain content types. Recall Testing will focus on normalization and tokenization problems in name and address elements across certain content types including Real Property.','Continued Delta Testing - ERD vs. 4.8.'],impact:['Not at the moment'],link:''},
+    {section:'GCO',name:'GCO',sub:'',team:'GCO',owner:'Mohan Janakiraman',health:'Green',status:'In Progress',iterLabel:'Aug 4, 2026 (current)',state:[],risks:[],next:[],impact:[],link:''},
+    {section:'Labs',name:'Labs - Model V6',sub:'',team:'Labs',owner:'Claudia Schulz',health:'Green',status:'In Progress',iterLabel:'Aug 4, 2026 (current)',state:['Delivered improved name normalization and match-and-merge-logic for authority build-up.'],risks:['V6.1/6.2 delivery remains sensitive due to dependencies on authority build-up and annotation readiness, with emerging model refinement needs indicating timelines may be insufficient to achieve target quality.'],next:['Continue tokenization work and deliver model update to address the Pentagon/military address issue before the authority build next week.','Support full load execution once the fixed query succeeds, with pauses between batches for quick analysis to identify anything unexpected.'],impact:['Not at the moment'],link:''}
+  ],
+
   'may12':[
     {section:'Content Loading & Matching',name:'Basis Content Loading',sub:'Mid May',team:'GCO / RA / Assembly',owner:'Multiple teams',health:'Green',status:'Completed',
      state:['Publishing Workflows migrated to GCS - Complete. Successfully migrated four vendor content sets off the legacy PRPW pathway onto the new GCS workflows.','All record types (updates, deletes, death records, privacy processing) functioning as expected and confirmed picked up by ERD.','Experian Credit Header (CCH)','Equifax Credit Header (EQCH)','Bank Account Header Records (BAHR)','TransUnion Credit Services (TUCS) - In process as of 5/7'],
@@ -1300,12 +1436,19 @@ var ALL_ITER={
   ]
 };
 
-var PS_ROWS=ALL_ITER['jul07']||ALL_ITER['jun23']||ALL_ITER['may12'];
+var LOCKED_ITERS = ['jul07','jul21','aug04']; // iterations where edit buttons are hidden
+var PS_ROWS=ALL_ITER['aug04']||ALL_ITER['jul07']||ALL_ITER['jun23']||ALL_ITER['may12'];
+// Apply lock on initial load
+document.addEventListener('DOMContentLoaded', function(){
+  var tbl = document.getElementById('ps-tbody');
+  var wrap = tbl ? tbl.closest('table') : null;
+  if (wrap && LOCKED_ITERS && LOCKED_ITERS.indexOf('aug04') !== -1) wrap.classList.add('ps-iter-locked');
+});
 
 function psChangeIteration(val){
   if(!ALL_ITER[val])ALL_ITER[val]=[];
   PS_ROWS=ALL_ITER[val];
-  var labels={'may12':'May 12\u201326, 2026','apr27':'Apr 27\u2013May 12, 2026','apr14':'Apr 14\u201327, 2026','mar31':'Mar 31\u2013Apr 14, 2026','mar17':'Mar 17\u201331, 2026','mar03':'Mar 03\u201317, 2026','feb17':'Feb 17\u2013Mar 03, 2026','jun23':'Jun 23, 2026','jul07':'Jul 7, 2026 (current)','jul21':'Jul 21, 2026'};
+  var labels={'may12':'May 12\u201326, 2026','apr27':'Apr 27\u2013May 12, 2026','apr14':'Apr 14\u201327, 2026','mar31':'Mar 31\u2013Apr 14, 2026','mar17':'Mar 17\u201331, 2026','mar03':'Mar 03\u201317, 2026','feb17':'Feb 17\u2013Mar 03, 2026','jun23':'Jun 23, 2026','jul07':'Jul 7, 2026','jul21':'Jul 21, 2026 (cancelled)'};
   var il=document.getElementById('ps-iter-label');
   if(il)il.textContent=labels[val]||val;
   PS_TEMPLATE=null;
@@ -1315,6 +1458,7 @@ function psChangeIteration(val){
 function psBullets(arr){
   var filtered=arr?arr.filter(function(b){return b&&b.trim();}) :[];
   if(!filtered.length)return '<span style="color:#94a3b8;display:block;text-align:center">&#8212;</span>';
+  if(filtered.length===1&&(filtered[0]==='\u2014'||filtered[0]==='&mdash;'))return '<span style="color:#94a3b8;display:block;text-align:center">&#8212;</span>';
   return '<ul class="ps-bullets">'+filtered.map(function(b){return '<li>'+b+'</li>';}).join('')+'</ul>';
 }
 function psHealthDot(h){
@@ -1334,6 +1478,7 @@ function psBuildTable(data){
   var html='',lastSec=null;
   var iterSel=document.getElementById('ps-iteration');
   var iterLabel=iterSel?iterSel.options[iterSel.selectedIndex].text:'May 12\u201326, 2026';
+  var iterVal=iterSel?iterSel.value:'jun23';
 
   // Template row renders at top of its target section
   var TMPL_RENDERED=false;
@@ -1392,7 +1537,7 @@ function psBuildTable(data){
   });
 
   // Render section collapsibles
-  var PS_SECTIONS=['Basis Content Loading','Person Authority Build','NPD','Labs','GCO'];
+  var PS_SECTIONS=['Person Authority Build','NPD','GCO','Labs'];
   // Only inject empty built-in sections for upcoming iterations (not may12 which has its own sections)
   var UPCOMING_VALS=['jun23','jul07','jul21','aug04','aug18','sep01','sep15','sep29','oct13','oct27','nov10','nov24','dec08','dec22'];
   var curIterVal2=iterSel?iterSel.value:'may12';
@@ -1475,16 +1620,17 @@ function psBuildTable(data){
         }
       }
       rowCounter++;
-      var nameHtml='<span class="ps-drag-handle" onmousedown="psDragRowStart(event,'+idx+')">&#8942;&#8942;</span><div class="ps-name" style="display:inline-block">'+(isPast?'&#128274; ':'')+row.name+'</div>';
+      var nameHtml='<div style="display:flex;align-items:flex-start;gap:4px"><span class="ps-drag-handle" onmousedown="psDragRowStart(event,'+idx+')" style="flex-shrink:0;margin-top:2px">&#8942;&#8942;</span><div style="flex:1;min-width:0"><div class="ps-name">'+(isPast?'&#128274; ':'')+row.name+'</div>';
       if(row.sub)nameHtml+='<div class="ps-sub">'+row.sub+'</div>';
-      nameHtml+='<span class="ps-iter">'+(row.iterLabel||iterLabel)+'</span>';
+      if(!isPast && LOCKED_ITERS.indexOf(iterVal||'') === -1) nameHtml+='<span class="ps-iter">'+(row.iterLabel||iterLabel)+'</span>';
+      nameHtml+='</div></div>';
       html+='<tr data-sec="'+secId+'" data-section="'+sec+'" data-row-idx="'+idx+'" style="'+'">'
         +'<td>'+nameHtml+'<div class="ps-row-actions" style="margin-top:6px">'
         +'<button class="ps-row-edit-btn" data-edit-idx="'+idx+'">&#9999; Edit</button>'
         +'<button class="ps-row-remove-btn" data-remove-idx="'+idx+'">&#128465; Remove</button>'
         +'</div></td>'
         +'<td data-pcol="health" style="text-align:center">'+psHealthDot(row.health)+'</td>'
-        +'<td data-pcol="status">'+psStatusBadge(row.status)+'</td>'
+        +'<td data-pcol="status" style="text-align:center">'+psStatusBadge(row.status)+'</td>'
         +'<td data-pcol="state">'+psBullets(row.state)+'</td>'
         +'<td data-pcol="risks">'+psBullets(row.risks)+'</td>'
         +'<td data-pcol="next">'+psBullets(row.next)+'</td>'
@@ -1767,7 +1913,7 @@ function psHideBanner(){
 
 
 
-// ── EDIT MODE + OFFLINE CACHE ─────────────────────────────────────────────────
+// -- EDIT MODE + OFFLINE CACHE -------------------------------------------------
 var PS_EDIT_MODE = false;
 var PS_DIRTY_ROWS = {};
 var CACHE_KEY = 'pab_offline_cache_v1';
@@ -1808,7 +1954,7 @@ function psClearOfflineCache() {
   if (ind) { ind.textContent = '\uD83D\uDCBE No local cache'; ind.classList.remove('cached'); }
 }
 
-// ── EDIT MODE TOGGLE ───────────────────────────────────────────────────────────
+// -- EDIT MODE TOGGLE -----------------------------------------------------------
 
 // Tab edit activation handled in tab click event listener
 
@@ -1845,7 +1991,7 @@ function psPptxDownload(){
 
   var NAVY='1e3a5f', ORANGE='D64000', GREEN='123121', WHITE='FFFFFF', LGRAY='f1f5f9', MGRAY='64748b';
 
-  // ── TITLE SLIDE ──────────────────────────────────────────────────────────────
+  // -- TITLE SLIDE --------------------------------------------------------------
   var slide1=pptx.addSlide();
   slide1.background={color:NAVY};
   slide1.addText('Thomson Reuters  ·  NuCLEAR  ·  Risk & Fraud  ·  PM: Sarah Roy',{x:0.5,y:0.4,w:12,h:0.3,fontSize:10,color:'93c5fd',bold:false});
@@ -1856,7 +2002,7 @@ function psPptxDownload(){
   slide1.addShape(pptx.ShapeType.rect,{x:0.5,y:4.5,w:1.2,h:0.08,fill:{color:ORANGE},line:{color:ORANGE}});
   slide1.addText('Generated '+today,{x:0.5,y:4.7,w:6,h:0.3,fontSize:11,color:'93c5fd'});
 
-  // ── SUMMARY SLIDE ─────────────────────────────────────────────────────────────
+  // -- SUMMARY SLIDE -------------------------------------------------------------
   var slide2=pptx.addSlide();
   slide2.background={color:WHITE};
   slide2.addText('People Authority Build  —  Summary',{x:0.5,y:0.3,w:12,h:0.5,fontSize:20,bold:true,color:NAVY});
@@ -1889,7 +2035,7 @@ function psPptxDownload(){
   });
   slide2.addText(iterLabel,{x:0.5,y:7.3,w:12,h:0.25,fontSize:9,color:MGRAY,align:'right'});
 
-  // ── DETAIL SLIDES BY SECTION ──────────────────────────────────────────────────
+  // -- DETAIL SLIDES BY SECTION --------------------------------------------------
   var sections={},sectionOrder=[];
   PS_ROWS.forEach(function(r){
     var sec=r.section||'General';
@@ -1966,16 +2112,16 @@ function psPptxDownload(){
 }
 
 
-// ── ROADMAP EDIT MODE ─────────────────────────────────────────────────────────
+// -- ROADMAP EDIT MODE ---------------------------------------------------------
 var RM_STATUS_OPTS = [{v:'done',l:'Completed'},{v:'prog',l:'In Progress'},{v:'plan',l:'Planned'}];
 
 
 
 
-// ── RISKS & ISSUES EDIT MODE ──────────────────────────────────────────────────
+// -- RISKS & ISSUES EDIT MODE --------------------------------------------------
 
 
-// ── PS EDIT PANEL ─────────────────────────────────────────────────────────────
+// -- PS EDIT PANEL -------------------------------------------------------------
 var PEP_IDX = -1;
 var PEP_NEW_SECTION = 'Person Authority Build';
 
@@ -2222,7 +2368,7 @@ function psSectionClick(e, secId) {
   togglePsSec(secId);
 }
 
-// ── MOUSE DRAG ENGINE ─────────────────────────────────────────────────────────
+// -- MOUSE DRAG ENGINE ---------------------------------------------------------
 var _pd = null; // active drag state
 
 function psDragSecStart(e, sec) {
@@ -2373,7 +2519,7 @@ function psInitDrag() {
   });
 }
 
-// ── USER IDENTITY ─────────────────────────────────────────────────────────────
+// -- USER IDENTITY -------------------------------------------------------------
 var PS_USER_NAME = localStorage.getItem('pab_user_name') || '';
 
 function psInitUserName() {
@@ -2419,7 +2565,7 @@ function psHideEditingBanner() {
   if (banner) banner.classList.remove('show');
 }
 
-// ── GITHUB-BASED EDIT LOCKING ────────────────────────────────────────────────
+// -- GITHUB-BASED EDIT LOCKING ------------------------------------------------
 var PS_LOCK_TIMEOUT = 120000; // 2 min auto-expire
 var PS_LOCK_INTERVAL = null;
 var PS_LOCK_FILE = 'lock.json';
@@ -2484,7 +2630,213 @@ function psCheckLockBeforeSave() {
 
 // Release lock on page close
 window.addEventListener('beforeunload', function() { psReleaseLock(); });
-buildOv();buildRm();buildGantt();psLoadOfflineCache();psBuildTable(PS_ROWS);
+
+// -- CUTOVER PLAN DATA --
+var CO_ROWS=[
+  {id:'',  o:'Operations',      t:'Pre-Plan for content loading with Q4 with Operations team',                                                                    s:'plan',    d:'Sep 15, 2026',  a:'',                n:'Determine the content timeline for Q3 to ensure that loading is tappered, such that Basis plan is understood, and that Non-Basis processing through Warehouse completes when needed to limit outage.', sec:'Pre-Plan'},
+  {id:1,  o:'',               t:'Prework - Content/Workflow Setup',                                                                                                s:'plan',    d:'Oct 12, 2026',  a:'',                n:'',           sec:'Prework - Content/Workflow Setup'},
+  {id:2,  o:'GCO',            t:'Setup Workflow - Update CCH, EQCH, BAHR and TUCS Prospective workflows to include NER with Matching, Person Authority, Assembly, and Distribution (DocFacets, Forensic, Relationships) and Activities to do matching. (THIS IS NOT PROCESSING CONTENT)', s:'plan', d:'Oct 30, 2026', a:'Feature 1512011', n:'', sec:'Prework - Content/Workflow Setup'},
+  {id:3,  o:'GCO',            t:'Setup Workflow - Non Basis Prospective (All Content Sets) (THIS IS NOT PROCESSING CONTENT)',                                      s:'plan',    d:'Oct 15, 2026',  a:'Feature 1490405', n:'', sec:'Prework - Content/Workflow Setup'},
+  {id:4,  o:'GCO',            t:'Setup Workflow - Dockets Prospective (THIS IS NOT PROCESSING CONTENT)',                                                          s:'plan',    d:'Oct 15, 2026',  a:'Feature 1490405', n:'', sec:'Prework - Content/Workflow Setup'},
+  {id:5,  o:'GCO',            t:'Setup Workflow - Rematch (THIS IS NOT PROCESSING CONTENT)',                                                                      s:'plan',    d:'Oct 15, 2026',  a:'Feature 1436006', n:'', sec:'Prework - Content/Workflow Setup'},
+  {id:6,  o:'GCO',            t:'Setup Workflow - Reprocessing (THIS IS NOT PROCESSING CONTENT) (1 per content)',                                                 s:'plan',    d:'Oct 15, 2026',  a:'',                n:'', sec:'Prework - Content/Workflow Setup'},
+  {id:7,  o:'NER',            t:'Workflow setup to support PR Non-Basis & Dockets Retro loading - Populating NER tables with TNI data.',                          s:'plan',    d:'Nov 13, 2026',  a:'',                n:'', sec:'Prework - Content/Workflow Setup'},
+  {id:8,  o:'GCO/NER',        t:'LTC Load Message Workflow - 1 Workflow',                                                                                         s:'plan',    d:'Oct 15, 2026',  a:'',                n:'', sec:'Prework - Content/Workflow Setup'},
+  {id:9,  o:'GCO/NER',        t:'LTC Promote Message Workflow - 1 Per Entity Type (Disabled/Paused)',                                                             s:'plan',    d:'Oct 15, 2026',  a:'',                n:'', sec:'Prework - Content/Workflow Setup'},
+  {id:10, o:'GCO/NER',        t:'LTC Rollback and Reset Workflow - 1 Workflow',                                                                                   s:'plan',    d:'Oct 15, 2026',  a:'',                n:'', sec:'Prework - Content/Workflow Setup'},
+  {id:11, o:'—',         t:'—',                                                                                                                          s:'dash',    d:'',              a:'',                n:'',           sec:'Prework - Content/Workflow Setup'},
+  {id:12, o:'NER',            t:'LTC Subscriptions setup for NER',                                                                                                s:'plan',    d:'Oct 15, 2026',  a:'',                n:'', sec:'Prework - Content/Workflow Setup'},
+  {id:13, o:'Todd/NER',       t:'Loading Novus Collections through TNI - Non-Basis - Loading to NER Tables',                                                      s:'plan',    d:'Nov 13, 2026',  a:'Feature 1436007', n:'8/20 - This should align with when we start the cutover. When we pause publishing for 1 week to populate TNI. Setup LTC listeners, and then resume non-basis processing.', sec:'Prework - Content/Workflow Setup'},
+  {id:14, o:'NER/Assembly',   t:'Feature: Privacy Deletes for Non-Basis contents (Legally Obligated. Ensure we are deleting NER, PA & Assembly data)',            s:'plan',    d:'Nov 13, 2026',  a:'',                n:'Need to add feature to support this to NER backlog. 8/20 - Need to follow-up with Sunitha, do we need to update our SF tables? Do we have to during Cutover.', sec:'Prework - Content/Workflow Setup'},
+  {id:15, o:'RA/Console',     t:'Feature: TRSS needed features',                                                                                                  s:'plan',    d:'Nov 13, 2026',  a:'',                n:'Pending ongoing discussions led by Kurt', sec:'Prework - Content/Workflow Setup'},
+  {id:16, o:'',               t:'Cutover - Start - Content Hold',                                                                                                 s:'plan',    d:'Oct 16, 2026',  a:'',                n:'Full Authority is ready', sec:'Cutover - Start - Content Hold'},
+  {id:17, o:'GCO',            t:'Public Records Basis content Publishing is stopped until cutover is completed. We want no updates to be occurring as we create our authority, map to ERD and we cutover.', s:'plan', d:'Oct 16, 2026', a:'', n:'\nBasis Content Update frequency: CCH, BAHR and TUCS are all monthly updates. EQCH is Weekly. CCH - 16th. TUCS - 22nd. BAHR - ??', sec:'Cutover - Start - Content Hold'},
+  {id:18, o:'',               t:'Public Records Non-Basis content publishing continues to publish to Novus, but not to Warehouses/Marts (Option B)',               s:'na',      d:'',              a:'',                n:'Publish to Novus maintain Doc currency. Relationships, DocFacets and Forensic logic will become stale.', sec:'Cutover - Start - Content Hold'},
+  {id:19, o:'',               t:'Dockets Publishing (aligns with option B)',                                                                                       s:'na',      d:'',              a:'',                n:'Publish to Novus maintain Doc currency. Ingest into NER. Relationships will become stale.\nIncluding the Weekend this is 5 days for PRPW to drain. Enough?', sec:'Cutover - Start - Content Hold'},
+  {id:20, o:'',               t:'ERD Stop processing new message from LTC (No loads can be pending for ERD)',                                                     s:'plan',    d:'Oct 23, 2026',  a:'',                n:'Dependency: 12. This would stop sending non-basis to ERD earlier to allow ERD to processes GCS only (Basis) to help make ERD drain faster.', sec:'Cutover - Start - Content Hold'},
+  {id:21, o:'ERD/NER',        t:'ERD Stop processing new message from Distribution (No loads can be pending for ERD)',                                            s:'plan',    d:'Oct 21, 2026',  a:'',                n:'Dependency: 12, 13. ', sec:'Cutover - Start - Content Hold'},
+  {id:22, o:'NER/PA',         t:'Perform full dump of MRD & RRD & CDD into Snowflake',                                                                           s:'plan',    d:'Oct 26, 2026',  a:'',                n:'This can be run in parallel in the beginning but not loading to PA in the mapping tables.', sec:'Cutover - Start - Content Hold'},
+  {id:23, o:'NER/PA',         t:'Get the Editorial Pin/Unpin corrections from ERD and load to NER',                                                               s:'plan',    d:'Oct 26, 2026',  a:'',                n:'', sec:'Cutover - Start - Content Hold'},
+  {id:24, o:'',               t:'Person Authority Build out (V6.2)',                                                                                               s:'plan',    d:'',   a:'',                n:'', sec:'Person Authority Build out (V6.2)'},
+  {id:25, o:'Tech',           t:'CCH full load for Person Authority - Reprocessing with Full Mode',                                                               s:'plan',    d:'Oct 19, 2026',  a:'',                n:'Only RA-CORE, NER, and PA - no Assembly', sec:'Person Authority Build out (V6.2)'},
+  {id:26, o:'Tech',           t:'Counts Validation, records processed, entities created. - PowerBi reports',                                                      s:'plan',    d:'',              a:'',                n:'', sec:'Person Authority Build out (V6.2)'},
+  {id:27, o:'',           t:'CCH Rematch',                                                                                                                    s:'plan',    d:'',              a:'',                n:'NER, and PA - no RA or Assembly', sec:'Person Authority Build out (V6.2)'},
+  {id:28, o:'',           t:'Counts Validation, records processed, entities created.',                                                                        s:'plan',    d:'',              a:'',                n:'', sec:'Person Authority Build out (V6.2)'},
+  {id:29, o:'',           t:'EQCH full load for Person Authority - Reprocessing with Full Mode',                                                              s:'plan',    d:'',              a:'',                n:'Only RA, NER, and PA - no Assembly', sec:'Person Authority Build out (V6.2)'},
+  {id:30, o:'',           t:'Counts Validation, records processed, entities created. - PowerBi reports',                                                      s:'plan',    d:'',              a:'',                n:'', sec:'Person Authority Build out (V6.2)'},
+  {id:31, o:'',           t:'EQCH Rematch',                                                                                                                   s:'plan',    d:'',              a:'',                n:'NER, and PA - no RA or Assembly', sec:'Person Authority Build out (V6.2)'},
+  {id:32, o:'',           t:'Counts Validation, records processed, entities created. - PowerBi reports',                                                      s:'plan',    d:'',              a:'',                n:'', sec:'Person Authority Build out (V6.2)'},
+  {id:33, o:'',               t:'BAHR full load for Person Authority - Reprocessing with Full Mode',                                                              s:'plan',    d:'',              a:'',                n:'Only RA, NER, and PA - no Assembly', sec:'Person Authority Build out (V6.2)'},
+  {id:34, o:'',               t:'Counts Validation, records processed, entities created. - PowerBi reports',                                                      s:'plan',    d:'',              a:'',                n:'', sec:'Person Authority Build out (V6.2)'},
+  {id:35, o:'',               t:'BAHR Rematch',                                                                                                                   s:'plan',    d:'',              a:'',                n:'NER, and PA - no RA or Assembly', sec:'Person Authority Build out (V6.2)'},
+  {id:36, o:'',               t:'Counts Validation, records processed, entities created. - PowerBi reports',                                                      s:'plan',    d:'',              a:'',                n:'', sec:'Person Authority Build out (V6.2)'},
+  {id:37, o:'',               t:'TUCS full load for Person Authority - Reprocessing with Full Mode',                                                              s:'plan',    d:'',              a:'',                n:'Only RA, NER, and PA - no Assembly', sec:'Person Authority Build out (V6.2)'},
+  {id:38, o:'',               t:'Counts Validation, records processed, entities created. - PowerBi reports',                                                      s:'plan',    d:'',              a:'',                n:'', sec:'Person Authority Build out (V6.2)'},
+  {id:39, o:'',               t:'TUCS Rematch',                                                                                                                   s:'plan',    d:'',              a:'',                n:'NER, and PA - no RA or Assembly', sec:'Person Authority Build out (V6.2)'},
+  {id:40, o:'Tech',               t:'Counts Validation, records processed, entities created. - PowerBi reports',                                                      s:'plan',    d:'Nov 2, 2026',   a:'',                n:'', sec:'Person Authority Build out (V6.2)'},
+  {id:41, o:'NPD',            t:'NPD Validation?',                                                                                                                s:'plan',    d:'Nov 4, 2026',   a:'',                n:'Question for NPD: Should have been all validated in QA, do we need to in Prod? Allocating 1 week.', sec:'NPD Validation?'},
+  {id:42, o:'',               t:'Rollback Snapshot',                                                                                                              s:'plan',    d:'',  a:'',                n:'', sec:'Rollback Snapshot'},
+  {id:43, o:'Lisa, Sean, Curtis', t:'Rollback - Ensure all data processed through the warehouses',                                                               s:'planning',d:'Oct 26, 2026',  a:'',                n:'', sec:'Rollback Snapshot'},
+  {id:44, o:'Lisa, Sean, Curtis', t:'Rollback - Take Snapshots. Need to flesh out this plan in more detail. - Lisa/Curtis. Ask Oracle to get a backup of PR21 and DMs both Oracle and Postgres. Get a Schema level backup of Clear People DM. Backup: 2 days. Restore (if needed): Will likely take a week. NOTE: TRSS will need to redo history removal requests that occurred during cutover.', s:'planning', d:'Oct 29, 2026', a:'', n:'Dependency: 21 - ERD Stop listening', sec:'Rollback Snapshot'},
+  {id:45, o:'GCO',            t:'Rollback - NEDS: Increase the Novus stages from 0 to 1 (Maybe 2), for accommodating rollback.',                                  s:'planning',d:'',             a:'',                n:'', sec:'Rollback Snapshot'},
+  {id:46, o:'GCO',            t:'Rollback - NEDS: Get last PIT for NEDS and HV-NEDS',                                                                            s:'planning',d:'',             a:'',                n:'How many PITS do we need to maintain? 2 versions.', sec:'Rollback Snapshot'},
+  {id:47, o:'',               t:'Warehouse updates',                                                                                                              s:'plan',    d:'Nov 2, 2026',             a:'',                n:'', sec:'Warehouse updates'},
+  {id:48, o:'Andy',           t:"Update PERSON_IDMAP so the 'erdguid' row for a given 'non keeper' is updated to the 'keeper' erd guid",                          s:'plan',    d:'Nov 4, 2026',  a:'',                n:"Needed for the 'one time' retro and then also the prospective code in PA will update this.", sec:'Warehouse updates'},
+  {id:49, o:'Andy',           t:'Identify a small amount of Entities to Snap and run snap workflow on warehouse. And Validate the Warehouse when done.',           s:'plan',    d:'Nov 6, 2026',  a:'',                n:'', sec:'Warehouse updates'},
+  {id:50, o:'Sean/Lisa',      t:'Warehouse/NEDS/Datamart and Application verification - Go-No-Go decision',                                                       s:'plan',    d:'Nov 6, 2026',  a:'',                n:'', sec:'Warehouse updates'},
+  {id:51, o:'Andy',           t:'Identify all the Entities to Snap and run snap workflow on warehouse. And Validate the Warehouse when done.',                     s:'plan',    d:'Nov 6, 2026',  a:'',                n:"Also identify just the latest 'snap'/'merge' so we only need to snap to the latest TRPAID. We'll need a 'FROM_GUID', 'TO_GUID' table that contains the ENTITY_GUID from MRD_ENTITIES. Create the 'snap part' dsv files. Then create full input files per workflow for the Warehouse, and copy to NAS one set at a time to initiate Warehouse loading.", sec:'Warehouse updates'},
+  {id:52, o:'Sean/Lisa',      t:'Warehouse/NEDS and Datamart and Application verification',                                                                       s:'plan',    d:'Nov 10, 2026', a:'',                n:'', sec:'Warehouse updates'},
+  {id:53, o:'',               t:'Identify New Entities and Changed Entities & Generate transit files',                                                            s:'plan',    d:'Nov 7, 2026',  a:'',                n:'', sec:'Warehouse updates'},
+  {id:54, o:'Andy',           t:'Send transit files to Warehouse for new entities',                                                                               s:'plan',    d:'Nov 16, 2026', a:'',                n:"These don't exist in MRD/ERD/Warehouse. Newly minted by NER and PA. Generate a new ERD_GUID in the format that the Warehouse can handle. Manually Trigger process/scripts to generate and send to PWHPP.", sec:'Warehouse updates'},
+  {id:55, o:'Sean/Lisa',      t:'New Snaps and Entities available in Datamarts',                                                                                  s:'plan',    d:'Nov 20, 2026', a:'',                n:'', sec:'Warehouse updates'},
+  {id:56, o:'NER',            t:'Apply Any Non-Basis fixes to the 6.2 version before unpausing Relationship',                                                    s:'plan',    d:'Nov 10, 2026', a:'',                n:'', sec:'Warehouse updates'},
+  {id:57, o:'',               t:'Verification',                                                                                                                   s:'plan',    d:'',             a:'',                n:'', sec:'Verification'},
+  {id:58, o:'NER/Ops',        t:'Run a few small workflows through and monitor / verify (Dockets content)',                                                       s:'plan',    d:'Nov 17, 2026', a:'',                n:'', sec:'Verification'},
+  {id:59, o:'NER/Assembly/Warehouse', t:'Quick Verification & move forward Decision',                                                                            s:'plan',    d:'Nov 18, 2026', a:'',                n:'', sec:'Verification'},
+  {id:60, o:'',               t:'Resume Publishing Activities',                                                                                                   s:'plan',    d:'',             a:'',                n:'', sec:'Resume Publishing Activities'},
+  {id:61, o:'GCO',            t:'Enable Basis Content Processing',                                                                                                s:'plan',    d:'Nov 17, 2026', a:'',                n:'', sec:'Resume Publishing Activities'},
+  {id:62, o:'',               t:'Enable Priority non-Basis Content NER Promote workflows (Arrests, Bankruptcy, etc…)',                                       s:'plan',    d:'Nov 20, 2026', a:'',                n:'', sec:'Resume Publishing Activities'},
+  {id:63, o:'',               t:'Enable all non-Basis Content NER Promote workflows',                                                                            s:'plan',    d:'Nov 22, 2026', a:'',                n:'', sec:'Resume Publishing Activities'},
+  {id:64, o:'',               t:'Cutover - Done',                                                                                                                 s:'plan',    d:'Nov 25, 2026', a:'',                n:'', sec:'Cutover - Done'}
+];
+;
+
+var CO_SECTIONS=['Pre-Plan','Prework - Content/Workflow Setup','Cutover - Start - Content Hold','Person Authority Build out (V6.2)','NPD Validation?','Rollback Snapshot','Warehouse updates','Verification','Resume Publishing Activities','Cutover - Done'];
+
+
+var CO_SECTIONS=['Pre-Plan','Prework - Content/Workflow Setup','Cutover - Start - Content Hold','Person Authority Build out (V6.2)','NPD Validation?','Rollback Snapshot','Warehouse updates','Verification','Resume Publishing Activities','Cutover - Done'];
+
+
+var CO_SECTIONS=['Pre-Plan','Prework - Content/Workflow Setup','Cutover - Start - Content Hold','Person Authority Build out (V6.2)','NPD Validation?','Rollback Snapshot','Warehouse updates','Verification','Resume Publishing Activities','Cutover - Done'];
+
+
+var CO_SECTIONS=['Pre-Plan','Prework - Content/Workflow Setup','Cutover - Start - Content Hold','Person Authority Build out (V6.2)','NPD Validation?','Rollback Snapshot','Warehouse updates','Verification','Resume Publishing Activities','Cutover - Done'];
+
+function coToggleSection(hdr){
+  var si=hdr.getAttribute('data-si');
+  var open=hdr.getAttribute('data-open')==='1';
+  var rows=document.querySelectorAll('tr[data-sec="'+si+'"]');
+  rows.forEach(function(r){r.style.display=open?'none':'table-row';});
+  hdr.setAttribute('data-open',open?'':'1');
+  var chev=hdr.querySelector('.coll-chev');
+  if(chev)chev.style.transform=open?'rotate(-90deg)':'rotate(0deg)';
+}
+function buildCo(){
+  var tbody=document.getElementById('co-body');
+  if(!tbody)return;
+  var BASE='https://dev.azure.com/tr-content-and-research-systems/Public-records-content-development/_workitems/edit/';
+  var secColors={
+    'Pre-Plan':'#78350f',
+    'Prework - Content/Workflow Setup':'#78350f',
+    'Cutover - Start - Content Hold':'#78350f',
+    'Person Authority Build out (V6.2)':'#78350f',
+    'NPD Validation?':'#78350f',
+    'Rollback Snapshot':'#78350f',
+    'Warehouse updates':'#78350f',
+    'Verification':'#78350f',
+    'Resume Publishing Activities':'#78350f',
+    'Cutover - Done':'#78350f'
+  };
+  var grouped={};
+  CO_SECTIONS.forEach(function(s){grouped[s]=[];});
+  CO_ROWS.forEach(function(r){if(grouped[r.sec])grouped[r.sec].push(r);});
+
+  var html='';
+  CO_SECTIONS.forEach(function(sec,si){
+    var rows=grouped[sec];
+    if(!rows||!rows.length)return;
+    var color=secColors[sec]||'#78350f';
+    var secId='co-sec-'+si;
+    var liveTag=sec==='Cutover - Done'?'<span class="live-badge" style="margin-left:auto">&#9679; LIVE!</span>':'';
+    // Section header as a table row spanning all 8 cols
+    html+='<tr id="'+secId+'-hdr" data-si="'+si+'" data-open="1" style="background:'+color+';cursor:pointer" onclick="coToggleSection(this)">'
+      +'<td colspan="8" style="padding:8px 14px;font-size:11px;font-weight:700;color:#fff;letter-spacing:.5px;text-transform:uppercase">'
+      +'<span style="display:flex;align-items:center">'+sec+' <span class="coll-chev" style="margin-left:8px;transition:transform .2s">&#9660;</span>'+liveTag+'</span>'
+      +'</td></tr>';
+    rows.forEach(function(r,i){
+      var rowBg=i%2===0?'#fff':'#f8fafc';
+      var idHtml=r.id===11?'':''+r.id;
+      var actHtml=r.t==='—'?'<span style="color:#94a3b8">&mdash;</span>':'<span style="font-weight:600;color:#1e293b;word-wrap:break-word;overflow-wrap:break-word">'+r.t+'</span>';
+      var stHtml2='';
+      if(r.s==='done')stHtml2='<span class="s-done">Completed</span>';
+      else if(r.s==='prog')stHtml2='<span class="s-prog">In Progress</span>';
+      else if(r.s==='plan')stHtml2='<span class="s-plan">Planned</span>';
+      else if(r.s==='planning')stHtml2='<span style="color:#7c3aed;font-size:10px">Planning</span>';
+      else if(r.s==='na')stHtml2='<span style="color:#94a3b8;font-size:10px">N/A</span>';
+      else stHtml2='<span class="s-plan">Planned</span>';
+      var adoNum=r.a?r.a.replace(/[^0-9]/g,''):'';
+      var adoHtml2=adoNum?'<a class="ado" href="'+BASE+adoNum+'" target="_blank">'+r.a+'</a>':'<span style="color:#94a3b8">&mdash;</span>';
+      var noteHtml2=r.n?'<span class="note">'+(r.n.split('\n').join('<br>'))+'</span>':'';
+      html+='<tr data-sec="'+si+'" style="display:table-row;background:'+rowBg+';border-bottom:0.5px solid #e2e8f0">'
+        +'<td style="padding:8px 10px;text-align:center;color:#64748b;font-weight:600;vertical-align:top;font-size:12px">'+idHtml+'</td>'
+        +'<td style="padding:8px 10px;text-align:center;vertical-align:top"><span class="eprod">Prod</span></td>'
+        +'<td style="padding:8px 10px;text-align:left;vertical-align:top">'+actHtml+'</td>'
+        +'<td style="padding:8px 10px;text-align:center;color:#475569;vertical-align:top;font-size:11px">'+( r.d||'<span style="color:#94a3b8">&mdash;</span>')+'</td>'
+        +'<td style="padding:8px 10px;text-align:center;color:#475569;vertical-align:top;font-size:11px">'+( r.o||'<span style="color:#94a3b8">&mdash;</span>')+'</td>'
+        +'<td style="padding:8px 10px;text-align:center;vertical-align:top">'+stHtml2+'</td>'
+        +'<td style="padding:8px 10px;text-align:center;vertical-align:top">'+adoHtml2+'</td>'
+        +'<td style="padding:8px 10px;text-align:center;vertical-align:top">'+noteHtml2+'</td>'
+        +'</tr>';
+    });
+  });
+  tbody.innerHTML=html;
+}
+
+// -- WAREHOUSE ROADMAP DATA --
+var WH_ROWS = [
+  {id:1,  pwh:'PWH Primary (11g)', env:'Prod',   db:'PR21',                        act:'—',                                                                   st:'dash', end:'—',                owner:'—',              notes:'—'},
+  {id:2,  pwh:'PWH Backup (11g)',  env:'Prod',   db:'PR22',                        act:'—',                                                                   st:'dash', end:'—',                owner:'—',              notes:'—'},
+  {id:3,  pwh:'PWH Primary (19c)',env:'QA',      db:'QA PR27',                     act:'—',                                                                   st:'dash', end:'—',                owner:'—',              notes:'—'},
+  {id:4,  pwh:'—',                  env:'Prod',   db:'Postgres',                    act:'Procure Postgres Marts for Scale',                                   st:'done', end:'—',                owner:'Lisa',          notes:'—'},
+  {id:5,  pwh:'—',                  env:'Prod',   db:'Postgres',                    act:'Get a backup of PR21',                                               st:'done', end:'2026-07-07',      owner:'Lisa',          notes:'Should be complete by 3pm CDT'},
+  {id:6,  pwh:'—',                  env:'Prod',   db:'Postgres',                    act:'Configure prod Warehouse (PR21) to Scale Postgres Datamart',         st:'done', end:'2026-07-07',      owner:'Lisa',          notes:'Q: Are we using 21 or 22? A: PR21 is primary, PR22 is backup.'},
+  {id:7,  pwh:'—',                  env:'Client', db:'Postgres',                    act:'Turn on publishing to Postgres Mart',                                st:'prog', end:'2026-07-14',      owner:'Lisa',          notes:'Do we need to take a full backup before turning this one? Do we need PR22 up for this activity?'},
+  {id:8,  pwh:'—',                  env:'Prod',   db:'Modernization',               act:'Configure/Turn off configuration on PR22 so we can test Snapping.',  st:'done', end:'2026-07-07',      owner:'TK',            notes:'Do not deliver results of test to Datamarts. Curtis: Disconnect PR22 as Standby. Make standalone. Standby PR22 is reading its input (File Watcher) from a NAS Directory that is different than PR21. Some Snap Testing NAS. Ensure PR22 does not send any deliveries to the datamart.'},
+  {id:9,  pwh:'—',                  env:'Prod',   db:'Modernization',               act:'Snapping Performance Testing',                                       st:'done', end:'2026-07-14',      owner:'TK',            notes:'Send a confirmation email of timing to Brian/Todd/Kurt. - TK. Dates: 7/8-7/14 testing'},
+  {id:10, pwh:'—',                  env:'Prod',   db:'Modernization',               act:'Restore PR22 (Backup) for prod',                                     st:'prog', end:'Last week of July',owner:'Lisa',          notes:'Dependent on ID9 - Snapping Performance Testing. When can this task begin 7/15? and how long would it take? (is it instant? 6 hours? 12 hours)'},
+  {id:11, pwh:'—',                  env:'Prod',   db:'Modernization/Warehouse backlog',act:'Moving ERD tables for PWHPP into PWH Schema',                    st:'none', end:'2026-08-29',      owner:'Lisa/Sean (for TK)',notes:'No dependencies on other projects.'},
+  {id:12, pwh:'—',                  env:'Prod',   db:'Postgres',                    act:'Procure Postgres Marts for Prod',                                    st:'none', end:'2026-10-01',      owner:'Lisa',          notes:'—'},
+  {id:13, pwh:'—',                  env:'Prod',   db:'Postgres',                    act:'Stop loading to Oracle Datamart - Scale',                            st:'none', end:'2026-10-03',      owner:'Lisa',          notes:'App Date (Jess Chapple)'},
+  {id:14, pwh:'—',                  env:'Prod',   db:'Postgres',                    act:'Prod Warehouse (PR21) to Prod Postgres Datamart',                    st:'none', end:'2026-10-15',      owner:'Lisa',          notes:'Final step for PRCD (min overlap). Dual loading (postgres/Oracle)'},
+  {id:15, pwh:'—',                  env:'Prod',   db:'Postgres',                    act:'FedRamp SCR approval - App',                                         st:'tbc',  end:'2026-11-09',      owner:'—',              notes:'—'},
+  {id:16, pwh:'—',                  env:'Prod',   db:'Postgres',                    act:'Cutover - Read from Postgres Datamart from Prod',                    st:'none', end:'2026-11-14',      owner:'Lisa',          notes:'App Date (Jess Chapple). Cutover = everyone in Prod is using Postgres. FedRamp approval in place. Customers using PRS prod date 11/12'},
+  {id:17, pwh:'—',                  env:'Prod',   db:'Modernization',               act:'Cutover from ERD to NER',                                            st:'none', end:'2026-12-31',      owner:'TK',            notes:'Snapping rollout in prod, approx 1 week publishing outage'},
+  {id:18, pwh:'\u2014',              env:'\u2014', db:'\u2014',                            act:'\u2014',                                                                            st:'dash',  end:'\u2014',         owner:'\u2014',        notes:'Musical Chairs (to retire PR21/PR22) - Are we doing this?'},
+  {id:19, pwh:'—',                  env:'Prod',   db:'Postgres',                    act:'Stop loading to Oracle Datamart - Prod',                             st:'none', end:'2026-12-31',      owner:'Lisa',          notes:'Thought is to dual publish for only a week or so after the App cuts over'},
+  {id:20, pwh:'—',                  env:'Prod',   db:'Modernization',               act:'Decom ERD???',                                                       st:'none', end:'2026-12-31',      owner:'—',              notes:'Row 13 - Moving ERD tables for PWHPP into PWH Schema'},
+  {id:21, pwh:'—',                  env:'Prod',   db:'Postgres',                    act:'Warehouse to Snowflake activities',                                  st:'prog', end:'Q4 2027',         owner:'Lisa',          notes:'Post Postgres and Modernization deliverables.'}
+]
+
+function buildWh() {
+  var tbody = document.getElementById('wh-tbody');
+  if (!tbody) return;
+  var stMap = {
+    'done': {bg:'#dcfce7', border:'#16a34a',  label:'Completed'},
+    'prog': {bg:'#fce8df', border:'#D64000',  label:'In Progress'},
+    'none': {bg:'#f1f5f9', border:'#64748b',  label:'Not Started'},
+    'tbc':  {bg:'#fef3c7', border:'#d97706',  label:'TBC'},
+    'dash': {bg:'transparent', border:'transparent', label:'\u2014'}
+  };
+  var html = '';
+  WH_ROWS.forEach(function(r, i) {
+    var st = stMap[r.st] || stMap['none'];
+    var rowBg = (r.id===16||r.id===17) ? '#fef9c3' : (r.id===14) ? '#fce8df' : (i % 2 === 0 ? '#fff' : '#f8fafc');
+    var rowTc2 = (r.id===16||r.id===17) ? '#78350f' : (r.id===14) ? '#9a3412' : 'inherit';
+    html += '<tr style="background:' + rowBg + ';border-bottom:1px solid #e2e8f0;color:' + rowTc2 + '">'
+      + '<td style="padding:8px 10px;text-align:center;color:#64748b;font-weight:600;vertical-align:top">' + r.id + '</td>'
+      + '<td style="padding:8px 10px;text-align:center;color:#1e3a5f;font-weight:600;vertical-align:top;white-space:nowrap">' + (r.pwh||'') + '</td>'
+      + '<td style="padding:8px 10px;text-align:center;color:#475569;vertical-align:top">' + (r.env||'') + '</td>'
+      + '<td style="padding:8px 10px;text-align:center;color:#7c3aed;font-weight:600;vertical-align:top;white-space:nowrap">' + (r.db||'') + '</td>'
+      + '<td style="padding:8px 10px;font-weight:600;color:#1e293b;vertical-align:top;'+(r.act==='\u2014'?'text-align:center;color:#94a3b8':'')+'">'+r.act+'</td>'
+      + '<td style="padding:8px 10px;text-align:center;vertical-align:top"><span style="display:inline-block;padding:2px 10px;border-radius:12px;font-size:10px;font-weight:700;background:' + st.bg + ';color:' + st.border + ';border:1px solid ' + st.border + '">' + st.label + '</span></td>'
+      + '<td style="padding:8px 10px;text-align:center;vertical-align:top;white-space:nowrap;'+(r.end==='\u2014'?'color:#94a3b8':'')+'">'+r.end+'</td>'
+      + '<td style="padding:8px 10px;text-align:center;vertical-align:top;white-space:nowrap;'+(r.owner==='\u2014'?'color:#94a3b8':'color:#1e3a5f;font-weight:600')+'">'+r.owner+'</td>'
+      + '<td style="padding:8px 10px;font-size:11px;vertical-align:top;max-width:220px;'+(r.notes==='\u2014'?'text-align:center;color:#94a3b8':'color:#64748b')+'">'+r.notes+'</td>'
+      + '</tr>';
+  });
+  tbody.innerHTML = html;
+}
+buildOv();buildRm();buildGantt();buildWh();psLoadOfflineCache();psBuildTable(PS_ROWS);
 psInitUserName();
 
 // Load latest data from GitHub on startup
@@ -2494,7 +2846,7 @@ if (typeof GitHubDB !== 'undefined') {
   });
 }
 // Set initial iteration label in toolbar
-(function(){var iterSel=document.getElementById('ps-iteration');if(iterSel){iterSel.value='jul07';var il=document.getElementById('ps-iter-label');if(il)il.textContent=iterSel.options[iterSel.selectedIndex].text;}})();
+(function(){var iterSel=document.getElementById('ps-iteration');if(iterSel){iterSel.value='aug04';var il=document.getElementById('ps-iter-label');if(il)il.textContent=iterSel.options[iterSel.selectedIndex].text;}})();
 </script>
 <script>
 // Override github-connector.js UI injection — we use our own edit button
@@ -2627,3 +2979,4 @@ document.addEventListener('DOMContentLoaded', function(){
 </script>
 </body>
 </html>
+
